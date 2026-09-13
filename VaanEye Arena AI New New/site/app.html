@@ -1,0 +1,2396 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VaanEye — வான்கண் · Geo-Intelligence Platform</title>
+<style>
+/* ============================================================
+   VaanEye Design System v2  ·  premium glass + aurora
+   ============================================================ */
+:root{
+  --ink:#05070f; --ink2:#080c18;
+  --glass:rgba(10,16,34,.58);
+  --glass2:rgba(14,22,44,.72);
+  --stroke:rgba(255,255,255,.085);
+  --stroke2:rgba(255,255,255,.16);
+  --text:#f3f6fc; --mute:#8b98b4; --mute2:#63708c;
+  --a1:#5b8cff; --a2:#a06bff; --a3:#1fd5e8;
+  --ok:#2ee6a8; --warn:#ffc53d; --bad:#ff6b81;
+  --grad:linear-gradient(120deg,#5b8cff,#a06bff 55%,#1fd5e8);
+  --r:20px; --r2:14px;
+  --sh:0 24px 60px -18px rgba(0,0,0,.75);
+  --fs:"Inter","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  --ft:"Noto Sans Tamil","Nirmala UI","Latha",var(--fs);
+}
+html[data-theme="light"]{
+  --ink:#eef1f8; --ink2:#e5eaf4;
+  --glass:rgba(255,255,255,.8); --glass2:rgba(255,255,255,.93);
+  --stroke:rgba(10,20,45,.09); --stroke2:rgba(10,20,45,.18);
+  --text:#0a1226; --mute:#5a6885; --mute2:#8390a8;
+  --sh:0 20px 50px -20px rgba(20,35,80,.28);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:transparent; color:var(--text); font-family:var(--fs);
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  letter-spacing:-.008em; overflow-x:hidden;
+}
+/* backdrop handled by #space */
+
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;letter-spacing:inherit}
+input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--a3);outline-offset:3px;border-radius:10px}
+::selection{background:rgba(91,140,255,.35)}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.11);border-radius:9px}
+::-webkit-scrollbar-track{background:transparent}
+
+.ta{font-family:var(--ft)}
+.gtx{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ============ ONBOARDING SHELL ============ */
+#ob{position:fixed;inset:0;z-index:300;display:grid;grid-template-columns:322px 1fr;background:transparent}
+#ob.done{display:none}
+
+/* ---- left rail ---- */
+.rail{
+  position:relative;z-index:2;border-right:1px solid var(--stroke);
+  background:linear-gradient(180deg,rgba(8,14,30,.72),rgba(6,11,24,.58));
+  backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
+  padding:30px 26px;display:flex;flex-direction:column;overflow-y:auto;
+}
+.brand{display:flex;align-items:center;gap:13px;margin-bottom:34px}
+.bmark{
+  width:46px;height:46px;border-radius:15px;flex:none;position:relative;display:grid;place-items:center;
+  background:var(--grad);box-shadow:0 10px 28px -8px rgba(91,140,255,.75);
+}
+.bmark svg{width:25px;height:25px}
+.brand .bt{font-size:19px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.brand .bs{font-family:var(--ft);font-size:11.5px;color:var(--mute);letter-spacing:.05em;font-weight:600;margin-top:1px}
+
+.rl-cap{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--mute2);font-weight:700;margin-bottom:16px}
+.vstep{position:relative;display:flex;flex-direction:column;gap:2px}
+.vs{display:flex;gap:15px;padding:9px 0;position:relative;text-align:left;width:100%;align-items:flex-start}
+.vs .ring{
+  width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;
+  font-size:12px;font-weight:700;color:var(--mute);
+  border:1.5px solid var(--stroke2);background:var(--ink2);position:relative;z-index:2;transition:.35s cubic-bezier(.4,0,.2,1);
+}
+.vs .line{position:absolute;left:14.5px;top:39px;width:1.5px;height:calc(100% - 30px);background:var(--stroke);z-index:1}
+.vs:last-child .line{display:none}
+.vs .vtx{padding-top:4px;min-width:0}
+.vs .vta{display:block;font-family:var(--ft);font-size:12px;color:var(--mute2);line-height:1.35;transition:.3s}
+.vs .ven{display:block;font-size:13.5px;font-weight:650;color:var(--mute);letter-spacing:-.01em;transition:.3s}
+.vs.on .ring{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 0 0 5px rgba(91,140,255,.13),0 8px 20px -6px rgba(91,140,255,.6)}
+.vs.on .ven{color:var(--text)} .vs.on .vta{color:var(--a1)}
+.vs.ok .ring{background:rgba(46,230,168,.14);border-color:rgba(46,230,168,.5);color:var(--ok)}
+.vs.ok .ven{color:var(--mute)}
+.vs.ok .line{background:linear-gradient(var(--ok),var(--stroke))}
+
+.rl-foot{margin-top:auto;padding-top:24px}
+.trust{border:1px solid var(--stroke);border-radius:var(--r2);padding:14px;background:var(--glass);font-size:11.5px;color:var(--mute);line-height:1.6}
+.trust b{color:var(--text);font-size:12.5px;display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.trust b svg{width:14px;height:14px}
+
+/* ---- right stage ---- */
+.stage{position:relative;z-index:1;display:flex;flex-direction:column;overflow:hidden}
+.stg-top{
+  display:flex;align-items:center;gap:12px;padding:18px 38px;border-bottom:1px solid var(--stroke);
+  background:rgba(7,12,26,.55);backdrop-filter:blur(20px);flex:none;
+}
+.pillbtn{
+  display:inline-flex;align-items:center;gap:8px;border:1px solid var(--stroke);background:var(--glass);
+  border-radius:999px;padding:8px 15px;font-size:12.5px;font-weight:600;color:var(--mute);transition:.25s;
+}
+.pillbtn:hover{border-color:var(--stroke2);color:var(--text);background:var(--glass2)}
+.pillbtn svg{width:14px;height:14px}
+.pillbtn.act{color:var(--text);border-color:rgba(91,140,255,.45);background:rgba(91,140,255,.12)}
+.mini-steps{display:none}
+
+.stg-body{flex:1;overflow-y:auto;padding:44px 38px 150px;scroll-behavior:smooth}
+.pane{max-width:730px;margin:0 auto 0 max(0px,min(4vw,60px));display:none;flex-direction:column;gap:22px}
+.pane.on{display:flex;animation:rise .5s cubic-bezier(.16,1,.3,1)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+
+/* bilingual page head */
+.phead{margin-bottom:2px}
+.pkicker{
+  display:inline-flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--a1);background:rgba(91,140,255,.1);
+  border:1px solid rgba(91,140,255,.25);border-radius:999px;padding:5px 13px;margin-bottom:15px;
+}
+.pkicker i{width:5px;height:5px;border-radius:50%;background:var(--a1);display:block;animation:bp 1.8s infinite}
+@keyframes bp{50%{opacity:.25}}
+.pta{font-family:var(--ft);font-size:17px;font-weight:600;color:var(--a3);letter-spacing:0;margin-bottom:5px}
+.pen{font-size:33px;font-weight:700;letter-spacing:-.035em;line-height:1.14}
+.psub{color:var(--mute);font-size:14.5px;margin-top:10px;max-width:62ch;line-height:1.62}
+.psub b{color:var(--text);font-weight:650}
+
+/* glass panel */
+.gp{
+  border:1px solid var(--stroke);border-radius:var(--r);padding:24px;position:relative;
+  background:var(--glass);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:var(--sh);
+}
+.gp::before{
+  content:"";position:absolute;inset:0;border-radius:var(--r);padding:1px;pointer-events:none;
+  background:linear-gradient(150deg,rgba(255,255,255,.14),transparent 42%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+}
+.gp-h{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.gp-h .ic{width:34px;height:34px;border-radius:11px;flex:none;display:grid;place-items:center;
+  background:rgba(91,140,255,.13);border:1px solid rgba(91,140,255,.22)}
+.gp-h .ic svg{width:17px;height:17px;stroke:var(--a1)}
+.gp-h .tt .a{display:block;font-family:var(--ft);font-size:12px;color:var(--a3);line-height:1.3}
+.gp-h .tt .b{display:block;font-size:15.5px;font-weight:650;letter-spacing:-.015em}
+.gp-h .rt{margin-left:auto;font-size:11.5px;color:var(--mute2);font-weight:600}
+
+/* fields */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:16px}
+.f{display:flex;flex-direction:column;gap:8px;min-width:0}
+.f>label{font-size:12.5px;font-weight:650;color:var(--mute);display:flex;align-items:baseline;gap:7px}
+.f>label .lta{font-family:var(--ft);color:var(--mute2);font-size:11.5px;font-weight:500}
+.f>label .rq{color:var(--bad);font-size:14px;line-height:0}
+.ctl{position:relative;display:flex;align-items:center}
+.ctl>svg{position:absolute;left:14px;width:16px;height:16px;stroke:var(--mute2);pointer-events:none;z-index:2}
+.ctl input,.ctl select{
+  width:100%;background:rgba(255,255,255,.035);border:1px solid var(--stroke);border-radius:13px;
+  padding:13px 15px 13px 42px;font-size:14.5px;font-weight:550;outline:none;transition:.22s;
+  -webkit-appearance:none;appearance:none;letter-spacing:-.01em;
+}
+html[data-theme="light"] .ctl input,html[data-theme="light"] .ctl select{background:rgba(255,255,255,.85)}
+.ctl select{padding-right:40px;cursor:pointer}
+.ctl select option{background:#0c1120;color:#f3f6fc}
+html[data-theme="light"] .ctl select option{background:#fff;color:#0a1226}
+.ctl .chev{left:auto;right:14px;stroke:var(--mute)}
+.ctl input:hover,.ctl select:hover{border-color:var(--stroke2)}
+.ctl input:focus,.ctl select:focus{border-color:var(--a1);background:rgba(91,140,255,.07);box-shadow:0 0 0 4px rgba(91,140,255,.1)}
+.ctl select:disabled{opacity:.38;cursor:not-allowed}
+.ctl input::placeholder{color:var(--mute2);font-weight:450}
+.f .hint{font-size:11.5px;color:var(--mute2);line-height:1.5}
+.f .hint b{color:var(--mute)}
+.ok-txt{color:var(--ok)!important} .bad-txt{color:var(--bad)!important}
+
+/* SEGMENTED 2-OPTION SWITCH */
+.segwrap{display:flex;flex-direction:column;gap:18px}
+.seg{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px;border-radius:16px;
+  background:rgba(255,255,255,.035);border:1px solid var(--stroke);position:relative;
+}
+.sgb{
+  border-radius:11px;padding:13px 14px;display:flex;align-items:center;gap:11px;transition:.28s cubic-bezier(.4,0,.2,1);
+  color:var(--mute);text-align:left;
+}
+.sgb .sic{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;
+  background:rgba(255,255,255,.05);border:1px solid var(--stroke);transition:.28s}
+.sgb .sic svg{width:15px;height:15px;stroke:var(--mute)}
+.sgb .stt .a{display:block;font-family:var(--ft);font-size:11.5px;line-height:1.25;opacity:.85}
+.sgb .stt .b{display:block;font-size:13.5px;font-weight:650;letter-spacing:-.012em}
+.sgb[aria-selected="true"]{background:var(--glass2);color:var(--text);box-shadow:0 6px 18px -8px rgba(0,0,0,.6)}
+.sgb[aria-selected="true"] .sic{background:var(--grad);border-color:transparent}
+.sgb[aria-selected="true"] .sic svg{stroke:#fff}
+.sgpane{display:none;animation:rise .35s cubic-bezier(.16,1,.3,1)}
+.sgpane.on{display:block}
+
+/* choice cards */
+.pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(212px,1fr));gap:13px}
+.pk{
+  position:relative;border:1px solid var(--stroke);border-radius:17px;padding:19px;text-align:left;
+  background:rgba(255,255,255,.028);display:flex;flex-direction:column;gap:8px;
+  transition:.3s cubic-bezier(.4,0,.2,1);overflow:hidden;
+}
+.pk:hover{border-color:var(--stroke2);background:rgba(255,255,255,.055);transform:translateY(-3px)}
+.pk .pic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:rgba(255,255,255,.05);border:1px solid var(--stroke);transition:.3s}
+.pk .pic svg{width:20px;height:20px;stroke:var(--mute);transition:.3s}
+.pk .pta{font-family:var(--ft);font-size:12.5px;color:var(--mute2);line-height:1.25}
+.pk b{font-size:15px;font-weight:650;letter-spacing:-.015em;display:block}
+.pk small{font-size:12.5px;color:var(--mute);line-height:1.55;display:block}
+.pk[aria-pressed="true"]{border-color:rgba(91,140,255,.55);background:rgba(91,140,255,.09);
+  box-shadow:0 0 0 1px rgba(91,140,255,.25),0 14px 34px -14px rgba(91,140,255,.5)}
+.pk[aria-pressed="true"] .pic{background:var(--grad);border-color:transparent}
+.pk[aria-pressed="true"] .pic svg{stroke:#fff}
+.pk[aria-pressed="true"] .pta{color:var(--a3)}
+.pk .tick{position:absolute;top:15px;right:15px;width:21px;height:21px;border-radius:50%;
+  background:var(--grad);display:none;place-items:center;box-shadow:0 4px 12px -3px rgba(91,140,255,.8)}
+.pk .tick svg{width:11px;height:11px;stroke:#fff;stroke-width:3.4}
+.pk[aria-pressed="true"] .tick{display:grid;animation:pop .34s cubic-bezier(.2,1.5,.4,1)}
+@keyframes pop{from{transform:scale(0) rotate(-90deg)}}
+.pk.zn{padding-left:22px}
+.pk.zn::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--zc,var(--a1));opacity:.85}
+
+/* divider */
+.or{display:flex;align-items:center;gap:15px;color:var(--mute2);font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.or::before,.or::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--stroke),transparent)}
+
+/* OTP */
+.otpr{display:flex;gap:11px}
+.otpr input{
+  width:56px;height:62px;text-align:center;font-size:23px;font-weight:700;padding:0;
+  background:rgba(255,255,255,.035);border:1px solid var(--stroke);border-radius:15px;outline:none;transition:.22s;
+}
+.otpr input:focus{border-color:var(--a1);background:rgba(91,140,255,.09);box-shadow:0 0 0 4px rgba(91,140,255,.1);transform:translateY(-2px)}
+.otpr input.fl{border-color:rgba(46,230,168,.5);background:rgba(46,230,168,.07)}
+
+/* maps */
+.mapbox{position:relative;border:1px solid var(--stroke);border-radius:17px;overflow:hidden;background:#050a14}
+html[data-theme="light"] .mapbox{background:#c9d8ea}
+.mapbox svg{display:block;width:100%;height:auto}
+.mapbar{
+  position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;gap:11px;
+  padding:11px 14px;border-radius:13px;font-size:12.5px;font-weight:600;
+  background:rgba(6,10,20,.8);border:1px solid var(--stroke2);backdrop-filter:blur(18px);
+}
+html[data-theme="light"] .mapbar{background:rgba(255,255,255,.9)}
+.mapbar .gr{margin-left:auto;color:var(--mute);font-weight:550;font-size:11.5px;display:flex;align-items:center;gap:6px}
+.mapbar .lv{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:bp 1.6s infinite}
+
+/* verdict banner */
+.verd{display:flex;gap:14px;align-items:flex-start;border-radius:16px;padding:16px 18px;font-size:13.5px;line-height:1.6}
+.verd .vi{width:34px;height:34px;border-radius:11px;flex:none;display:grid;place-items:center}
+.verd .vi svg{width:17px;height:17px;stroke-width:2.4}
+.verd .vta{display:block;font-family:var(--ft);font-size:12.5px;opacity:.9;margin-bottom:3px}
+.verd b{font-weight:650;display:block;font-size:14px}
+.verd p{color:var(--mute);font-size:12.5px;margin-top:4px}
+.verd.g{background:rgba(46,230,168,.08);border:1px solid rgba(46,230,168,.3)}
+.verd.g .vi{background:rgba(46,230,168,.15)} .verd.g .vi svg{stroke:var(--ok)} .verd.g b,.verd.g .vta{color:var(--ok)}
+.verd.y{background:rgba(255,197,61,.08);border:1px solid rgba(255,197,61,.3)}
+.verd.y .vi{background:rgba(255,197,61,.15)} .verd.y .vi svg{stroke:var(--warn)} .verd.y b,.verd.y .vta{color:var(--warn)}
+.verd.r{background:rgba(255,107,129,.08);border:1px solid rgba(255,107,129,.3)}
+.verd.r .vi{background:rgba(255,107,129,.15)} .verd.r .vi svg{stroke:var(--bad)} .verd.r b,.verd.r .vta{color:var(--bad)}
+
+/* review rows */
+.rev{display:flex;flex-direction:column}
+.rw{display:flex;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid var(--stroke)}
+.rw:last-child{border:none;padding-bottom:0}
+.rw .k{font-size:12.5px;color:var(--mute);font-weight:600;width:180px;flex:none}
+.rw .k .a{font-family:var(--ft);font-size:11px;color:var(--mute2);display:block;line-height:1.2}
+.rw .v{font-size:14px;font-weight:600;flex:1;min-width:0;word-break:break-word;letter-spacing:-.012em}
+.rw .v.em{color:var(--mute2);font-weight:500;font-style:italic}
+.rw .fix{
+  flex:none;font-size:11.5px;font-weight:650;color:var(--a1);border:1px solid var(--stroke);
+  border-radius:9px;padding:6px 12px;transition:.22s;display:flex;align-items:center;gap:6px;
+}
+.rw .fix svg{width:12px;height:12px}
+.rw .fix:hover{border-color:rgba(91,140,255,.5);background:rgba(91,140,255,.1)}
+
+/* watch list */
+.wl{display:flex;flex-direction:column;gap:11px}
+.wi{display:flex;gap:14px;align-items:center;border:1px solid var(--stroke);border-radius:15px;padding:14px 16px;
+  background:rgba(255,255,255,.028);transition:.25s}
+.wi:hover{border-color:var(--stroke2);background:rgba(255,255,255,.05)}
+.wi .wic{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;font-size:18px}
+.wi .wtx{min-width:0;flex:1}
+.wi .wtx b{font-size:13.5px;font-weight:650;display:block;letter-spacing:-.012em}
+.wi .wtx small{font-size:12px;color:var(--mute);display:block;margin-top:1px}
+.tagp{font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:999px;flex:none}
+.tagp.b{background:rgba(91,140,255,.16);color:var(--a1);border:1px solid rgba(91,140,255,.3)}
+.tagp.y{background:rgba(255,197,61,.14);color:var(--warn);border:1px solid rgba(255,197,61,.3)}
+.wi .del{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:var(--mute2);transition:.2s}
+.wi .del svg{width:14px;height:14px}
+.wi .del:hover{background:rgba(255,107,129,.13);color:var(--bad)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:14px;
+  padding:13px 24px;font-size:14px;font-weight:650;letter-spacing:-.012em;transition:.26s cubic-bezier(.4,0,.2,1);white-space:nowrap}
+.btn svg{width:16px;height:16px}
+.btn.pri{background:var(--grad);color:#fff;box-shadow:0 12px 30px -10px rgba(91,140,255,.75);background-size:180% 100%}
+.btn.pri:hover:not(:disabled){background-position:100% 0;transform:translateY(-2px);box-shadow:0 16px 38px -10px rgba(91,140,255,.9)}
+.btn.pri:disabled{opacity:.32;cursor:not-allowed;box-shadow:none;transform:none}
+.btn.gho{border:1px solid var(--stroke);background:var(--glass);color:var(--mute)}
+.btn.gho:hover{border-color:var(--stroke2);color:var(--text);background:var(--glass2)}
+.btn.gr{background:linear-gradient(120deg,#12b981,#2ee6a8);color:#022c1d;box-shadow:0 12px 28px -10px rgba(46,230,168,.6)}
+.btn.gr:hover{transform:translateY(-2px)}
+.btn.sm{padding:10px 17px;font-size:12.5px;border-radius:11px}
+.btn.blk{width:100%}
+
+/* progress bar */
+.pbar{height:4px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:99px;background:var(--grad);transition:width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 14px rgba(91,140,255,.7)}
+
+/* dock */
+.dock{
+  position:absolute;bottom:0;left:0;right:0;z-index:12;padding:16px 38px;
+  display:flex;align-items:center;gap:14px;border-top:1px solid var(--stroke);
+  background:rgba(6,10,20,.88);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+}
+html[data-theme="light"] .dock{background:rgba(255,255,255,.88)}
+.dock .pmeta{display:flex;flex-direction:column;gap:6px;flex:1;max-width:230px}
+.dock .pmeta span{font-size:11px;color:var(--mute2);font-weight:650;letter-spacing:.03em}
+
+/* toast */
+#toast{
+  position:fixed;left:50%;bottom:96px;transform:translate(-50%,26px);z-index:400;opacity:0;pointer-events:none;
+  display:flex;align-items:center;gap:12px;padding:13px 20px;border-radius:15px;font-size:13.5px;font-weight:600;
+  background:rgba(10,15,28,.94);border:1px solid var(--stroke2);backdrop-filter:blur(24px);
+  box-shadow:0 22px 50px -14px rgba(0,0,0,.85);transition:.4s cubic-bezier(.16,1,.3,1);max-width:min(560px,90vw);
+}
+html[data-theme="light"] #toast{background:rgba(255,255,255,.97);box-shadow:0 22px 50px -16px rgba(20,35,80,.3)}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#toast .ti{width:26px;height:26px;border-radius:8px;flex:none;display:grid;place-items:center;
+  background:rgba(91,140,255,.16);font-size:14px}
+
+/* ============ DASHBOARD ============ */
+#dash{position:relative;z-index:1;display:none;grid-template-columns:258px 1fr;min-height:100vh}
+#dash.on{display:grid}
+.sb{border-right:1px solid var(--stroke);background:rgba(8,14,30,.68);backdrop-filter:blur(24px);
+  padding:22px 16px;display:flex;flex-direction:column;gap:3px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb .brand{margin-bottom:24px;padding:0 6px}
+.ncap{font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--mute2);font-weight:700;padding:15px 11px 7px}
+.nv{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;width:100%;text-align:left;
+  font-size:13.5px;font-weight:600;color:var(--mute);transition:.22s;position:relative}
+.nv svg{width:17px;height:17px;flex:none;stroke:currentColor;stroke-width:1.9}
+.nv:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nv[aria-current="page"]{background:rgba(91,140,255,.13);color:var(--text)}
+.nv[aria-current="page"]::before{content:"";position:absolute;left:-16px;top:50%;transform:translateY(-50%);
+  width:3px;height:19px;border-radius:0 3px 3px 0;background:var(--grad)}
+.nv .bg{margin-left:auto;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;
+  background:rgba(255,107,129,.18);color:var(--bad);border:1px solid rgba(255,107,129,.3)}
+
+.dmain{display:flex;flex-direction:column;min-width:0}
+.dtop{display:flex;align-items:center;gap:12px;padding:15px 30px;border-bottom:1px solid var(--stroke);
+  background:rgba(7,12,26,.72);backdrop-filter:blur(24px);position:sticky;top:0;z-index:40;flex-wrap:wrap}
+.srch{flex:1;min-width:180px;max-width:420px;position:relative;display:flex;align-items:center}
+.srch svg{position:absolute;left:14px;width:15px;height:15px;stroke:var(--mute2)}
+.srch input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--stroke);border-radius:12px;
+  padding:10px 14px 10px 40px;font-size:13.5px;outline:none;transition:.22s}
+.srch input:focus{border-color:var(--a1);background:rgba(91,140,255,.07)}
+.av{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-weight:700;font-size:12.5px;
+  color:#fff;background:var(--grad);flex:none;box-shadow:0 6px 16px -5px rgba(91,140,255,.7)}
+
+.dbody{padding:26px 30px 60px;display:flex;flex-direction:column;gap:22px}
+.dh1{font-size:27px;font-weight:700;letter-spacing:-.035em}
+.dsub{color:var(--mute);font-size:13.5px;margin-top:4px}
+.sechead{display:flex;flex-direction:column;gap:1px;margin-bottom:14px;position:relative}
+.sechead .a{font-family:var(--ft);font-size:13px;color:var(--a3)}
+.sechead .b{font-size:16.5px;font-weight:650;letter-spacing:-.02em}
+.sechead .r{position:absolute;right:0;bottom:2px;font-size:12px;color:var(--mute2);font-weight:600}
+
+.alertbar{display:flex;gap:15px;align-items:center;border-radius:18px;padding:17px 20px;position:relative;overflow:hidden;
+  background:linear-gradient(100deg,rgba(255,107,129,.14),rgba(255,107,129,.03));border:1px solid rgba(255,107,129,.32)}
+.alertbar::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--bad)}
+.alertbar .ai{width:42px;height:42px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:20px;
+  background:rgba(255,107,129,.16);border:1px solid rgba(255,107,129,.3)}
+.alertbar .ata{display:block;font-family:var(--ft);font-size:12.5px;color:var(--bad)}
+.alertbar b{font-size:15px;font-weight:650;display:block;letter-spacing:-.015em}
+.alertbar p{font-size:12.5px;color:var(--mute);margin-top:3px}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.kpi{border:1px solid var(--stroke);border-radius:17px;padding:18px;background:var(--glass);text-align:left;
+  transition:.3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;width:100%}
+.kpi:hover{transform:translateY(-4px);border-color:var(--stroke2);box-shadow:0 20px 44px -20px rgba(0,0,0,.7)}
+.kpi .kt{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.kpi .kic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:16px}
+.kpi .kl{font-size:11.5px;color:var(--mute);font-weight:600}
+.kpi .kl .a{font-family:var(--ft);font-size:10.5px;color:var(--mute2);display:block;line-height:1.25}
+.kpi .kv{font-size:29px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.kpi .kd{font-size:11.5px;font-weight:650;margin-top:7px;display:flex;align-items:center;gap:5px}
+.spark{position:absolute;right:0;bottom:0;width:88px;height:36px;opacity:.35}
+
+.g2{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;align-items:start}
+.card{border:1px solid var(--stroke);border-radius:var(--r);background:var(--glass);backdrop-filter:blur(22px);overflow:hidden}
+.chd{display:flex;align-items:center;gap:11px;padding:16px 19px;border-bottom:1px solid var(--stroke)}
+.chd .a{display:block;font-family:var(--ft);font-size:11.5px;color:var(--a3);line-height:1.25}
+.chd .b{display:block;font-size:14.5px;font-weight:650;letter-spacing:-.015em}
+.live{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ok);background:rgba(46,230,168,.1);border:1px solid rgba(46,230,168,.26);
+  border-radius:999px;padding:4px 11px}
+.live i{width:5px;height:5px;border-radius:50%;background:var(--ok);animation:bp 1.5s infinite}
+.lays{display:flex;gap:8px;padding:13px 19px;flex-wrap:wrap;border-top:1px solid var(--stroke)}
+.ly{display:flex;align-items:center;gap:8px;border:1px solid var(--stroke);border-radius:999px;padding:7px 13px;
+  font-size:12px;font-weight:600;color:var(--mute);transition:.24s;background:rgba(255,255,255,.025)}
+.ly i{width:7px;height:7px;border-radius:50%;display:block}
+.ly:hover{border-color:var(--stroke2);color:var(--text)}
+.ly[aria-pressed="true"]{background:rgba(91,140,255,.13);border-color:rgba(91,140,255,.4);color:var(--text)}
+
+.feed{max-height:430px;overflow-y:auto}
+.fi{display:flex;gap:13px;padding:14px 19px;border-bottom:1px solid var(--stroke);width:100%;text-align:left;transition:.2s}
+.fi:hover{background:rgba(255,255,255,.035)}
+.fi:last-child{border:none}
+.fi .fic{width:34px;height:34px;border-radius:11px;flex:none;display:grid;place-items:center;font-size:15px}
+.fi .ft{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fi .ft b{font-size:13.5px;font-weight:650;letter-spacing:-.012em}
+.lvl{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
+.fi .fta{font-family:var(--ft);font-size:11.5px;color:var(--mute2);margin-top:2px}
+.fi p{font-size:12.5px;color:var(--mute);margin-top:3px;line-height:1.5}
+.fi .tm{font-size:10.5px;color:var(--mute2);font-weight:600;margin-top:5px}
+
+.pills{display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:14px}
+.plr{border:1px solid var(--stroke);border-radius:17px;padding:18px;background:var(--glass);text-align:left;
+  transition:.3s cubic-bezier(.4,0,.2,1);width:100%}
+.plr:hover{transform:translateY(-4px);border-color:var(--stroke2)}
+.plr .pi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:19px;margin-bottom:13px}
+.plr .pa{font-family:var(--ft);font-size:12px;color:var(--mute2);line-height:1.25}
+.plr b{font-size:14.5px;font-weight:650;display:block;letter-spacing:-.015em}
+.plr p{font-size:12px;color:var(--mute);margin:6px 0 13px;line-height:1.5;min-height:36px}
+.plr .pf{display:flex;justify-content:space-between;font-size:11px;color:var(--mute2);font-weight:650;margin-top:7px}
+
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:13px}
+.ac{border:1px dashed var(--stroke2);border-radius:16px;padding:20px 15px;display:flex;flex-direction:column;
+  align-items:center;gap:8px;text-align:center;transition:.28s;background:rgba(255,255,255,.018)}
+.ac:hover{border-style:solid;border-color:rgba(91,140,255,.5);background:rgba(91,140,255,.07);transform:translateY(-3px)}
+.ac .e{font-size:25px}
+.ac b{font-size:13px;font-weight:650}
+.ac .aa{font-family:var(--ft);font-size:11px;color:var(--mute2)}
+.ac small{font-size:11px;color:var(--mute2)}
+
+.mobnav{display:none}
+/* ---------- responsive ---------- */
+@media(max-width:1080px){ .g2{grid-template-columns:1fr} }
+@media(max-width:900px){
+  #ob{grid-template-columns:1fr}
+  .rail{display:none}
+  .mini-steps{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
+  .mini-steps .mnum{font-size:11.5px;font-weight:700;color:var(--a1);white-space:nowrap}
+  .mini-steps .pbar{flex:1}
+  .stg-body{padding:28px 20px 150px}
+  .dock{padding:14px 20px}
+  .pen{font-size:26px} .pta{font-size:15px}
+  #dash{grid-template-columns:1fr}
+  .sb{display:none}
+  .dtop{padding:12px 16px} .dbody{padding:20px 16px 96px}
+  .mobnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;padding:9px 6px;
+    border-top:1px solid var(--stroke);background:rgba(6,10,20,.93);backdrop-filter:blur(24px);justify-content:space-around}
+  html[data-theme="light"] .mobnav{background:rgba(255,255,255,.95)}
+  .mn{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;font-weight:650;
+    color:var(--mute2);padding:6px 10px;border-radius:11px;flex:1}
+  .mn svg{width:19px;height:19px;stroke-width:1.9}
+  .mn[aria-current="page"]{color:var(--a1);background:rgba(91,140,255,.11)}
+}
+@media(max-width:560px){
+  .fgrid{grid-template-columns:1fr}
+  .seg{grid-template-columns:1fr}
+  .rw{flex-direction:column;align-items:flex-start;gap:5px}
+  .rw .k{width:auto} .rw .fix{margin-top:4px}
+  .otpr input{width:48px;height:56px;font-size:20px}
+  .dock .pmeta{max-width:120px}
+  .btn{padding:12px 17px;font-size:13px}
+}
+
+/* ============================================================
+   ROYAL EARTH · realistic space backdrop
+   ============================================================ */
+#space{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 78% 8%, #0a1430 0%, #060b1c 38%, #03060f 72%, #010309 100%);}
+html[data-theme="light"] #space{opacity:.34;filter:saturate(.9)}
+
+/* ---- deep nebula ---- */
+.neb{position:absolute;inset:-20%;filter:blur(70px);opacity:.55;
+  background:
+    radial-gradient(34rem 26rem at 14% 16%, rgba(63,96,214,.34), transparent 62%),
+    radial-gradient(30rem 24rem at 86% 78%, rgba(143,84,220,.26), transparent 62%),
+    radial-gradient(26rem 20rem at 62% 6%,  rgba(22,160,190,.20), transparent 64%);
+  animation:nebDrift 46s ease-in-out infinite alternate}
+@keyframes nebDrift{to{transform:translate3d(-2.5%,2%,0) scale(1.07)}}
+
+/* ---- parallax starfields ---- */
+.stars{position:absolute;inset:-50%;background-repeat:repeat}
+.s1{background-image:
+  radial-gradient(1.1px 1.1px at 12% 18%,#fff,transparent),
+  radial-gradient(1px 1px at 34% 62%,#dce8ff,transparent),
+  radial-gradient(1.3px 1.3px at 58% 24%,#fff,transparent),
+  radial-gradient(1px 1px at 76% 72%,#cfe0ff,transparent),
+  radial-gradient(1.2px 1.2px at 88% 36%,#fff,transparent),
+  radial-gradient(1px 1px at 22% 84%,#e8f0ff,transparent),
+  radial-gradient(1.1px 1.1px at 46% 92%,#fff,transparent),
+  radial-gradient(1px 1px at 66% 48%,#d8e6ff,transparent);
+  background-size:520px 520px;opacity:.9;animation:sp1 220s linear infinite}
+.s2{background-image:
+  radial-gradient(.9px .9px at 8% 42%,rgba(255,255,255,.75),transparent),
+  radial-gradient(.8px .8px at 28% 12%,rgba(200,220,255,.6),transparent),
+  radial-gradient(1px 1px at 52% 78%,rgba(255,255,255,.7),transparent),
+  radial-gradient(.8px .8px at 72% 28%,rgba(210,228,255,.55),transparent),
+  radial-gradient(.9px .9px at 92% 62%,rgba(255,255,255,.6),transparent),
+  radial-gradient(.8px .8px at 40% 52%,rgba(190,215,255,.5),transparent);
+  background-size:310px 310px;opacity:.7;animation:sp2 150s linear infinite}
+.s3{background-image:
+  radial-gradient(.7px .7px at 18% 30%,rgba(255,255,255,.45),transparent),
+  radial-gradient(.6px .6px at 62% 66%,rgba(255,255,255,.4),transparent),
+  radial-gradient(.7px .7px at 84% 14%,rgba(255,255,255,.42),transparent),
+  radial-gradient(.6px .6px at 36% 88%,rgba(255,255,255,.35),transparent);
+  background-size:180px 180px;opacity:.55;animation:sp3 95s linear infinite}
+@keyframes sp1{to{transform:translate3d(-520px,260px,0)}}
+@keyframes sp2{to{transform:translate3d(310px,-155px,0)}}
+@keyframes sp3{to{transform:translate3d(-180px,-90px,0)}}
+
+/* twinkle overlay */
+.twk{position:absolute;inset:0;animation:twk 5.5s ease-in-out infinite;
+  background-image:
+    radial-gradient(1.6px 1.6px at 24% 22%,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 70% 58%,#fff,transparent),
+    radial-gradient(1.4px 1.4px at 44% 80%,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 88% 30%,#fff,transparent);
+  background-size:100% 100%}
+@keyframes twk{0%,100%{opacity:.15}50%{opacity:.85}}
+
+/* ---- shooting star ---- */
+.shoot{position:absolute;top:14%;left:-12%;width:190px;height:1.4px;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);
+  filter:drop-shadow(0 0 6px rgba(180,210,255,.9));
+  animation:shoot 17s ease-in infinite}
+.shoot.b{top:52%;animation-duration:23s;animation-delay:9s;width:150px}
+@keyframes shoot{
+  0%,88%{opacity:0;transform:translate3d(0,0,0) rotate(18deg)}
+  90%{opacity:1}
+  97%,100%{opacity:0;transform:translate3d(128vw,42vh,0) rotate(18deg)}}
+
+/* ---- EARTH ---- */
+.earth{
+  position:absolute;right:-19vmin;bottom:-19vmin;width:66vmin;height:66vmin;
+  opacity:.95;filter:saturate(1.06) contrast(1.05);
+  animation:eFloat 30s ease-in-out infinite alternate;
+}
+@keyframes eFloat{to{transform:translate3d(-1.6vmin,-2.2vmin,0)}}
+.earth svg{width:100%;height:100%;display:block;overflow:visible}
+#ocean-spin{animation:spin 210s linear infinite}
+#cloud-spin{animation:spin 168s linear infinite}
+@keyframes spin{to{transform:translateX(-1000px)}}
+
+/* ---- satellites ---- */
+.orb{position:absolute;left:50%;top:50%;transform-origin:0 0}
+.o1{animation:orb1 26s linear infinite}
+.o2{animation:orb2 38s linear infinite}
+.o3{animation:orb3 52s linear infinite}
+@keyframes orb1{to{transform:rotate(360deg)}}
+@keyframes orb2{to{transform:rotate(-360deg)}}
+@keyframes orb3{to{transform:rotate(360deg)}}
+.sat{position:absolute}
+.sat svg{display:block;filter:drop-shadow(0 0 7px rgba(140,190,255,.6))}
+.sat .cnt{animation:cntr 26s linear infinite reverse}
+.o2 .sat .cnt{animation-duration:38s;animation-direction:normal}
+.o3 .sat .cnt{animation-duration:52s}
+@keyframes cntr{to{transform:rotate(360deg)}}
+
+@media(max-width:900px){
+  .earth{width:96vmin;height:96vmin;right:-32vmin;bottom:-40vmin;opacity:.85}
+}
+
+</style>
+</head>
+<body>
+<!-- ═══════════ ROYAL EARTH · SPACE BACKDROP ═══════════ -->
+<div id="space" aria-hidden="true">
+  <div class="neb"></div>
+  <div class="stars s1"></div>
+  <div class="stars s2"></div>
+  <div class="stars s3"></div>
+  <div class="twk"></div>
+  <div class="shoot"></div>
+  <div class="shoot b"></div>
+
+  <div class="earth">
+    <svg viewBox="0 0 1200 1000" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <!-- sphere clip -->
+        <clipPath id="sph"><circle cx="600" cy="500" r="340"/></clipPath>
+
+        <!-- deep ocean, lit from upper-right -->
+        <radialGradient id="oc" cx="68%" cy="28%" r="82%">
+          <stop offset="0%"   stop-color="#3d7cbe"/>
+          <stop offset="22%"  stop-color="#255f9f"/>
+          <stop offset="46%"  stop-color="#154275"/>
+          <stop offset="70%"  stop-color="#0a2748"/>
+          <stop offset="88%"  stop-color="#04122a"/>
+          <stop offset="100%" stop-color="#010814"/>
+        </radialGradient>
+
+        <!-- land tint -->
+        <linearGradient id="ld" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#5c8446"/>
+          <stop offset="45%"  stop-color="#436a34"/>
+          <stop offset="100%" stop-color="#284a23"/>
+        </linearGradient>
+        <linearGradient id="ds" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#b2915a"/><stop offset="100%" stop-color="#856a3d"/>
+        </linearGradient>
+
+        <!-- night terminator -->
+        <radialGradient id="nite" cx="71%" cy="25%" r="77%">
+          <stop offset="0%"   stop-color="#000" stop-opacity="0"/>
+          <stop offset="38%"  stop-color="#000" stop-opacity=".04"/>
+          <stop offset="56%"  stop-color="#000418" stop-opacity=".34"/>
+          <stop offset="70%"  stop-color="#000311" stop-opacity=".64"/>
+          <stop offset="82%"  stop-color="#00020c" stop-opacity=".78"/>
+          <stop offset="92%"  stop-color="#000208" stop-opacity=".90"/>
+          <stop offset="100%" stop-color="#000105" stop-opacity=".96"/>
+        </radialGradient>
+        <!-- night-side clip for city lights -->
+        <radialGradient id="nmaskg" cx="70%" cy="26%" r="82%">
+          <stop offset="0%" stop-color="#000"/><stop offset="44%" stop-color="#000"/>
+          <stop offset="62%" stop-color="#555"/><stop offset="78%" stop-color="#d0d0d0"/><stop offset="100%" stop-color="#fff"/>
+        </radialGradient>
+        <mask id="nmask"><circle cx="600" cy="500" r="340" fill="url(#nmaskg)"/></mask>
+
+        <!-- specular sun glint -->
+        <radialGradient id="glint" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#eaf6ff" stop-opacity=".5"/>
+          <stop offset="55%" stop-color="#bcdcff" stop-opacity=".12"/>
+          <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- atmosphere rim -->
+        <radialGradient id="atm" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#5ba8ff" stop-opacity="0"/>
+          <stop offset="86%"  stop-color="#4f9bf5" stop-opacity="0"/>
+          <stop offset="94%"  stop-color="#69b4ff" stop-opacity=".20"/>
+          <stop offset="97.5%" stop-color="#9fd0ff" stop-opacity=".34"/>
+          <stop offset="100%" stop-color="#cbe6ff" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"  stop-color="#3f8ce0" stop-opacity=".20"/>
+          <stop offset="58%" stop-color="#2f6fc4" stop-opacity=".09"/>
+          <stop offset="100%" stop-color="#1b4a94" stop-opacity="0"/>
+        </radialGradient>
+
+        <radialGradient id="limb" cx="70%" cy="26%" r="78%">
+          <stop offset="0%"  stop-color="#bfe2ff" stop-opacity="0"/>
+          <stop offset="72%" stop-color="#a8d4ff" stop-opacity="0"/>
+          <stop offset="88%" stop-color="#bfe2ff" stop-opacity=".10"/>
+          <stop offset="97%" stop-color="#e3f2ff" stop-opacity=".20"/>
+          <stop offset="100%" stop-color="#fff" stop-opacity=".05"/>
+        </radialGradient>
+        <filter id="cloudBlur"><feGaussianBlur stdDeviation="3.2"/></filter>
+
+        <!-- procedural ocean depth mottling -->
+        <filter id="oceanNoise" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.009 0.016" numOctaves="4" seed="7" result="n"/>
+          <feColorMatrix in="n" type="matrix" result="a"
+            values="0 0 0 0 0.03  0 0 0 0 0.11  0 0 0 0 0.24  0 0 0 0.62 0"/>
+        </filter>
+        <!-- terrain relief on land -->
+        <filter id="terrain" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="5" seed="3" result="t"/>
+          <feDisplacementMap in="SourceGraphic" in2="t" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/>
+          <feSpecularLighting in="t" surfaceScale="2.4" specularConstant=".42" specularExponent="14"
+              lighting-color="#fff8e8" result="sp"><feDistantLight azimuth="238" elevation="56"/></feSpecularLighting>
+          <feComposite in="sp" in2="d" operator="in" result="spc"/>
+          <feComposite in="d" in2="spc" operator="arithmetic" k1="0" k2="1" k3=".55" k4="0"/>
+        </filter>
+        <!-- wispy cloud texture -->
+        <filter id="cloudTex" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="5" seed="11" result="t"/>
+          <feDisplacementMap in="SourceGraphic" in2="t" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+          <feGaussianBlur stdDeviation="2.6"/>
+        </filter>
+        <filter id="soft"><feGaussianBlur stdDeviation="1.4"/></filter>
+        <filter id="glowSm" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="3.4" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+
+        <!-- ── continent strip (equirectangular 1000 × 500) ── -->
+        <g id="landmap">
+          <!-- Africa -->
+          <path fill="url(#ld)" d="M453 211 L470 180 L500 152 L528 147 L560 152 L592 164 L612 190 L619 217 L642 253 L634 274 L611 294 L598 312 L592 325 L575 342 L556 347 L540 330 L533 300 L528 276 L525 253 L508 246 L490 244 L478 239 L462 228 Z"/>
+          <!-- Sahara tint -->
+          <path fill="url(#ds)" opacity=".55" d="M470 180 L528 160 L592 170 L606 196 L560 206 L500 202 L466 194 Z"/>
+          <!-- Europe -->
+          <path fill="url(#ld)" d="M472 150 L486 131 L506 122 L520 108 L540 100 L562 92 L583 83 L604 96 L611 125 L596 136 L578 136 L556 130 L533 125 L508 132 L488 142 Z"/>
+          <!-- Asia -->
+          <path fill="url(#ld)" d="M604 96 L640 78 L667 70 L700 56 L750 47 L800 44 L850 50 L889 56 L900 78 L875 108 L875 125 L856 146 L839 167 L820 186 L792 208 L780 222 L764 208 L764 194 L740 200 L722 214 L710 228 L694 208 L694 181 L676 176 L667 181 L648 166 L625 144 L611 125 Z"/>
+          <path fill="url(#ds)" opacity=".45" d="M640 140 L720 128 L770 140 L740 170 L680 172 L646 158 Z"/>
+          <!-- India -->
+          <path fill="url(#ld)" d="M694 181 L716 186 L722 214 L710 236 L698 218 L690 198 Z"/>
+          <!-- SE Asia / Indonesia -->
+          <path fill="url(#ld)" d="M780 222 L800 232 L818 240 L806 254 L786 250 L772 240 Z"/>
+          <path fill="url(#ld)" d="M826 246 L852 252 L846 264 L822 258 Z"/>
+          <!-- Japan -->
+          <path fill="url(#ld)" d="M884 118 L896 126 L892 142 L880 134 Z"/>
+          <!-- North America -->
+          <path fill="url(#ld)" d="M33 69 L70 58 L111 56 L160 48 L200 46 L236 50 L280 58 L316 74 L333 89 L326 110 L319 125 L300 146 L288 164 L278 178 L258 182 L231 178 L216 170 L208 161 L186 142 L156 117 L124 96 L86 82 L52 78 Z"/>
+          <!-- Central America -->
+          <path fill="url(#ld)" d="M258 182 L272 196 L282 210 L275 220 L264 206 L252 192 Z"/>
+          <!-- Greenland -->
+          <path fill="#cfe3f2" opacity=".82" d="M347 22 L390 18 L431 33 L444 61 L420 76 L388 78 L364 62 L346 42 Z"/>
+          <!-- South America -->
+          <path fill="url(#ld)" d="M275 220 L292 228 L316 230 L344 238 L372 252 L396 268 L403 286 L392 308 L376 330 L352 348 L332 372 L314 388 L302 376 L296 350 L292 322 L288 296 L280 272 L272 248 Z"/>
+          <!-- Australia -->
+          <path fill="url(#ld)" d="M814 311 L840 292 L861 283 L886 290 L903 300 L916 320 L917 344 L898 356 L868 352 L840 350 L819 344 L810 328 Z"/>
+          <path fill="url(#ds)" opacity=".5" d="M826 308 L880 300 L900 322 L862 338 L830 330 Z"/>
+          <!-- New Zealand -->
+          <path fill="url(#ld)" d="M938 352 L948 346 L954 358 L946 368 Z"/>
+          <!-- Madagascar -->
+          <path fill="url(#ld)" d="M648 300 L658 296 L664 316 L654 326 Z"/>
+          <!-- UK / Ireland -->
+          <path fill="url(#ld)" d="M478 118 L490 112 L494 124 L482 130 Z"/>
+          <!-- Antarctica -->
+          <path fill="#e8f1f9" opacity=".72" d="M0 468 Q80 448 170 462 Q260 444 350 460 Q440 442 530 458 Q620 444 710 460 Q800 446 890 461 Q950 450 1000 464 L1000 500 L0 500 Z"/>
+          <!-- Arctic ice -->
+          <path fill="#dde9f6" opacity=".48" d="M0 0 L1000 0 L1000 20 Q930 34 860 22 Q770 36 690 23 Q600 37 510 24 Q420 38 330 25 Q240 38 150 24 Q75 34 0 22 Z"/>
+        </g>
+
+        <!-- ── city lights strip ── -->
+        <g id="citymap" fill="#ffcf86">
+          <g opacity=".95">
+            <circle cx="506" cy="122" r="2.4"/><circle cx="520" cy="112" r="2"/><circle cx="533" cy="118" r="2.2"/>
+            <circle cx="546" cy="106" r="1.8"/><circle cx="566" cy="100" r="2"/><circle cx="583" cy="94" r="2.4"/>
+            <circle cx="478" cy="120" r="2.2"/><circle cx="492" cy="128" r="1.7"/>
+            <circle cx="700" cy="186" r="2.6"/><circle cx="712" cy="196" r="2.2"/><circle cx="706" cy="210" r="2.4"/>
+            <circle cx="722" cy="204" r="1.9"/><circle cx="694" cy="200" r="1.8"/>
+            <circle cx="836" cy="160" r="2.8"/><circle cx="848" cy="150" r="2.3"/><circle cx="860" cy="140" r="2"/>
+            <circle cx="884" cy="124" r="2.5"/><circle cx="874" cy="134" r="1.8"/>
+            <circle cx="284" cy="120" r="2.6"/><circle cx="300" cy="128" r="2.2"/><circle cx="266" cy="130" r="2"/>
+            <circle cx="240" cy="140" r="1.9"/><circle cx="176" cy="110" r="1.8"/><circle cx="314" cy="112" r="2.3"/>
+            <circle cx="340" cy="272" r="2.2"/><circle cx="358" cy="300" r="2.4"/><circle cx="330" cy="330" r="2"/>
+            <circle cx="528" cy="164" r="1.9"/><circle cx="560" cy="180" r="1.7"/><circle cx="596" cy="200" r="1.8"/>
+            <circle cx="592" cy="318" r="2"/><circle cx="556" cy="336" r="1.8"/>
+            <circle cx="864" cy="330" r="2.2"/><circle cx="900" cy="312" r="2"/><circle cx="822" cy="326" r="1.7"/>
+            <circle cx="640" cy="150" r="2"/><circle cx="668" cy="160" r="1.8"/><circle cx="620" cy="136" r="1.9"/>
+          </g>
+        </g>
+
+        <!-- ── cloud strip ── -->
+        <g id="cloudmap" fill="#fff">
+          <g opacity=".54" filter="url(#cloudBlur)">
+            <ellipse cx="33" cy="275" rx="23" ry="14" opacity="0.64" transform="rotate(0 33 275)"/>
+            <ellipse cx="23" cy="257" rx="16" ry="10" opacity="0.64" transform="rotate(-24 23 257)"/>
+            <ellipse cx="28" cy="248" rx="14" ry="6" opacity="0.64" transform="rotate(28 28 248)"/>
+            <ellipse cx="19" cy="234" rx="20" ry="9" opacity="0.64" transform="rotate(-10 19 234)"/>
+            <ellipse cx="10" cy="256" rx="25" ry="14" opacity="0.64" transform="rotate(-19 10 256)"/>
+            <ellipse cx="29" cy="251" rx="25" ry="15" opacity="0.64" transform="rotate(3 29 251)"/>
+            <ellipse cx="7" cy="267" rx="13" ry="6" opacity="0.64" transform="rotate(20 7 267)"/>
+            <ellipse cx="144" cy="244" rx="25" ry="18" opacity="0.70" transform="rotate(27 144 244)"/>
+            <ellipse cx="162" cy="265" rx="19" ry="11" opacity="0.70" transform="rotate(-9 162 265)"/>
+            <ellipse cx="151" cy="270" rx="15" ry="11" opacity="0.70" transform="rotate(0 151 270)"/>
+            <ellipse cx="119" cy="270" rx="14" ry="10" opacity="0.70" transform="rotate(-19 119 270)"/>
+            <ellipse cx="116" cy="228" rx="10" ry="5" opacity="0.70" transform="rotate(6 116 228)"/>
+            <ellipse cx="98" cy="257" rx="15" ry="11" opacity="0.70" transform="rotate(-22 98 257)"/>
+            <ellipse cx="240" cy="249" rx="12" ry="5" opacity="0.60" transform="rotate(18 240 249)"/>
+            <ellipse cx="263" cy="244" rx="21" ry="14" opacity="0.60" transform="rotate(22 263 244)"/>
+            <ellipse cx="284" cy="251" rx="26" ry="19" opacity="0.60" transform="rotate(5 284 251)"/>
+            <ellipse cx="281" cy="245" rx="16" ry="8" opacity="0.60" transform="rotate(21 281 245)"/>
+            <ellipse cx="264" cy="258" rx="23" ry="16" opacity="0.60" transform="rotate(-1 264 258)"/>
+            <ellipse cx="263" cy="251" rx="14" ry="8" opacity="0.60" transform="rotate(-5 263 251)"/>
+            <ellipse cx="263" cy="258" rx="15" ry="11" opacity="0.60" transform="rotate(27 263 258)"/>
+            <ellipse cx="334" cy="230" rx="18" ry="13" opacity="0.54" transform="rotate(22 334 230)"/>
+            <ellipse cx="357" cy="254" rx="16" ry="11" opacity="0.54" transform="rotate(-1 357 254)"/>
+            <ellipse cx="392" cy="242" rx="12" ry="8" opacity="0.54" transform="rotate(-20 392 242)"/>
+            <ellipse cx="363" cy="239" rx="12" ry="8" opacity="0.54" transform="rotate(-13 363 239)"/>
+            <ellipse cx="358" cy="257" rx="25" ry="15" opacity="0.54" transform="rotate(10 358 257)"/>
+            <ellipse cx="368" cy="229" rx="12" ry="6" opacity="0.54" transform="rotate(-6 368 229)"/>
+            <ellipse cx="382" cy="264" rx="23" ry="11" opacity="0.54" transform="rotate(-21 382 264)"/>
+            <ellipse cx="477" cy="234" rx="13" ry="9" opacity="0.62" transform="rotate(-17 477 234)"/>
+            <ellipse cx="447" cy="225" rx="20" ry="12" opacity="0.62" transform="rotate(14 447 225)"/>
+            <ellipse cx="505" cy="253" rx="16" ry="11" opacity="0.62" transform="rotate(-6 505 253)"/>
+            <ellipse cx="402" cy="235" rx="14" ry="10" opacity="0.62" transform="rotate(6 402 235)"/>
+            <ellipse cx="449" cy="235" rx="12" ry="8" opacity="0.62" transform="rotate(27 449 235)"/>
+            <ellipse cx="468" cy="226" rx="18" ry="11" opacity="0.62" transform="rotate(3 468 226)"/>
+            <ellipse cx="482" cy="249" rx="15" ry="9" opacity="0.62" transform="rotate(-12 482 249)"/>
+            <ellipse cx="599" cy="231" rx="16" ry="9" opacity="0.52" transform="rotate(28 599 231)"/>
+            <ellipse cx="579" cy="261" rx="11" ry="8" opacity="0.52" transform="rotate(15 579 261)"/>
+            <ellipse cx="537" cy="263" rx="10" ry="7" opacity="0.52" transform="rotate(-3 537 263)"/>
+            <ellipse cx="546" cy="257" rx="16" ry="9" opacity="0.52" transform="rotate(-25 546 257)"/>
+            <ellipse cx="553" cy="262" rx="21" ry="15" opacity="0.52" transform="rotate(13 553 262)"/>
+            <ellipse cx="553" cy="260" rx="16" ry="10" opacity="0.52" transform="rotate(7 553 260)"/>
+            <ellipse cx="668" cy="247" rx="13" ry="8" opacity="0.55" transform="rotate(7 668 247)"/>
+            <ellipse cx="662" cy="225" rx="20" ry="14" opacity="0.55" transform="rotate(-13 662 225)"/>
+            <ellipse cx="663" cy="238" rx="15" ry="8" opacity="0.55" transform="rotate(1 663 238)"/>
+            <ellipse cx="679" cy="213" rx="13" ry="6" opacity="0.55" transform="rotate(21 679 213)"/>
+            <ellipse cx="691" cy="232" rx="13" ry="8" opacity="0.55" transform="rotate(7 691 232)"/>
+            <ellipse cx="663" cy="250" rx="26" ry="19" opacity="0.55" transform="rotate(-19 663 250)"/>
+            <ellipse cx="657" cy="243" rx="16" ry="10" opacity="0.55" transform="rotate(-17 657 243)"/>
+            <ellipse cx="699" cy="238" rx="18" ry="13" opacity="0.55" transform="rotate(26 699 238)"/>
+            <ellipse cx="791" cy="261" rx="25" ry="15" opacity="0.68" transform="rotate(-4 791 261)"/>
+            <ellipse cx="779" cy="244" rx="13" ry="7" opacity="0.68" transform="rotate(-13 779 244)"/>
+            <ellipse cx="820" cy="276" rx="11" ry="7" opacity="0.68" transform="rotate(24 820 276)"/>
+            <ellipse cx="794" cy="248" rx="18" ry="8" opacity="0.68" transform="rotate(6 794 248)"/>
+            <ellipse cx="789" cy="242" rx="10" ry="6" opacity="0.68" transform="rotate(-23 789 242)"/>
+            <ellipse cx="785" cy="262" rx="24" ry="14" opacity="0.68" transform="rotate(-20 785 262)"/>
+            <ellipse cx="885" cy="271" rx="24" ry="13" opacity="0.75" transform="rotate(4 885 271)"/>
+            <ellipse cx="910" cy="247" rx="17" ry="12" opacity="0.75" transform="rotate(9 910 247)"/>
+            <ellipse cx="920" cy="266" rx="23" ry="17" opacity="0.75" transform="rotate(9 920 266)"/>
+            <ellipse cx="912" cy="271" rx="18" ry="11" opacity="0.75" transform="rotate(-0 912 271)"/>
+            <ellipse cx="878" cy="245" rx="12" ry="6" opacity="0.75" transform="rotate(-12 878 245)"/>
+            <ellipse cx="892" cy="259" rx="23" ry="15" opacity="0.75" transform="rotate(-18 892 259)"/>
+            <ellipse cx="934" cy="272" rx="16" ry="9" opacity="0.75" transform="rotate(-19 934 272)"/>
+            <ellipse cx="877" cy="256" rx="23" ry="13" opacity="0.75" transform="rotate(-26 877 256)"/>
+            <ellipse cx="897" cy="271" rx="14" ry="7" opacity="0.75" transform="rotate(-17 897 271)"/>
+            <ellipse cx="1009" cy="251" rx="16" ry="10" opacity="0.75" transform="rotate(7 1009 251)"/>
+            <ellipse cx="1026" cy="263" rx="18" ry="9" opacity="0.75" transform="rotate(20 1026 263)"/>
+            <ellipse cx="1027" cy="225" rx="21" ry="11" opacity="0.75" transform="rotate(16 1027 225)"/>
+            <ellipse cx="1034" cy="240" rx="25" ry="18" opacity="0.75" transform="rotate(-6 1034 240)"/>
+            <ellipse cx="1065" cy="238" rx="23" ry="10" opacity="0.75" transform="rotate(-8 1065 238)"/>
+            <ellipse cx="981" cy="238" rx="22" ry="14" opacity="0.75" transform="rotate(-19 981 238)"/>
+            <ellipse cx="1037" cy="242" rx="24" ry="12" opacity="0.75" transform="rotate(28 1037 242)"/>
+            <ellipse cx="16" cy="147" rx="17" ry="11" opacity="0.72" transform="rotate(21 16 147)"/>
+            <ellipse cx="-85" cy="111" rx="26" ry="20" opacity="0.72" transform="rotate(14 -85 111)"/>
+            <ellipse cx="69" cy="127" rx="24" ry="12" opacity="0.72" transform="rotate(2 69 127)"/>
+            <ellipse cx="-59" cy="158" rx="16" ry="8" opacity="0.72" transform="rotate(9 -59 158)"/>
+            <ellipse cx="-15" cy="120" rx="19" ry="10" opacity="0.72" transform="rotate(-16 -15 120)"/>
+            <ellipse cx="39" cy="151" rx="15" ry="9" opacity="0.72" transform="rotate(-26 39 151)"/>
+            <ellipse cx="180" cy="86" rx="23" ry="18" opacity="0.63" transform="rotate(-7 180 86)"/>
+            <ellipse cx="159" cy="107" rx="22" ry="14" opacity="0.63" transform="rotate(4 159 107)"/>
+            <ellipse cx="184" cy="106" rx="15" ry="10" opacity="0.63" transform="rotate(17 184 106)"/>
+            <ellipse cx="150" cy="107" rx="17" ry="12" opacity="0.63" transform="rotate(-0 150 107)"/>
+            <ellipse cx="129" cy="109" rx="22" ry="14" opacity="0.63" transform="rotate(11 129 109)"/>
+            <ellipse cx="199" cy="90" rx="17" ry="9" opacity="0.63" transform="rotate(16 199 90)"/>
+            <ellipse cx="255" cy="157" rx="24" ry="12" opacity="0.63" transform="rotate(-21 255 157)"/>
+            <ellipse cx="288" cy="105" rx="13" ry="8" opacity="0.63" transform="rotate(8 288 105)"/>
+            <ellipse cx="269" cy="135" rx="24" ry="14" opacity="0.63" transform="rotate(-26 269 135)"/>
+            <ellipse cx="350" cy="118" rx="20" ry="9" opacity="0.63" transform="rotate(19 350 118)"/>
+            <ellipse cx="282" cy="145" rx="25" ry="12" opacity="0.63" transform="rotate(14 282 145)"/>
+            <ellipse cx="369" cy="124" rx="27" ry="15" opacity="0.63" transform="rotate(8 369 124)"/>
+            <ellipse cx="385" cy="109" rx="17" ry="11" opacity="0.63" transform="rotate(8 385 109)"/>
+            <ellipse cx="367" cy="123" rx="15" ry="10" opacity="0.63" transform="rotate(-27 367 123)"/>
+            <ellipse cx="383" cy="107" rx="15" ry="9" opacity="0.63" transform="rotate(5 383 107)"/>
+            <ellipse cx="440" cy="126" rx="14" ry="10" opacity="0.63" transform="rotate(-10 440 126)"/>
+            <ellipse cx="521" cy="108" rx="14" ry="7" opacity="0.59" transform="rotate(3 521 108)"/>
+            <ellipse cx="544" cy="123" rx="22" ry="11" opacity="0.59" transform="rotate(-21 544 123)"/>
+            <ellipse cx="513" cy="98" rx="11" ry="8" opacity="0.59" transform="rotate(-16 513 98)"/>
+            <ellipse cx="497" cy="103" rx="18" ry="13" opacity="0.59" transform="rotate(24 497 103)"/>
+            <ellipse cx="641" cy="157" rx="17" ry="12" opacity="0.54" transform="rotate(-26 641 157)"/>
+            <ellipse cx="600" cy="131" rx="24" ry="15" opacity="0.54" transform="rotate(-18 600 131)"/>
+            <ellipse cx="684" cy="128" rx="27" ry="19" opacity="0.54" transform="rotate(12 684 128)"/>
+            <ellipse cx="652" cy="129" rx="17" ry="11" opacity="0.54" transform="rotate(9 652 129)"/>
+            <ellipse cx="625" cy="145" rx="12" ry="6" opacity="0.54" transform="rotate(-23 625 145)"/>
+            <ellipse cx="645" cy="151" rx="24" ry="12" opacity="0.54" transform="rotate(-11 645 151)"/>
+            <ellipse cx="710" cy="143" rx="19" ry="10" opacity="0.54" transform="rotate(-7 710 143)"/>
+            <ellipse cx="769" cy="118" rx="17" ry="9" opacity="0.64" transform="rotate(-0 769 118)"/>
+            <ellipse cx="802" cy="126" rx="14" ry="10" opacity="0.64" transform="rotate(-4 802 126)"/>
+            <ellipse cx="815" cy="118" rx="15" ry="10" opacity="0.64" transform="rotate(-9 815 118)"/>
+            <ellipse cx="800" cy="107" rx="22" ry="13" opacity="0.64" transform="rotate(13 800 107)"/>
+            <ellipse cx="939" cy="108" rx="17" ry="9" opacity="0.66" transform="rotate(-7 939 108)"/>
+            <ellipse cx="962" cy="102" rx="16" ry="11" opacity="0.66" transform="rotate(11 962 102)"/>
+            <ellipse cx="920" cy="108" rx="12" ry="8" opacity="0.66" transform="rotate(-11 920 108)"/>
+            <ellipse cx="863" cy="104" rx="24" ry="16" opacity="0.66" transform="rotate(-26 863 104)"/>
+            <ellipse cx="855" cy="99" rx="15" ry="11" opacity="0.66" transform="rotate(15 855 99)"/>
+            <ellipse cx="924" cy="120" rx="11" ry="6" opacity="0.66" transform="rotate(-7 924 120)"/>
+            <ellipse cx="76" cy="408" rx="17" ry="12" opacity="0.51" transform="rotate(15 76 408)"/>
+            <ellipse cx="31" cy="383" rx="22" ry="15" opacity="0.51" transform="rotate(-19 31 383)"/>
+            <ellipse cx="69" cy="393" rx="12" ry="7" opacity="0.51" transform="rotate(-18 69 393)"/>
+            <ellipse cx="1" cy="374" rx="25" ry="13" opacity="0.51" transform="rotate(15 1 374)"/>
+            <ellipse cx="80" cy="378" rx="15" ry="7" opacity="0.51" transform="rotate(-5 80 378)"/>
+            <ellipse cx="58" cy="358" rx="18" ry="13" opacity="0.51" transform="rotate(21 58 358)"/>
+            <ellipse cx="39" cy="395" rx="19" ry="13" opacity="0.51" transform="rotate(7 39 395)"/>
+            <ellipse cx="47" cy="391" rx="12" ry="9" opacity="0.51" transform="rotate(-19 47 391)"/>
+            <ellipse cx="204" cy="361" rx="11" ry="6" opacity="0.66" transform="rotate(10 204 361)"/>
+            <ellipse cx="215" cy="368" rx="16" ry="11" opacity="0.66" transform="rotate(6 215 368)"/>
+            <ellipse cx="219" cy="369" rx="23" ry="13" opacity="0.66" transform="rotate(-10 219 369)"/>
+            <ellipse cx="209" cy="349" rx="24" ry="13" opacity="0.66" transform="rotate(24 209 349)"/>
+            <ellipse cx="239" cy="364" rx="15" ry="10" opacity="0.66" transform="rotate(15 239 364)"/>
+            <ellipse cx="243" cy="392" rx="21" ry="15" opacity="0.66" transform="rotate(-2 243 392)"/>
+            <ellipse cx="255" cy="369" rx="25" ry="18" opacity="0.51" transform="rotate(-23 255 369)"/>
+            <ellipse cx="315" cy="379" rx="26" ry="13" opacity="0.51" transform="rotate(3 315 379)"/>
+            <ellipse cx="365" cy="410" rx="23" ry="10" opacity="0.51" transform="rotate(-11 365 410)"/>
+            <ellipse cx="351" cy="408" rx="21" ry="10" opacity="0.51" transform="rotate(25 351 408)"/>
+            <ellipse cx="356" cy="391" rx="20" ry="11" opacity="0.51" transform="rotate(6 356 391)"/>
+            <ellipse cx="413" cy="397" rx="15" ry="7" opacity="0.51" transform="rotate(23 413 397)"/>
+            <ellipse cx="447" cy="387" rx="16" ry="8" opacity="0.51" transform="rotate(-8 447 387)"/>
+            <ellipse cx="413" cy="374" rx="20" ry="9" opacity="0.51" transform="rotate(-24 413 374)"/>
+            <ellipse cx="436" cy="385" rx="16" ry="9" opacity="0.51" transform="rotate(19 436 385)"/>
+            <ellipse cx="409" cy="364" rx="23" ry="15" opacity="0.51" transform="rotate(-10 409 364)"/>
+            <ellipse cx="389" cy="362" rx="20" ry="13" opacity="0.51" transform="rotate(7 389 362)"/>
+            <ellipse cx="517" cy="365" rx="13" ry="8" opacity="0.74" transform="rotate(-13 517 365)"/>
+            <ellipse cx="586" cy="356" rx="20" ry="10" opacity="0.74" transform="rotate(-14 586 356)"/>
+            <ellipse cx="616" cy="356" rx="21" ry="10" opacity="0.74" transform="rotate(-12 616 356)"/>
+            <ellipse cx="607" cy="368" rx="20" ry="13" opacity="0.74" transform="rotate(1 607 368)"/>
+            <ellipse cx="506" cy="358" rx="24" ry="12" opacity="0.74" transform="rotate(-4 506 358)"/>
+            <ellipse cx="668" cy="372" rx="11" ry="6" opacity="0.53" transform="rotate(-7 668 372)"/>
+            <ellipse cx="696" cy="403" rx="27" ry="20" opacity="0.53" transform="rotate(7 696 403)"/>
+            <ellipse cx="703" cy="373" rx="20" ry="15" opacity="0.53" transform="rotate(-25 703 373)"/>
+            <ellipse cx="660" cy="394" rx="16" ry="10" opacity="0.53" transform="rotate(-25 660 394)"/>
+            <ellipse cx="646" cy="355" rx="15" ry="7" opacity="0.53" transform="rotate(-9 646 355)"/>
+            <ellipse cx="687" cy="376" rx="23" ry="12" opacity="0.53" transform="rotate(5 687 376)"/>
+            <ellipse cx="672" cy="365" rx="12" ry="9" opacity="0.53" transform="rotate(19 672 365)"/>
+            <ellipse cx="839" cy="388" rx="16" ry="11" opacity="0.50" transform="rotate(27 839 388)"/>
+            <ellipse cx="855" cy="415" rx="17" ry="11" opacity="0.50" transform="rotate(-19 855 415)"/>
+            <ellipse cx="819" cy="379" rx="13" ry="8" opacity="0.50" transform="rotate(8 819 379)"/>
+            <ellipse cx="816" cy="386" rx="27" ry="12" opacity="0.50" transform="rotate(26 816 386)"/>
+            <ellipse cx="818" cy="380" rx="17" ry="12" opacity="0.50" transform="rotate(-13 818 380)"/>
+            <ellipse cx="836" cy="364" rx="12" ry="8" opacity="0.50" transform="rotate(23 836 364)"/>
+            <ellipse cx="793" cy="388" rx="19" ry="9" opacity="0.50" transform="rotate(19 793 388)"/>
+            <ellipse cx="777" cy="395" rx="18" ry="11" opacity="0.50" transform="rotate(-12 777 395)"/>
+            <ellipse cx="996" cy="370" rx="22" ry="12" opacity="0.64" transform="rotate(-2 996 370)"/>
+            <ellipse cx="934" cy="385" rx="18" ry="12" opacity="0.64" transform="rotate(24 934 385)"/>
+            <ellipse cx="947" cy="350" rx="16" ry="12" opacity="0.64" transform="rotate(23 947 350)"/>
+            <ellipse cx="953" cy="374" rx="24" ry="16" opacity="0.64" transform="rotate(-12 953 374)"/>
+            <ellipse cx="865" cy="373" rx="12" ry="7" opacity="0.64" transform="rotate(9 865 373)"/>
+            <ellipse cx="919" cy="423" rx="11" ry="6" opacity="0.38" transform="rotate(-24 919 423)"/>
+            <ellipse cx="915" cy="426" rx="14" ry="7" opacity="0.38" transform="rotate(-7 915 426)"/>
+            <ellipse cx="887" cy="436" rx="16" ry="9" opacity="0.38" transform="rotate(-22 887 436)"/>
+            <ellipse cx="474" cy="202" rx="16" ry="9" opacity="0.50" transform="rotate(-5 474 202)"/>
+            <ellipse cx="519" cy="196" rx="9" ry="4" opacity="0.50" transform="rotate(13 519 196)"/>
+            <ellipse cx="49" cy="60" rx="15" ry="8" opacity="0.45" transform="rotate(-23 49 60)"/>
+            <ellipse cx="38" cy="67" rx="16" ry="12" opacity="0.45" transform="rotate(11 38 67)"/>
+            <ellipse cx="59" cy="65" rx="11" ry="6" opacity="0.45" transform="rotate(-9 59 65)"/>
+            <ellipse cx="398" cy="322" rx="8" ry="6" opacity="0.46" transform="rotate(3 398 322)"/>
+            <ellipse cx="359" cy="316" rx="13" ry="9" opacity="0.46" transform="rotate(23 359 316)"/>
+            <ellipse cx="360" cy="317" rx="13" ry="6" opacity="0.46" transform="rotate(14 360 317)"/>
+            <ellipse cx="363" cy="332" rx="8" ry="5" opacity="0.46" transform="rotate(-19 363 332)"/>
+            <ellipse cx="18" cy="316" rx="14" ry="10" opacity="0.51" transform="rotate(-13 18 316)"/>
+            <ellipse cx="25" cy="297" rx="14" ry="8" opacity="0.51" transform="rotate(-1 25 297)"/>
+            <ellipse cx="40" cy="304" rx="11" ry="7" opacity="0.51" transform="rotate(20 40 304)"/>
+            <ellipse cx="38" cy="322" rx="9" ry="4" opacity="0.51" transform="rotate(-1 38 322)"/>
+            <ellipse cx="660" cy="438" rx="11" ry="6" opacity="0.54" transform="rotate(23 660 438)"/>
+            <ellipse cx="657" cy="435" rx="7" ry="5" opacity="0.54" transform="rotate(9 657 435)"/>
+            <ellipse cx="655" cy="448" rx="13" ry="6" opacity="0.54" transform="rotate(25 655 448)"/>
+            <ellipse cx="866" cy="315" rx="11" ry="8" opacity="0.52" transform="rotate(-11 866 315)"/>
+            <ellipse cx="843" cy="314" rx="14" ry="7" opacity="0.52" transform="rotate(19 843 314)"/>
+            <ellipse cx="338" cy="80" rx="13" ry="8" opacity="0.52" transform="rotate(-5 338 80)"/>
+            <ellipse cx="330" cy="64" rx="8" ry="4" opacity="0.52" transform="rotate(6 330 64)"/>
+            <ellipse cx="540" cy="327" rx="8" ry="6" opacity="0.42" transform="rotate(-4 540 327)"/>
+            <ellipse cx="568" cy="315" rx="12" ry="9" opacity="0.42" transform="rotate(2 568 315)"/>
+            <ellipse cx="327" cy="188" rx="15" ry="8" opacity="0.54" transform="rotate(-27 327 188)"/>
+            <ellipse cx="342" cy="194" rx="13" ry="6" opacity="0.54" transform="rotate(-9 342 194)"/>
+            <ellipse cx="339" cy="178" rx="9" ry="6" opacity="0.54" transform="rotate(-4 339 178)"/>
+            <ellipse cx="334" cy="176" rx="14" ry="9" opacity="0.54" transform="rotate(27 334 176)"/>
+            <ellipse cx="798" cy="425" rx="8" ry="5" opacity="0.42" transform="rotate(17 798 425)"/>
+            <ellipse cx="817" cy="414" rx="12" ry="9" opacity="0.42" transform="rotate(-1 817 414)"/>
+            <ellipse cx="821" cy="430" rx="10" ry="6" opacity="0.42" transform="rotate(18 821 430)"/>
+            <ellipse cx="778" cy="428" rx="10" ry="7" opacity="0.42" transform="rotate(17 778 428)"/>
+            <ellipse cx="617" cy="185" rx="8" ry="5" opacity="0.46" transform="rotate(-19 617 185)"/>
+            <ellipse cx="599" cy="182" rx="9" ry="6" opacity="0.46" transform="rotate(24 599 182)"/>
+            <ellipse cx="66" cy="68" rx="7" ry="3" opacity="0.40" transform="rotate(22 66 68)"/>
+            <ellipse cx="44" cy="71" rx="8" ry="5" opacity="0.40" transform="rotate(22 44 71)"/>
+            <ellipse cx="83" cy="83" rx="15" ry="11" opacity="0.40" transform="rotate(4 83 83)"/>
+            <ellipse cx="60" cy="64" rx="14" ry="8" opacity="0.40" transform="rotate(7 60 64)"/>
+            <ellipse cx="600" cy="77" rx="8" ry="5" opacity="0.37" transform="rotate(15 600 77)"/>
+            <ellipse cx="606" cy="68" rx="15" ry="7" opacity="0.37" transform="rotate(-16 606 68)"/>
+            <ellipse cx="43" cy="311" rx="13" ry="9" opacity="0.46" transform="rotate(-8 43 311)"/>
+            <ellipse cx="45" cy="300" rx="8" ry="6" opacity="0.46" transform="rotate(-11 45 300)"/>
+            <ellipse cx="18" cy="312" rx="15" ry="11" opacity="0.46" transform="rotate(-7 18 312)"/>
+            <ellipse cx="811" cy="197" rx="14" ry="9" opacity="0.44" transform="rotate(17 811 197)"/>
+            <ellipse cx="835" cy="197" rx="8" ry="4" opacity="0.44" transform="rotate(-17 835 197)"/>
+            <ellipse cx="846" cy="186" rx="15" ry="10" opacity="0.44" transform="rotate(-3 846 186)"/>
+            <ellipse cx="153" cy="337" rx="10" ry="6" opacity="0.44" transform="rotate(-12 153 337)"/>
+            <ellipse cx="108" cy="325" rx="15" ry="7" opacity="0.44" transform="rotate(-8 108 325)"/>
+            <ellipse cx="101" cy="315" rx="10" ry="6" opacity="0.44" transform="rotate(-24 101 315)"/>
+            <ellipse cx="112" cy="328" rx="14" ry="8" opacity="0.44" transform="rotate(-5 112 328)"/>
+            <ellipse cx="639" cy="315" rx="11" ry="5" opacity="0.37" transform="rotate(7 639 315)"/>
+            <ellipse cx="679" cy="298" rx="8" ry="5" opacity="0.37" transform="rotate(-3 679 298)"/>
+            <ellipse cx="652" cy="306" rx="12" ry="9" opacity="0.37" transform="rotate(23 652 306)"/>
+            <ellipse cx="643" cy="306" rx="9" ry="6" opacity="0.37" transform="rotate(-22 643 306)"/>
+            <ellipse cx="253" cy="432" rx="8" ry="5" opacity="0.38" transform="rotate(2 253 432)"/>
+            <ellipse cx="197" cy="418" rx="8" ry="4" opacity="0.38" transform="rotate(16 197 418)"/>
+            <ellipse cx="215" cy="425" rx="10" ry="6" opacity="0.38" transform="rotate(25 215 425)"/>
+            <ellipse cx="274" cy="424" rx="16" ry="8" opacity="0.38" transform="rotate(-26 274 424)"/>
+            <ellipse cx="776" cy="194" rx="11" ry="5" opacity="0.43" transform="rotate(-17 776 194)"/>
+            <ellipse cx="859" cy="182" rx="8" ry="6" opacity="0.43" transform="rotate(-7 859 182)"/>
+            <ellipse cx="826" cy="180" rx="15" ry="9" opacity="0.43" transform="rotate(-26 826 180)"/>
+            <ellipse cx="793" cy="184" rx="11" ry="7" opacity="0.43" transform="rotate(-3 793 184)"/>
+            <ellipse cx="308" cy="310" rx="12" ry="8" opacity="0.36" transform="rotate(-18 308 310)"/>
+            <ellipse cx="341" cy="318" rx="10" ry="5" opacity="0.36" transform="rotate(21 341 318)"/>
+            <ellipse cx="379" cy="319" rx="16" ry="8" opacity="0.36" transform="rotate(-13 379 319)"/>
+            <ellipse cx="341" cy="75" rx="15" ry="8" opacity="0.54" transform="rotate(9 341 75)"/>
+            <ellipse cx="331" cy="70" rx="7" ry="5" opacity="0.54" transform="rotate(23 331 70)"/>
+            <ellipse cx="324" cy="62" rx="8" ry="5" opacity="0.54" transform="rotate(-22 324 62)"/>
+            <ellipse cx="329" cy="72" rx="12" ry="7" opacity="0.54" transform="rotate(-12 329 72)"/>
+            <ellipse cx="261" cy="201" rx="7" ry="5" opacity="0.31" transform="rotate(-2 261 201)"/>
+            <ellipse cx="207" cy="181" rx="16" ry="11" opacity="0.31" transform="rotate(-5 207 181)"/>
+            <ellipse cx="413" cy="183" rx="12" ry="7" opacity="0.52" transform="rotate(-23 413 183)"/>
+            <ellipse cx="432" cy="197" rx="9" ry="4" opacity="0.52" transform="rotate(12 432 197)"/>
+            <ellipse cx="435" cy="428" rx="12" ry="7" opacity="0.40" transform="rotate(16 435 428)"/>
+            <ellipse cx="438" cy="437" rx="11" ry="7" opacity="0.40" transform="rotate(-15 438 437)"/>
+            <ellipse cx="365" cy="424" rx="8" ry="6" opacity="0.40" transform="rotate(26 365 424)"/>
+            <ellipse cx="449" cy="185" rx="14" ry="9" opacity="0.42" transform="rotate(-22 449 185)"/>
+            <ellipse cx="439" cy="182" rx="8" ry="5" opacity="0.42" transform="rotate(-11 439 182)"/>
+            <ellipse cx="435" cy="177" rx="9" ry="7" opacity="0.42" transform="rotate(-28 435 177)"/>
+            <ellipse cx="453" cy="179" rx="15" ry="10" opacity="0.42" transform="rotate(-2 453 179)"/>
+            <ellipse cx="178" cy="420" rx="15" ry="10" opacity="0.54" transform="rotate(-9 178 420)"/>
+            <ellipse cx="201" cy="426" rx="14" ry="9" opacity="0.54" transform="rotate(21 201 426)"/>
+            <ellipse cx="242" cy="422" rx="9" ry="5" opacity="0.54" transform="rotate(-23 242 422)"/>
+            <ellipse cx="210" cy="434" rx="10" ry="7" opacity="0.54" transform="rotate(-21 210 434)"/>
+            <ellipse cx="898" cy="320" rx="14" ry="9" opacity="0.46" transform="rotate(-18 898 320)"/>
+            <ellipse cx="925" cy="327" rx="14" ry="8" opacity="0.46" transform="rotate(-23 925 327)"/>
+            <ellipse cx="590" cy="303" rx="9" ry="4" opacity="0.41" transform="rotate(-21 590 303)"/>
+            <ellipse cx="617" cy="309" rx="16" ry="9" opacity="0.41" transform="rotate(-16 617 309)"/>
+            <ellipse cx="657" cy="305" rx="9" ry="6" opacity="0.41" transform="rotate(18 657 305)"/>
+            <ellipse cx="638" cy="312" rx="13" ry="7" opacity="0.41" transform="rotate(-21 638 312)"/>
+            <ellipse cx="908" cy="434" rx="16" ry="12" opacity="0.51" transform="rotate(3 908 434)"/>
+            <ellipse cx="885" cy="435" rx="10" ry="7" opacity="0.51" transform="rotate(-2 885 435)"/>
+            <ellipse cx="915" cy="434" rx="15" ry="7" opacity="0.51" transform="rotate(27 915 434)"/>
+            <ellipse cx="881" cy="443" rx="11" ry="6" opacity="0.51" transform="rotate(11 881 443)"/>
+            <ellipse cx="959" cy="182" rx="14" ry="8" opacity="0.51" transform="rotate(17 959 182)"/>
+            <ellipse cx="951" cy="202" rx="9" ry="7" opacity="0.51" transform="rotate(-24 951 202)"/>
+            <ellipse cx="840" cy="180" rx="11" ry="7" opacity="0.37" transform="rotate(-19 840 180)"/>
+            <ellipse cx="848" cy="189" rx="11" ry="6" opacity="0.37" transform="rotate(20 848 189)"/>
+            <ellipse cx="851" cy="199" rx="10" ry="7" opacity="0.37" transform="rotate(-21 851 199)"/>
+            <ellipse cx="671" cy="317" rx="7" ry="4" opacity="0.45" transform="rotate(-13 671 317)"/>
+            <ellipse cx="672" cy="313" rx="14" ry="9" opacity="0.45" transform="rotate(20 672 313)"/>
+            <ellipse cx="665" cy="307" rx="10" ry="5" opacity="0.45" transform="rotate(15 665 307)"/>
+            <ellipse cx="703" cy="331" rx="10" ry="7" opacity="0.45" transform="rotate(27 703 331)"/>
+            <ellipse cx="983" cy="304" rx="14" ry="7" opacity="0.45" transform="rotate(6 983 304)"/>
+            <ellipse cx="988" cy="311" rx="8" ry="5" opacity="0.45" transform="rotate(-9 988 311)"/>
+            <ellipse cx="627" cy="314" rx="9" ry="5" opacity="0.52" transform="rotate(13 627 314)"/>
+            <ellipse cx="630" cy="302" rx="14" ry="7" opacity="0.52" transform="rotate(-19 630 302)"/>
+            <ellipse cx="599" cy="341" rx="9" ry="6" opacity="0.52" transform="rotate(-8 599 341)"/>
+            <ellipse cx="225" cy="327" rx="13" ry="6" opacity="0.37" transform="rotate(5 225 327)"/>
+            <ellipse cx="259" cy="324" rx="15" ry="11" opacity="0.37" transform="rotate(26 259 324)"/>
+            <ellipse cx="220" cy="315" rx="10" ry="5" opacity="0.37" transform="rotate(12 220 315)"/>
+            <ellipse cx="607" cy="169" rx="13" ry="7" opacity="0.36" transform="rotate(16 607 169)"/>
+            <ellipse cx="608" cy="181" rx="14" ry="9" opacity="0.36" transform="rotate(5 608 181)"/>
+            <ellipse cx="592" cy="183" rx="16" ry="11" opacity="0.36" transform="rotate(-3 592 183)"/>
+            <ellipse cx="154" cy="197" rx="7" ry="5" opacity="0.51" transform="rotate(-15 154 197)"/>
+            <ellipse cx="131" cy="181" rx="13" ry="7" opacity="0.51" transform="rotate(-13 131 181)"/>
+            <ellipse cx="141" cy="186" rx="15" ry="10" opacity="0.51" transform="rotate(-20 141 186)"/>
+            <ellipse cx="465" cy="169" rx="9" ry="6" opacity="0.54" transform="rotate(-5 465 169)"/>
+            <ellipse cx="484" cy="192" rx="7" ry="5" opacity="0.54" transform="rotate(3 484 192)"/>
+            <ellipse cx="445" cy="198" rx="11" ry="8" opacity="0.54" transform="rotate(28 445 198)"/>
+            <ellipse cx="440" cy="203" rx="12" ry="6" opacity="0.54" transform="rotate(-4 440 203)"/>
+            <ellipse cx="555" cy="427" rx="9" ry="6" opacity="0.48" transform="rotate(14 555 427)"/>
+            <ellipse cx="515" cy="426" rx="9" ry="4" opacity="0.48" transform="rotate(-0 515 426)"/>
+            <ellipse cx="487" cy="422" rx="8" ry="5" opacity="0.48" transform="rotate(11 487 422)"/>
+            <ellipse cx="552" cy="420" rx="14" ry="9" opacity="0.48" transform="rotate(-4 552 420)"/>
+            <ellipse cx="331" cy="301" rx="8" ry="6" opacity="0.48" transform="rotate(13 331 301)"/>
+            <ellipse cx="341" cy="300" rx="14" ry="9" opacity="0.48" transform="rotate(22 341 300)"/>
+            <ellipse cx="401" cy="71" rx="9" ry="5" opacity="0.38" transform="rotate(-8 401 71)"/>
+            <ellipse cx="414" cy="66" rx="14" ry="8" opacity="0.38" transform="rotate(11 414 66)"/>
+            <ellipse cx="360" cy="60" rx="10" ry="5" opacity="0.38" transform="rotate(26 360 60)"/>
+            <ellipse cx="371" cy="69" rx="12" ry="8" opacity="0.38" transform="rotate(-20 371 69)"/>
+            <ellipse cx="328" cy="182" rx="10" ry="7" opacity="0.46" transform="rotate(28 328 182)"/>
+            <ellipse cx="334" cy="188" rx="11" ry="6" opacity="0.46" transform="rotate(-20 334 188)"/>
+            <ellipse cx="302" cy="188" rx="11" ry="8" opacity="0.46" transform="rotate(3 302 188)"/>
+            <ellipse cx="1019" cy="195" rx="10" ry="5" opacity="0.35" transform="rotate(8 1019 195)"/>
+            <ellipse cx="1023" cy="189" rx="16" ry="11" opacity="0.35" transform="rotate(2 1023 189)"/>
+            <ellipse cx="996" cy="203" rx="9" ry="4" opacity="0.35" transform="rotate(-7 996 203)"/>
+            <ellipse cx="747" cy="433" rx="12" ry="7" opacity="0.40" transform="rotate(2 747 433)"/>
+            <ellipse cx="738" cy="420" rx="15" ry="11" opacity="0.40" transform="rotate(1 738 420)"/>
+            <ellipse cx="724" cy="437" rx="9" ry="5" opacity="0.40" transform="rotate(12 724 437)"/>
+            <ellipse cx="438" cy="188" rx="7" ry="5" opacity="0.40" transform="rotate(17 438 188)"/>
+            <ellipse cx="456" cy="176" rx="9" ry="6" opacity="0.40" transform="rotate(-13 456 176)"/>
+            <ellipse cx="444" cy="192" rx="8" ry="4" opacity="0.40" transform="rotate(27 444 192)"/>
+            <ellipse cx="41" cy="43" rx="19" ry="13" opacity="0.50" transform="rotate(-22 41 43)"/>
+            <ellipse cx="-5" cy="30" rx="17" ry="10" opacity="0.50" transform="rotate(23 -5 30)"/>
+            <ellipse cx="2" cy="34" rx="18" ry="11" opacity="0.50" transform="rotate(8 2 34)"/>
+            <ellipse cx="85" cy="37" rx="19" ry="12" opacity="0.50" transform="rotate(-10 85 37)"/>
+            <ellipse cx="75" cy="34" rx="21" ry="11" opacity="0.50" transform="rotate(-24 75 34)"/>
+            <ellipse cx="67" cy="39" rx="17" ry="8" opacity="0.50" transform="rotate(2 67 39)"/>
+            <ellipse cx="127" cy="27" rx="18" ry="9" opacity="0.50" transform="rotate(-6 127 27)"/>
+            <ellipse cx="140" cy="28" rx="20" ry="10" opacity="0.50" transform="rotate(-1 140 28)"/>
+            <ellipse cx="161" cy="28" rx="15" ry="8" opacity="0.50" transform="rotate(-12 161 28)"/>
+            <ellipse cx="210" cy="27" rx="20" ry="13" opacity="0.50" transform="rotate(19 210 27)"/>
+            <ellipse cx="196" cy="33" rx="19" ry="11" opacity="0.50" transform="rotate(-25 196 33)"/>
+            <ellipse cx="199" cy="35" rx="13" ry="7" opacity="0.50" transform="rotate(25 199 35)"/>
+            <ellipse cx="271" cy="27" rx="18" ry="10" opacity="0.50" transform="rotate(4 271 27)"/>
+            <ellipse cx="278" cy="48" rx="20" ry="12" opacity="0.50" transform="rotate(3 278 48)"/>
+            <ellipse cx="258" cy="43" rx="20" ry="15" opacity="0.50" transform="rotate(-22 258 43)"/>
+            <ellipse cx="361" cy="31" rx="13" ry="8" opacity="0.50" transform="rotate(8 361 31)"/>
+            <ellipse cx="369" cy="41" rx="22" ry="15" opacity="0.50" transform="rotate(18 369 41)"/>
+            <ellipse cx="359" cy="39" rx="14" ry="8" opacity="0.50" transform="rotate(22 359 39)"/>
+            <ellipse cx="434" cy="34" rx="18" ry="11" opacity="0.50" transform="rotate(26 434 34)"/>
+            <ellipse cx="411" cy="35" rx="13" ry="6" opacity="0.50" transform="rotate(-1 411 35)"/>
+            <ellipse cx="443" cy="40" rx="14" ry="6" opacity="0.50" transform="rotate(12 443 40)"/>
+            <ellipse cx="461" cy="37" rx="18" ry="10" opacity="0.50" transform="rotate(-24 461 37)"/>
+            <ellipse cx="506" cy="26" rx="15" ry="7" opacity="0.50" transform="rotate(7 506 26)"/>
+            <ellipse cx="517" cy="29" rx="21" ry="16" opacity="0.50" transform="rotate(-21 517 29)"/>
+            <ellipse cx="568" cy="41" rx="13" ry="8" opacity="0.50" transform="rotate(18 568 41)"/>
+            <ellipse cx="558" cy="47" rx="15" ry="10" opacity="0.50" transform="rotate(-24 558 47)"/>
+            <ellipse cx="564" cy="35" rx="18" ry="8" opacity="0.50" transform="rotate(11 564 35)"/>
+            <ellipse cx="596" cy="41" rx="16" ry="11" opacity="0.50" transform="rotate(14 596 41)"/>
+            <ellipse cx="608" cy="43" rx="18" ry="11" opacity="0.50" transform="rotate(-4 608 43)"/>
+            <ellipse cx="642" cy="41" rx="17" ry="10" opacity="0.50" transform="rotate(27 642 41)"/>
+            <ellipse cx="719" cy="48" rx="18" ry="8" opacity="0.50" transform="rotate(4 719 48)"/>
+            <ellipse cx="708" cy="42" rx="17" ry="11" opacity="0.50" transform="rotate(23 708 42)"/>
+            <ellipse cx="733" cy="40" rx="21" ry="11" opacity="0.50" transform="rotate(-23 733 40)"/>
+            <ellipse cx="766" cy="34" rx="13" ry="8" opacity="0.50" transform="rotate(-16 766 34)"/>
+            <ellipse cx="760" cy="31" rx="19" ry="12" opacity="0.50" transform="rotate(-24 760 31)"/>
+            <ellipse cx="754" cy="19" rx="22" ry="10" opacity="0.50" transform="rotate(11 754 19)"/>
+            <ellipse cx="832" cy="41" rx="17" ry="8" opacity="0.50" transform="rotate(7 832 41)"/>
+            <ellipse cx="864" cy="44" rx="13" ry="8" opacity="0.50" transform="rotate(3 864 44)"/>
+            <ellipse cx="849" cy="35" rx="17" ry="10" opacity="0.50" transform="rotate(-19 849 35)"/>
+            <ellipse cx="921" cy="37" rx="20" ry="10" opacity="0.50" transform="rotate(14 921 37)"/>
+            <ellipse cx="935" cy="42" rx="20" ry="14" opacity="0.50" transform="rotate(-6 935 42)"/>
+            <ellipse cx="928" cy="33" rx="18" ry="13" opacity="0.50" transform="rotate(-20 928 33)"/>
+            <ellipse cx="1007" cy="37" rx="14" ry="7" opacity="0.50" transform="rotate(-0 1007 37)"/>
+            <ellipse cx="987" cy="39" rx="14" ry="7" opacity="0.50" transform="rotate(18 987 39)"/>
+            <ellipse cx="996" cy="25" rx="16" ry="12" opacity="0.50" transform="rotate(2 996 25)"/>
+            <ellipse cx="-4" cy="466" rx="16" ry="8" opacity="0.45" transform="rotate(9 -4 466)"/>
+            <ellipse cx="25" cy="464" rx="15" ry="11" opacity="0.45" transform="rotate(-24 25 464)"/>
+            <ellipse cx="2" cy="464" rx="22" ry="15" opacity="0.45" transform="rotate(27 2 464)"/>
+            <ellipse cx="44" cy="467" rx="16" ry="11" opacity="0.45" transform="rotate(2 44 467)"/>
+            <ellipse cx="39" cy="469" rx="21" ry="11" opacity="0.45" transform="rotate(-14 39 469)"/>
+            <ellipse cx="86" cy="466" rx="16" ry="10" opacity="0.45" transform="rotate(-12 86 466)"/>
+            <ellipse cx="126" cy="468" rx="16" ry="11" opacity="0.45" transform="rotate(15 126 468)"/>
+            <ellipse cx="178" cy="459" rx="15" ry="10" opacity="0.45" transform="rotate(11 178 459)"/>
+            <ellipse cx="125" cy="460" rx="21" ry="13" opacity="0.45" transform="rotate(25 125 460)"/>
+            <ellipse cx="223" cy="470" rx="13" ry="9" opacity="0.45" transform="rotate(-2 223 470)"/>
+            <ellipse cx="203" cy="472" rx="17" ry="9" opacity="0.45" transform="rotate(-0 203 472)"/>
+            <ellipse cx="207" cy="465" rx="14" ry="9" opacity="0.45" transform="rotate(9 207 465)"/>
+            <ellipse cx="256" cy="460" rx="16" ry="12" opacity="0.45" transform="rotate(15 256 460)"/>
+            <ellipse cx="257" cy="466" rx="20" ry="11" opacity="0.45" transform="rotate(-12 257 466)"/>
+            <ellipse cx="259" cy="466" rx="13" ry="8" opacity="0.45" transform="rotate(23 259 466)"/>
+            <ellipse cx="365" cy="459" rx="19" ry="11" opacity="0.45" transform="rotate(-24 365 459)"/>
+            <ellipse cx="360" cy="458" rx="18" ry="11" opacity="0.45" transform="rotate(27 360 458)"/>
+            <ellipse cx="342" cy="475" rx="19" ry="13" opacity="0.45" transform="rotate(23 342 475)"/>
+            <ellipse cx="451" cy="469" rx="12" ry="7" opacity="0.45" transform="rotate(-8 451 469)"/>
+            <ellipse cx="432" cy="452" rx="18" ry="11" opacity="0.45" transform="rotate(9 432 452)"/>
+            <ellipse cx="437" cy="467" rx="17" ry="8" opacity="0.45" transform="rotate(-11 437 467)"/>
+            <ellipse cx="488" cy="470" rx="14" ry="8" opacity="0.45" transform="rotate(9 488 470)"/>
+            <ellipse cx="499" cy="461" rx="20" ry="13" opacity="0.45" transform="rotate(-22 499 461)"/>
+            <ellipse cx="501" cy="480" rx="13" ry="9" opacity="0.45" transform="rotate(5 501 480)"/>
+            <ellipse cx="571" cy="455" rx="20" ry="10" opacity="0.45" transform="rotate(12 571 455)"/>
+            <ellipse cx="581" cy="460" rx="22" ry="10" opacity="0.45" transform="rotate(-2 581 460)"/>
+            <ellipse cx="575" cy="465" rx="15" ry="8" opacity="0.45" transform="rotate(-7 575 465)"/>
+            <ellipse cx="611" cy="469" rx="15" ry="9" opacity="0.45" transform="rotate(24 611 469)"/>
+            <ellipse cx="622" cy="470" rx="21" ry="14" opacity="0.45" transform="rotate(16 622 470)"/>
+            <ellipse cx="675" cy="456" rx="15" ry="7" opacity="0.45" transform="rotate(13 675 456)"/>
+            <ellipse cx="690" cy="460" rx="21" ry="15" opacity="0.45" transform="rotate(4 690 460)"/>
+            <ellipse cx="686" cy="461" rx="14" ry="7" opacity="0.45" transform="rotate(13 686 461)"/>
+            <ellipse cx="678" cy="466" rx="19" ry="14" opacity="0.45" transform="rotate(-21 678 466)"/>
+            <ellipse cx="796" cy="473" rx="14" ry="9" opacity="0.45" transform="rotate(0 796 473)"/>
+            <ellipse cx="758" cy="457" rx="16" ry="10" opacity="0.45" transform="rotate(24 758 457)"/>
+            <ellipse cx="781" cy="459" rx="19" ry="10" opacity="0.45" transform="rotate(24 781 459)"/>
+            <ellipse cx="863" cy="466" rx="20" ry="14" opacity="0.45" transform="rotate(2 863 466)"/>
+            <ellipse cx="815" cy="465" rx="20" ry="11" opacity="0.45" transform="rotate(8 815 465)"/>
+            <ellipse cx="840" cy="469" rx="13" ry="6" opacity="0.45" transform="rotate(-5 840 469)"/>
+            <ellipse cx="931" cy="475" rx="19" ry="11" opacity="0.45" transform="rotate(-18 931 475)"/>
+            <ellipse cx="878" cy="473" rx="20" ry="13" opacity="0.45" transform="rotate(-6 878 473)"/>
+            <ellipse cx="921" cy="459" rx="15" ry="11" opacity="0.45" transform="rotate(10 921 459)"/>
+            <ellipse cx="986" cy="467" rx="17" ry="11" opacity="0.45" transform="rotate(-3 986 467)"/>
+            <ellipse cx="970" cy="465" rx="18" ry="10" opacity="0.45" transform="rotate(-8 970 465)"/>
+            <ellipse cx="986" cy="475" rx="20" ry="12" opacity="0.45" transform="rotate(6 986 475)"/>
+            <ellipse cx="702" cy="300" rx="34" ry="26" opacity="0.85"/><ellipse cx="707" cy="300" rx="8.5" ry="5.3" opacity="0.77"/><ellipse cx="709" cy="302" rx="8.3" ry="5.1" opacity="0.77"/><ellipse cx="708" cy="305" rx="8.0" ry="5.0" opacity="0.77"/><ellipse cx="705" cy="309" rx="7.8" ry="4.8" opacity="0.77"/><ellipse cx="699" cy="310" rx="7.5" ry="4.7" opacity="0.77"/><ellipse cx="692" cy="310" rx="7.3" ry="4.5" opacity="0.77"/><ellipse cx="685" cy="306" rx="7.1" ry="4.4" opacity="0.77"/><ellipse cx="681" cy="301" rx="6.8" ry="4.2" opacity="0.77"/><ellipse cx="680" cy="293" rx="6.6" ry="4.1" opacity="0.77"/><ellipse cx="685" cy="286" rx="6.3" ry="3.9" opacity="0.77"/><ellipse cx="694" cy="280" rx="6.1" ry="3.8" opacity="0.77"/><ellipse cx="707" cy="278" rx="5.9" ry="3.6" opacity="0.77"/><ellipse cx="720" cy="280" rx="5.6" ry="3.5" opacity="0.77"/><ellipse cx="732" cy="287" rx="5.4" ry="3.3" opacity="0.77"/><ellipse cx="739" cy="298" rx="5.1" ry="3.2" opacity="0.77"/><ellipse cx="739" cy="310" rx="4.9" ry="3.0" opacity="0.77"/><ellipse cx="731" cy="322" rx="4.7" ry="2.9" opacity="0.77"/><ellipse cx="716" cy="331" rx="4.4" ry="2.7" opacity="0.77"/><ellipse cx="697" cy="334" rx="4.2" ry="2.6" opacity="0.77"/><ellipse cx="676" cy="331" rx="3.9" ry="2.4" opacity="0.77"/><ellipse cx="659" cy="320" rx="3.7" ry="2.3" opacity="0.77"/><ellipse cx="649" cy="305" rx="3.5" ry="2.1" opacity="0.77"/><circle cx="702" cy="300" r="4.5" fill="#000" opacity="0"/><ellipse cx="238" cy="196" rx="24" ry="19" opacity="0.70"/><ellipse cx="242" cy="196" rx="6.1" ry="3.8" opacity="0.63"/><ellipse cx="243" cy="198" rx="5.9" ry="3.7" opacity="0.63"/><ellipse cx="242" cy="200" rx="5.8" ry="3.6" opacity="0.63"/><ellipse cx="240" cy="202" rx="5.6" ry="3.5" opacity="0.63"/><ellipse cx="236" cy="203" rx="5.4" ry="3.4" opacity="0.63"/><ellipse cx="231" cy="203" rx="5.3" ry="3.3" opacity="0.63"/><ellipse cx="226" cy="201" rx="5.1" ry="3.2" opacity="0.63"/><ellipse cx="223" cy="196" rx="4.9" ry="3.0" opacity="0.63"/><ellipse cx="222" cy="191" rx="4.7" ry="2.9" opacity="0.63"/><ellipse cx="226" cy="186" rx="4.6" ry="2.8" opacity="0.63"/><ellipse cx="232" cy="182" rx="4.4" ry="2.7" opacity="0.63"/><ellipse cx="241" cy="180" rx="4.2" ry="2.6" opacity="0.63"/><ellipse cx="251" cy="182" rx="4.0" ry="2.5" opacity="0.63"/><ellipse cx="260" cy="187" rx="3.9" ry="2.4" opacity="0.63"/><ellipse cx="265" cy="194" rx="3.7" ry="2.3" opacity="0.63"/><ellipse cx="265" cy="203" rx="3.5" ry="2.2" opacity="0.63"/><ellipse cx="259" cy="212" rx="3.4" ry="2.1" opacity="0.63"/><ellipse cx="248" cy="218" rx="3.2" ry="2.0" opacity="0.63"/><ellipse cx="234" cy="221" rx="3.0" ry="1.9" opacity="0.63"/><ellipse cx="219" cy="218" rx="2.8" ry="1.8" opacity="0.63"/><ellipse cx="207" cy="211" rx="2.7" ry="1.7" opacity="0.63"/><ellipse cx="200" cy="200" rx="2.5" ry="1.5" opacity="0.63"/><circle cx="238" cy="196" r="3.2" fill="#000" opacity="0"/>
+          </g>
+        </g>
+            </defs>
+
+      <!-- ═══ outer glow ═══ -->
+      <circle cx="600" cy="500" r="470" fill="url(#halo)"/>
+
+      <!-- ═══ orbit rings ═══ -->
+      <g fill="none" stroke="#7fb4ff" opacity=".16">
+        <ellipse cx="600" cy="500" rx="452" ry="150" stroke-width="1.3" transform="rotate(-19 600 500)"/>
+        <ellipse cx="600" cy="500" rx="408" ry="298" stroke-width="1"  transform="rotate(24 600 500)" opacity=".7"/>
+        <ellipse cx="600" cy="500" rx="498" ry="118" stroke-width="1.1" transform="rotate(8 600 500)" opacity=".55"/>
+      </g>
+
+      <!-- ═══ planet ═══ -->
+      <g clip-path="url(#sph)">
+        <circle cx="600" cy="500" r="340" fill="url(#oc)"/>
+        <!-- procedural ocean depth variation -->
+        <circle cx="600" cy="500" r="340" filter="url(#oceanNoise)" opacity=".85"/>
+
+        <!-- rotating surface -->
+        <g transform="translate(260,160) scale(1.36)">
+          <g id="ocean-spin" filter="url(#terrain)">
+            <use href="#landmap" x="0"/><use href="#landmap" x="1000"/>
+          </g>
+        </g>
+
+        <!-- sun glint on ocean -->
+        <ellipse cx="742" cy="366" rx="118" ry="86" fill="url(#glint)" transform="rotate(-24 742 366)"/>
+
+        <!-- rotating clouds -->
+        <g transform="translate(260,160) scale(1.36)" opacity=".66">
+          <g id="cloud-spin" filter="url(#cloudTex)">
+            <use href="#cloudmap" x="0"/><use href="#cloudmap" x="1000"/>
+          </g>
+        </g>
+
+        <!-- night side -->
+        <circle cx="600" cy="500" r="340" fill="url(#nite)"/>
+
+        <!-- city lights (night side only) -->
+        <g mask="url(#nmask)" opacity="1.15">
+          <g transform="translate(260,160) scale(1.36)" filter="url(#glowSm)">
+            <g id="ocean-spin2" style="animation:spin 210s linear infinite">
+              <use href="#citymap" x="0"/><use href="#citymap" x="1000"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- inner atmospheric scatter on the limb -->
+        <circle cx="600" cy="500" r="340" fill="none" stroke="#9ccdff" stroke-width="2.4" opacity=".14" filter="url(#soft)"/>
+      </g>
+
+      <!-- sunlit limb scatter (soft, inside sphere) -->
+      <g clip-path="url(#sph)">
+        <ellipse cx="600" cy="500" rx="340" ry="340" fill="url(#limb)"/>
+      </g>
+
+      <!-- ═══ atmosphere ═══ -->
+      <circle cx="600" cy="500" r="352" fill="url(#atm)"/>
+      <circle cx="600" cy="500" r="341" fill="none" stroke="#bfe0ff" stroke-width="1.2" opacity=".18"/>
+      <!-- crescent day-limb bloom -->
+
+    </svg>
+
+    <!-- ═══ satellites ═══ -->
+    <div class="orb o1">
+      <div class="sat" style="transform:translate(37vmin,0)">
+        <div class="cnt">
+          <svg width="52" height="34" viewBox="0 0 52 34">
+            <g stroke="#9fc6f5" stroke-width="1.1" fill="none">
+              <rect x="21" y="12" width="10" height="10" rx="1.6" fill="#cfe0f2"/>
+              <path d="M31 17h6M15 17h6"/>
+              <rect x="37" y="10" width="13" height="14" rx="1" fill="#3f7fd4" opacity=".9"/>
+              <rect x="2"  y="10" width="13" height="14" rx="1" fill="#3f7fd4" opacity=".9"/>
+              <path d="M37 14h13M37 20h13M2 14h13M2 20h13" stroke="#1d4f96" stroke-width=".8"/>
+              <path d="M26 12V6M23 6h6" stroke="#9fc6f5"/>
+              <circle cx="26" cy="4" r="1.8" fill="#ffd79a" stroke="none"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="orb o2">
+      <div class="sat" style="transform:translate(46vmin,0)">
+        <div class="cnt">
+          <svg width="46" height="30" viewBox="0 0 46 30">
+            <g stroke="#a8d4f0" stroke-width="1" fill="none">
+              <rect x="18" y="10" width="10" height="10" rx="1.4" fill="#dbe9f5"/>
+              <path d="M28 15h5M13 15h5"/>
+              <rect x="33" y="8"  width="11" height="14" rx="1" fill="#2f6fb8" opacity=".85"/>
+              <rect x="2"  y="8"  width="11" height="14" rx="1" fill="#2f6fb8" opacity=".85"/>
+              <path d="M33 12h11M33 18h11M2 12h11M2 18h11" stroke="#164a8a" stroke-width=".7"/>
+              <ellipse cx="23" cy="24" rx="4.5" ry="2.4" fill="#cfe0f2" stroke="none" opacity=".9"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="orb o3">
+      <div class="sat" style="transform:translate(53vmin,0)">
+        <div class="cnt">
+          <svg width="40" height="26" viewBox="0 0 40 26">
+            <g stroke="#8fc0ea" stroke-width=".95" fill="none">
+              <rect x="15" y="9" width="9" height="9" rx="1.3" fill="#c6dcf0"/>
+              <path d="M24 13h4M11 13h4"/>
+              <rect x="28" y="7" width="10" height="12" rx="1" fill="#3573bd" opacity=".85"/>
+              <rect x="2"  y="7" width="10" height="12" rx="1" fill="#3573bd" opacity=".85"/>
+              <circle cx="19.5" cy="4" r="1.5" fill="#7ef3c4" stroke="none"/>
+              <path d="M19.5 9V6"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ ONBOARDING ═══════════════ -->
+<div id="ob">
+
+  <!-- ---------- LEFT RAIL ---------- -->
+  <aside class="rail">
+    <div class="brand">
+      <div class="bmark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round">
+          <circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+          <ellipse cx="12" cy="12" rx="10" ry="4.6" transform="rotate(-32 12 12)"/>
+        </svg>
+      </div>
+      <div><div class="bt">VaanEye</div><div class="bs">வான்கண்</div></div>
+    </div>
+
+    <div class="rl-cap">Setup · அமைப்பு</div>
+    <nav class="vstep" id="vstep"></nav>
+
+    <div class="rl-foot">
+      <div class="trust">
+        <b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.8-8 10-4.6-1.2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        Safe &amp; Free · பாதுகாப்பானது</b>
+        Your number is never sold. Powered by free ISRO, NASA &amp; ESA open satellite data.
+      </div>
+    </div>
+  </aside>
+
+  <!-- ---------- RIGHT STAGE ---------- -->
+  <div class="stage">
+    <div class="stg-top">
+      <div class="mini-steps">
+        <span class="mnum" id="mnum">1/6</span>
+        <span class="pbar"><i id="mbar" style="width:16%"></i></span>
+      </div>
+      <button class="pillbtn" id="langBtn" onclick="cycleLang()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20 15 15 0 010-20"/></svg>
+        <span id="langTxt">EN · த</span>
+      </button>
+      <button class="pillbtn" onclick="theme()" id="thBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+        <span>Dark</span>
+      </button>
+    </div>
+
+    <div class="stg-body" id="stgBody">
+
+      <!-- ═════ STEP 1 · LOGIN ═════ -->
+      <section class="pane on" id="p1">
+        <div class="phead">
+          <span class="pkicker"><i></i> Step 1 of 6 · படி 1 / 6</span>
+          <div class="pta">உள்நுழைவு</div>
+          <h1 class="pen">Sign in to <span class="gtx">VaanEye</span></h1>
+          <p class="psub">Enter your mobile number. Alerts also reach you by <b>SMS and voice call</b> — even on a basic 2G phone.</p>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+            <span class="tt"><span class="a">உங்கள் விவரம்</span><span class="b">Your details</span></span>
+          </div>
+          <div class="fgrid">
+            <div class="f">
+              <label for="f_name">Full name <span class="lta">பெயர்</span> <span class="rq">*</span></label>
+              <div class="ctl">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0115 0"/></svg>
+                <input id="f_name" placeholder="e.g. Ravi Selvam" oninput="v1()">
+              </div>
+            </div>
+            <div class="f">
+              <label for="f_phone">Mobile number <span class="lta">கைபேசி எண்</span> <span class="rq">*</span></label>
+              <div class="ctl">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 4h4l2 5-2.5 1.5a12 12 0 005.5 5.5L15 13.5l5 2v4a1.5 1.5 0 01-1.7 1.5C10.5 20 4 13.5 3 5.7A1.5 1.5 0 014.5 4z"/></svg>
+                <input id="f_phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10 digit number" oninput="this.value=this.value.replace(/\D/g,'');v1()">
+              </div>
+              <span class="hint" id="h_phone">🇮🇳 +91 · Never shared with anyone.</span>
+            </div>
+            <div class="f">
+              <label for="f_lang">Language <span class="lta">மொழி</span></label>
+              <div class="ctl">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5a14 14 0 010 19 14 14 0 010-19"/></svg>
+                <select id="f_lang"><option>தமிழ் · Tamil</option><option selected>English</option><option>हिन्दी · Hindi</option><option>മലയാളം · Malayalam</option><option>తెలుగు · Telugu</option><option>ಕನ್ನಡ · Kannada</option></select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <span class="hint">SMS &amp; voice alerts use this language.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="10.5" width="17" height="10.5" rx="2.5"/><path d="M7.5 10.5V7a4.5 4.5 0 019 0v3.5"/></svg></span>
+            <span class="tt"><span class="a">ஒரு முறை கடவுச்சொல்</span><span class="b">One-time password</span></span>
+            <span class="rt" id="otpTo">—</span>
+          </div>
+          <div class="otpr" id="otpRow">
+            <input maxlength="1" inputmode="numeric" value="1"><input maxlength="1" inputmode="numeric" value="2">
+            <input maxlength="1" inputmode="numeric" value="3"><input maxlength="1" inputmode="numeric" value="4">
+          </div>
+          <p class="hint" style="margin-top:12px">Demo OTP <b style="color:var(--ok)">1234</b> already filled. <button onclick="toast('📩','OTP resent by SMS · மீண்டும் அனுப்பப்பட்டது')" style="color:var(--a1);font-weight:650">Resend code</button></p>
+        </div>
+      </section>
+
+      <!-- ═════ STEP 2 · ENTER LOCATION (2 OPTIONS) ═════ -->
+      <section class="pane" id="p2">
+        <div class="phead">
+          <span class="pkicker"><i></i> Step 2 of 6 · படி 2 / 6</span>
+          <div class="pta">இடத்தை உள்ளிடவும்</div>
+          <h1 class="pen">Enter your <span class="gtx">location</span></h1>
+          <p class="psub">Choose <b>any one</b> of the two ways below. In the next screen we will only <b>check</b> it on the map — you do not enter anything twice.</p>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+            <span class="tt"><span class="a">உள்ளிடும் முறையைத் தேர்வு செய்க</span><span class="b">Pick how you want to enter it</span></span>
+          </div>
+
+          <div class="segwrap">
+            <div class="seg" role="tablist">
+              <button class="sgb" role="tab" aria-selected="true" onclick="segTo('A')">
+                <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1.4"/><rect x="3" y="10" width="18" height="4" rx="1.4"/><rect x="3" y="16" width="18" height="4" rx="1.4"/></svg></span>
+                <span class="stt"><span class="a">படிப்படியாக</span><span class="b">Option A · Step by step</span></span>
+              </button>
+              <button class="sgb" role="tab" aria-selected="false" onclick="segTo('B')">
+                <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M7 12h.01M11 12h.01M15 12h.01M19 12h.01"/></svg></span>
+                <span class="stt"><span class="a">அஞ்சல் குறியீடு</span><span class="b">Option B · PIN code</span></span>
+              </button>
+            </div>
+
+            <!-- A -->
+            <div class="sgpane on" id="sgA">
+              <div class="fgrid">
+                <div class="f"><label for="g_country">Country <span class="lta">நாடு</span> <span class="rq">*</span></label>
+                  <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5a14 14 0 010 19 14 14 0 010-19"/></svg>
+                  <select id="g_country" onchange="casc('state')"></select>
+                  <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+
+                <div class="f"><label for="g_state">State <span class="lta">மாநிலம்</span> <span class="rq">*</span></label>
+                  <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l6-2.5 6 2.5 6-2.5v15L15 21l-6-2.5L3 21z"/><path d="M9 3.5v15M15 6v15"/></svg>
+                  <select id="g_state" disabled onchange="casc('dist')"></select>
+                  <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+
+                <div class="f"><label for="g_dist">District <span class="lta">மாவட்டம்</span> <span class="rq">*</span></label>
+                  <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg>
+                  <select id="g_dist" disabled onchange="casc('taluk')"></select>
+                  <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+
+                <div class="f"><label for="g_taluk">Taluk <span class="lta">வட்டம்</span> <span class="rq">*</span></label>
+                  <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3z"/><path d="M9 3v15M15 6v15"/></svg>
+                  <select id="g_taluk" disabled onchange="casc('vill')"></select>
+                  <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div>
+                  <span class="hint">Don't know your taluk? Use <b>Option B · PIN code</b> above.</span></div>
+
+                <div class="f"><label for="g_vill">Village / Town <span class="lta">கிராமம்</span> <span class="rq">*</span></label>
+                  <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V11l5-4 5 4v10M13 21V13l4-3 4 3v8M3 21h18"/></svg>
+                  <select id="g_vill" disabled onchange="v2()"></select>
+                  <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div>
+                  <span class="hint">Not listed? Pick the nearest — you can nudge the pin later.</span></div>
+              </div>
+            </div>
+
+            <!-- B -->
+            <div class="sgpane" id="sgB">
+              <div class="fgrid">
+                <div class="f" style="max-width:340px">
+                  <label for="g_pin">6-digit PIN code <span class="lta">அஞ்சல் குறியீடு</span></label>
+                  <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 9.5h19"/></svg>
+                  <input id="g_pin" inputmode="numeric" maxlength="6" placeholder="628001" oninput="this.value=this.value.replace(/\D/g,'');pinLook()"></div>
+                  <span class="hint" id="pinMsg">Try <b>628001</b>, <b>641001</b>, <b>600001</b>, <b>627501</b> or <b>611001</b>.</span>
+                </div>
+              </div>
+              <div id="pinCard" style="display:none;margin-top:18px">
+                <div class="verd g">
+                  <span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                  <span><span class="vta">தானாக நிரப்பப்பட்டது</span><b>Address filled automatically</b><p id="pinAddr"></p></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="or">or use GPS · அல்லது ஜிபிஎஸ்</div>
+            <button class="btn gho blk" onclick="gpsGuess()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8.5"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3"/></svg>
+              Detect automatically with GPS · ஜிபிஎஸ் மூலம் கண்டறி
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═════ STEP 3 · CHECK ON MAP ═════ -->
+      <section class="pane" id="p3">
+        <div class="phead">
+          <span class="pkicker"><i></i> Step 3 of 6 · படி 3 / 6</span>
+          <div class="pta">வரைபடத்தில் சரிபார்ப்பு</div>
+          <h1 class="pen">Check it on the <span class="gtx">map</span></h1>
+          <p class="psub">We are <b>only checking</b> what you already entered — nothing to type again. The satellite also tells us what kind of land your pin sits on.</p>
+        </div>
+
+        <div class="verd g" id="landVerd">
+          <span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></span>
+          <span><span class="vta">செயற்கைக்கோள் பார்வை</span><b id="lvTitle">Satellite view</b><p id="lvBody">Reading terrain…</p></span>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3z"/><path d="M9 3v15M15 6v15"/></svg></span>
+            <span class="tt"><span class="a">உங்கள் பகுதி</span><span class="b">Your area</span></span>
+            <span class="rt">ISRO Bhuvan · Sentinel-2</span>
+          </div>
+          <div class="mapbox" id="map3"></div>
+          <div class="rev" id="rev3" style="margin-top:18px"></div>
+        </div>
+
+        <div class="pick">
+          <button class="pk" id="yes3" onclick="ans3(1)">
+            <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="pta">ஆம், சரியானது</span><b>Yes, this is correct</b>
+            <small>The map and the address both match my place.</small>
+          </button>
+          <button class="pk" onclick="ans3(0)">
+            <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 3.5l4 4L8 20H4v-4z"/></svg></span>
+            <span class="pta">இல்லை, மாற்ற வேண்டும்</span><b>No, let me change it</b>
+            <small>Take me back to the previous screen.</small>
+          </button>
+        </div>
+      </section>
+
+      <!-- ═════ STEP 4 · ROLE + WORK ═════ -->
+      <section class="pane" id="p4">
+        <div class="phead">
+          <span class="pkicker"><i></i> Step 4 of 6 · படி 4 / 6</span>
+          <div class="pta">நீங்கள் யார்?</div>
+          <h1 class="pen">What do you want to <span class="gtx">protect?</span></h1>
+          <p class="psub">Pick <b>one or more</b>. Many people farm in one season and fish in another — tick both if that's you.</p>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0115 0"/></svg></span>
+            <span class="tt"><span class="a">பயனர் வகை · ஒன்று அல்லது பல</span><span class="b">I am a… (multi-select)</span></span>
+          </div>
+          <div class="pick">
+            <button class="pk" data-role="public" onclick="roleTog('public')">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V11l5-4 5 4v10M13 21V13l4-3 4 3v8M3 21h18"/></svg></span>
+              <span class="pta">பொது மக்கள்</span><b>Public</b>
+              <small>Heat, air, rain, flood &amp; night-safety alerts for where you live.</small>
+            </button>
+            <button class="pk" data-role="farmer" onclick="roleTog('farmer')">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20c4-7 8-9 18-11"/><path d="M8 20c0-5 3-8 8-9"/><path d="M3 20h18"/></svg></span>
+              <span class="pta">விவசாயி</span><b>Farmer</b>
+              <small>Crop health (NDVI), soil moisture &amp; pest warnings for your land.</small>
+            </button>
+            <button class="pk" data-role="fisherman" onclick="roleTog('fisherman')">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 17c3 3 7 3 10 0s7-3 10 0"/><path d="M2 12c3 3 7 3 10 0s7-3 10 0"/><path d="M17 6.5a3 3 0 11-6 0 3 3 0 016 0z"/></svg></span>
+              <span class="pta">மீனவர்</span><b>Fisherman</b>
+              <small>Fish zones (PFZ), wave height &amp; international border alarms.</small>
+            </button>
+          </div>
+          <div class="f" style="margin-top:18px;max-width:380px">
+            <label for="f_occ">Your work <span class="lta">தொழில்</span> <span style="color:var(--mute2);font-weight:500">(optional)</span></label>
+            <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M8.5 7V5a2 2 0 012-2h3a2 2 0 012 2v2"/></svg>
+            <select id="f_occ"><option value="">Select your work</option></select>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M8.5 7V5a2 2 0 012-2h3a2 2 0 012 2v2"/></svg></span>
+            <span class="tt"><span class="a">நீங்கள் எங்கே வேலை செய்கிறீர்கள்?</span><span class="b">Where do you work?</span></span>
+          </div>
+          <p class="psub" style="margin:-6px 0 16px;font-size:13px">If you work away from home, we watch <b>both</b> places — your workplace and your family's village.</p>
+          <div class="pick">
+            <button class="pk" data-work="inside" onclick="workTog('inside')">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 20z"/><path d="M9.5 21.5V13h5v8.5"/></svg></span>
+              <span class="pta">எனது பகுதிக்குள்</span><b>Inside my area</b>
+              <small>I live and work in the same region.</small>
+            </button>
+            <button class="pk" data-work="outside" onclick="workTog('outside')">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="7.5" width="19" height="13" rx="2.5"/><path d="M8.5 7.5V5.5a2 2 0 012-2h3a2 2 0 012 2v2M2.5 13h19"/></svg></span>
+              <span class="pta">வெளியூரில்</span><b>Outside my area</b>
+              <small>I work in another city, state or country. My family is at home.</small>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═════ STEP 5 · MARK YOUR PLACE ═════ -->
+      <section class="pane" id="p5">
+        <div class="phead">
+          <span class="pkicker"><i></i> Step 5 of 6 · படி 5 / 6</span>
+          <div class="pta" id="ta5">உங்கள் இடத்தைக் குறிக்கவும்</div>
+          <h1 class="pen" id="en5">Mark your <span class="gtx">place</span></h1>
+          <p class="psub" id="sb5"></p>
+        </div>
+
+        <!-- FARMER -->
+        <div id="mFarmer" style="display:none;flex-direction:column;gap:20px">
+          <div class="gp">
+            <div class="gp-h">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20c4-7 8-9 18-11"/><path d="M8 20c0-5 3-8 8-9"/></svg></span>
+              <span class="tt"><span class="a">நிலத்தைக் குறிக்கும் முறை</span><span class="b">How do you want to mark your land?</span></span>
+              <span class="rt">once only · ஒரு முறை மட்டும்</span>
+            </div>
+            <div class="pick">
+              <button class="pk" data-lm="walk" onclick="lmSet('walk')">
+                <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13" cy="4" r="2"/><path d="M11 21l1.5-6-3-2.5V8l4-1.5 3 3.5 3 1"/><path d="M9 21l1.5-4.5"/></svg></span>
+                <span class="pta">நடந்து குறிக்க</span><b>Walk around it</b>
+                <small>Carry the phone and walk the full boundary once. GPS draws the shape.</small></button>
+              <button class="pk" data-lm="ride" onclick="lmSet('ride')">
+                <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.2"/><circle cx="18.5" cy="17.5" r="3.2"/><path d="M5.5 17.5l4-8h5l4 8M9 9.5h6"/></svg></span>
+                <span class="pta">வாகனத்தில் சுற்றி</span><b>Ride around it</b>
+                <small>Bike, tractor or car along the edge. Best for large fields.</small></button>
+              <button class="pk" data-lm="draw" onclick="lmSet('draw')">
+                <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 3.5l4 4L8 20H4v-4z"/></svg></span>
+                <span class="pta">வரைபடத்தில் வரைக</span><b>Draw on the map</b>
+                <small>No walking needed. Tap the corners of your field on satellite view.</small></button>
+              <button class="pk" data-lm="survey" onclick="lmSet('survey')">
+                <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2.5H6.5A2 2 0 004.5 4.5v15a2 2 0 002 2h11a2 2 0 002-2V8z"/><path d="M14 2.5V8h5.5M8.5 13h7M8.5 17h4"/></svg></span>
+                <span class="pta">சர்வே எண் மூலம்</span><b>Use survey number</b>
+                <small>Enter your patta / survey number — we fetch the official boundary.</small></button>
+            </div>
+            <button class="btn gho blk" style="margin-top:14px" onclick="skipLand()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4l10 8-10 8zM19 4v16"/></svg>
+              Skip for now — use my village · இப்போது தவிர்க்கவும்
+            </button>
+          </div>
+
+          <div class="gp" id="landPanel" style="display:none">
+            <div class="gp-h">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8.5"/></svg></span>
+              <span class="tt"><span class="a">நேரடி ஜிபிஎஸ் பதிவு</span><span class="b">Live GPS capture</span></span>
+            </div>
+            <div class="mapbox" id="mapLand"></div>
+            <div class="fgrid" style="margin-top:18px">
+              <div class="f"><label>Land size found <span class="lta">பரப்பளவு</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 9h17M9 3.5v17"/></svg>
+                <input id="f_acre" value="Not measured yet" readonly></div></div>
+              <div class="f"><label for="f_crop">What do you grow? <span class="lta">பயிர்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V9M12 9c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6zM12 13c0-3.5-2.5-6-6-6 0 3.5 2.5 6 6 6z"/></svg>
+                <select id="f_crop"><option>Paddy · நெல்</option><option>Sugarcane · கரும்பு</option><option>Cotton · பருத்தி</option><option>Banana · வாழை</option><option>Coconut · தென்னை</option><option>Maize · மக்காச்சோளம்</option><option>Groundnut · நிலக்கடலை</option><option>Vegetables · காய்கறி</option><option>Other</option></select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+              <div class="f" id="fSurvey" style="display:none"><label for="f_survey">Survey / Patta number <span class="lta">சர்வே எண்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2.5H6.5A2 2 0 004.5 4.5v15a2 2 0 002 2h11a2 2 0 002-2V8z"/><path d="M14 2.5V8h5.5"/></svg>
+                <input id="f_survey" placeholder="e.g. 142/3B"></div></div>
+            </div>
+            <div style="display:flex;gap:11px;margin-top:16px;flex-wrap:wrap">
+              <button class="btn gr" id="lmBtn" onclick="lmRun()">Start</button>
+              <button class="btn gho" onclick="lmReset()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 12a8.5 8.5 0 1 1 2.5 6"/><path d="M3 13.5V19h5.5"/></svg>Start again</button>
+              <button class="btn gho" onclick="toast('⏸️','Progress saved — you can finish the walk later')">Pause &amp; resume later</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FISHERMAN -->
+        <div id="mFisher" style="display:none;flex-direction:column;gap:20px">
+          <div class="gp">
+            <div class="gp-h">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 17c3 3 7 3 10 0s7-3 10 0"/><path d="M2 12c3 3 7 3 10 0s7-3 10 0"/></svg></span>
+              <span class="tt"><span class="a">கடல் மண்டலம்</span><span class="b">Choose your sea zone</span></span>
+              <span class="rt">split by distance from shore</span>
+            </div>
+            <div class="mapbox" id="mapSea"></div>
+            <div class="pick" style="margin-top:18px">
+              <button class="pk zn" style="--zc:#2ee6a8" data-sea="near" onclick="seaSet('near')">
+                <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <span class="pta">கரையோரம்</span><b>Zone 1 · Near shore</b>
+                <small>0 – 12 nautical miles. Small boats, single-day trips.</small></button>
+              <button class="pk zn" style="--zc:#ffc53d" data-sea="mid" onclick="seaSet('mid')">
+                <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <span class="pta">நடுக்கடல்</span><b>Zone 2 · Middle sea</b>
+                <small>12 – 50 nm. Mechanised boats, one to two days.</small></button>
+              <button class="pk zn" style="--zc:#ff9040" data-sea="deep" onclick="seaSet('deep')">
+                <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <span class="pta">ஆழ்கடல்</span><b>Zone 3 · Deep sea</b>
+                <small>50 – 200 nm (EEZ). Multi-day trawlers.</small></button>
+              <button class="pk zn" style="--zc:#ff6b81" data-sea="border" onclick="seaSet('border')">
+                <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <span class="pta">எல்லை அருகில்</span><b>Zone 4 · Near IMBL</b>
+                <small>Close to the international line. Extra-loud border alarm.</small></button>
+            </div>
+          </div>
+          <div class="gp">
+            <div class="fgrid">
+              <div class="f"><label for="f_harb">Harbour / landing point <span class="lta">துறைமுகம்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5V21M6 12h12M3 14a9 9 0 0018 0"/></svg>
+                <select id="f_harb"><option>Thoothukudi Fishing Harbour</option><option>Rameswaram</option><option>Nagapattinam</option><option>Chennai · Kasimedu</option><option>Colachel</option><option>Cuddalore</option><option>Pamban</option></select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+              <div class="f"><label for="f_boat">Boat registration number <span class="lta">படகு எண்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l2-6h14l2 6M5 11V6h6l3 5M12 6V3"/><path d="M2 20c2.5 1.5 5 1.5 7.5 0s5-1.5 7.5 0"/></svg>
+                <input id="f_boat" placeholder="IND-TN-10-MM-1234"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PUBLIC -->
+        <div id="mPublic" style="display:none;flex-direction:column;gap:20px">
+          <div class="gp">
+            <div class="gp-h">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+              <span class="tt"><span class="a">சரியான இடம்</span><span class="b">Confirm your exact spot</span></span>
+              <span class="rt">street level</span>
+            </div>
+            <div class="mapbox" id="mapPub"></div>
+            <div style="display:flex;gap:11px;margin-top:16px;flex-wrap:wrap">
+              <button class="btn gr" onclick="pubGps()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8.5"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3"/></svg>Use my GPS</button>
+              <button class="btn gho" onclick="toast('✏️','Drag the white pin on the map to your street')">Move pin by hand</button>
+            </div>
+            <div class="fgrid" style="margin-top:18px">
+              <div class="f"><label for="f_addr">Street / area name <span class="lta">தெரு</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21L8 3M16 3l4 18M10 7h4M9.5 13h5"/></svg>
+                <input id="f_addr" placeholder="e.g. Bryant Nagar, 3rd Street"></div></div>
+              <div class="f"><label for="f_htype">What are you protecting? <span class="lta">எதைப் பாதுகாக்க?</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.8-8 10-4.6-1.2-8-5-8-10V6z"/></svg>
+                <select id="f_htype"><option>My home &amp; family</option><option>Home + small shop</option><option>Apartment / flat</option><option>School / college</option><option>Office / workplace</option></select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═════ STEP 6 · HOMETOWN + FINISH ═════ -->
+      <section class="pane" id="p6">
+        <div class="phead">
+          <span class="pkicker"><i></i> Step 6 of 6 · படி 6 / 6</span>
+          <div class="pta">சொந்த ஊர் & இறுதி சரிபார்ப்பு</div>
+          <h1 class="pen">Hometown &amp; <span class="gtx">final check</span></h1>
+          <p class="psub" id="sb6">Add the places you care about, then read your summary once. Nothing is saved until you press Finish.</p>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 20z"/></svg></span>
+            <span class="tt"><span class="a">நீங்கள் கண்காணிக்கும் இடங்கள்</span><span class="b">Places you are watching</span></span>
+            <span class="rt" id="wCount">—</span>
+          </div>
+          <div class="wl" id="wl"></div>
+
+          <div style="border-top:1px solid var(--stroke);margin-top:20px;padding-top:20px">
+            <div class="gp-h" style="margin-bottom:16px">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+              <span class="tt"><span class="a">மற்றொரு இடத்தைச் சேர்க்க</span><span class="b">Add another place</span></span>
+            </div>
+            <div class="fgrid">
+              <div class="f"><label for="a_why">Why this place? <span class="lta">காரணம்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M9.5 9.5a2.5 2.5 0 115 .8c-.6 1-2.5 1.4-2.5 2.7M12 17h.01"/></svg>
+                <select id="a_why">
+                  <option data-i="🏡">Hometown — my family lives here · சொந்த ஊர்</option>
+                  <option data-i="🌾">My farm land · எனது நிலம்</option>
+                  <option data-i="🏢">Work place · பணியிடம்</option>
+                  <option data-i="👵">Parents' house · பெற்றோர் வீடு</option>
+                  <option data-i="🏫">Children's school · பள்ளி</option>
+                  <option data-i="📍">Other place I care about</option>
+                </select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+              <div class="f"><label for="a_state">State <span class="lta">மாநிலம்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l6-2.5 6 2.5 6-2.5v15L15 21l-6-2.5L3 21z"/></svg>
+                <select id="a_state" onchange="casc('a_dist')"></select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+              <div class="f"><label for="a_dist">District <span class="lta">மாவட்டம்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13"/></svg>
+                <select id="a_dist" disabled onchange="casc('a_taluk')"></select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+              <div class="f"><label for="a_taluk">Taluk <span class="lta">வட்டம்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3z"/></svg>
+                <select id="a_taluk" disabled onchange="casc('a_vill')"></select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+              <div class="f"><label for="a_vill">Village / area <span class="lta">கிராமம்</span></label>
+                <div class="ctl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V11l5-4 5 4v10M13 21V13l4-3 4 3v8"/></svg>
+                <select id="a_vill" disabled></select>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M6 9l6 6 6-6"/></svg></div></div>
+            </div>
+            <button class="btn gr sm" style="margin-top:16px" onclick="addWatch()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add this place</button>
+          </div>
+        </div>
+
+        <div class="verd g" id="finalVerd">
+          <span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+          <span><span class="vta">அனைத்தும் சரி</span><b>Everything checks out</b><p>Your typed address and the satellite terrain agree. No mistakes found.</p></span>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2.5H6.5A2 2 0 004.5 4.5v15a2 2 0 002 2h11a2 2 0 002-2V8z"/><path d="M14 2.5V8h5.5M8.5 13h7M8.5 17h4"/></svg></span>
+            <span class="tt"><span class="a">உங்கள் சுருக்கம்</span><span class="b">Your summary</span></span>
+          </div>
+          <div class="rev" id="revAll"></div>
+        </div>
+
+        <div class="gp">
+          <div class="gp-h">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span>
+            <span class="tt"><span class="a">எச்சரிக்கை முறை</span><span class="b">How should we alert you?</span></span>
+          </div>
+          <div class="pick">
+            <button class="pk" aria-pressed="true" onclick="tog(this)">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+              <span class="pta">குறுஞ்செய்தி</span><b>SMS text</b><small>Works on every phone, even 2G.</small></button>
+            <button class="pk" aria-pressed="true" onclick="tog(this)">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 4h4l2 5-2.5 1.5a12 12 0 005.5 5.5L15 13.5l5 2v4a1.5 1.5 0 01-1.7 1.5C10.5 20 4 13.5 3 5.7A1.5 1.5 0 014.5 4z"/></svg></span>
+              <span class="pta">குரல் அழைப்பு</span><b>Voice call</b><small>Spoken alert in your language.</small></button>
+            <button class="pk" aria-pressed="true" onclick="tog(this)">
+              <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></span>
+              <span class="pta">செயலி அறிவிப்பு</span><b>App notification</b><small>Instant push on this phone.</small></button>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /stg-body -->
+
+    <div class="dock">
+      <button class="btn gho" id="btnBack" onclick="nav(-1)" style="visibility:hidden">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+      <div class="pmeta">
+        <span id="dockLbl">Step 1 of 6 · படி 1 / 6</span>
+        <span class="pbar"><i id="dockBar" style="width:16%"></i></span>
+      </div>
+      <button class="btn pri" id="btnNext" onclick="nav(1)" style="margin-left:auto">
+        <span id="nextTxt">Continue</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DASHBOARD ═══════════════ -->
+<div id="dash">
+  <aside class="sb">
+    <div class="brand">
+      <div class="bmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><ellipse cx="12" cy="12" rx="10" ry="4.6" transform="rotate(-32 12 12)"/></svg></div>
+      <div><div class="bt">VaanEye</div><div class="bs">வான்கண்</div></div>
+    </div>
+    <div class="ncap">Main · முதன்மை</div>
+    <button class="nv" aria-current="page"><svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 20z"/></svg>Home</button>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3z"/><path d="M9 3v15M15 6v15"/></svg>Live Map</button>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>My Alerts<span class="bg">3</span></button>
+    <div class="ncap">Watch · கண்காணிப்பு</div>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><path d="M3 20c4-7 8-9 18-11M8 20c0-5 3-8 8-9M3 20h18"/></svg>Farm &amp; Crop</button>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><path d="M2 17c3 3 7 3 10 0s7-3 10 0M2 12c3 3 7 3 10 0s7-3 10 0"/></svg>Sea &amp; Fishing</button>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><path d="M12 22c4 0 7-3 7-7 0-5-7-13-7-13S5 10 5 15c0 4 3 7 7 7z"/></svg>Fire &amp; Flood</button>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><path d="M14 14.8V4a2 2 0 10-4 0v10.8a4.5 4.5 0 104 0z"/></svg>Heat &amp; Air</button>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><path d="M3 21V11l5-4 5 4v10M13 21V13l4-3 4 3v8M3 21h18"/></svg>Land &amp; City</button>
+    <div class="ncap">You · நீங்கள்</div>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><path d="M14 2.5H6.5A2 2 0 004.5 4.5v15a2 2 0 002 2h11a2 2 0 002-2V8z"/><path d="M14 2.5V8h5.5"/></svg>Reports</button>
+    <button class="nv"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-2.7 1.1v.3a2 2 0 11-4 0v-.2a1.6 1.6 0 00-2.8-1.1l-.1.1a2 2 0 11-2.8-2.8l.1-.1A1.6 1.6 0 003.6 15H3a2 2 0 110-4h.2a1.6 1.6 0 001.1-2.8l-.1-.1a2 2 0 112.8-2.8l.1.1A1.6 1.6 0 009 4.6V4a2 2 0 114 0v.2a1.6 1.6 0 002.7 1.1l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 001.1 2.7h.3a2 2 0 110 4h-.2"/></svg>Settings</button>
+    <div style="margin-top:auto;padding-top:20px">
+      <div class="trust"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 4h4l2 5-2.5 1.5a12 12 0 005.5 5.5L15 13.5l5 2v4a1.5 1.5 0 01-1.7 1.5C10.5 20 4 13.5 3 5.7A1.5 1.5 0 014.5 4z"/></svg>Need help? · உதவி</b>Toll free <b style="display:inline">1800-VAAN-EYE</b> — Tamil &amp; English.</div>
+    </div>
+  </aside>
+
+  <div class="dmain">
+    <div class="dtop">
+      <label class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input type="search" placeholder="Search a place, alert or feature…" aria-label="Search"></label>
+      <button class="pillbtn act" id="dLoc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg><span>—</span></button>
+      <button class="pillbtn" onclick="theme()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+      <div class="av" id="dAv">RS</div>
+    </div>
+
+    <div class="dbody">
+      <div><h1 class="dh1" id="dHi">Good morning 👋</h1><p class="dsub" id="dSub">—</p></div>
+
+      <div class="alertbar">
+        <span class="ai">🔥</span>
+        <span><span class="ata">காட்டுத் தீ எச்சரிக்கை</span><b>Forest fire detected — 12 km from Kalakad</b>
+        <p>Thermal sensor hotspot at 8.53°N, 77.51°E. Smoke may drift toward your village.</p></span>
+        <button class="btn pri sm" style="margin-left:auto" onclick="toast('🚨','Alert dispatched to 412 people by SMS + voice call')">See what to do</button>
+      </div>
+
+      <div class="kpis">
+        <button class="kpi" onclick="toast('🌾','Your 2.40 acre field is healthy — no action needed')">
+          <span class="kt"><span class="kic" style="background:rgba(46,230,168,.14)">🌾</span>
+          <span class="kl"><span class="a">பயிர் நலன்</span>Crop health</span></span>
+          <div class="kv">Good</div><div class="kd" style="color:var(--ok)">▲ Better than last week</div>
+          <svg class="spark" viewBox="0 0 88 36"><path d="M0 28 L15 24 L30 27 L45 18 L60 20 L74 12 L88 8" fill="none" stroke="#2ee6a8" stroke-width="2"/></svg>
+        </button>
+        <button class="kpi" onclick="toast('🌡️','Heatwave — stay indoors between 12pm and 3pm')">
+          <span class="kt"><span class="kic" style="background:rgba(255,197,61,.14)">🌡️</span>
+          <span class="kl"><span class="a">வெயில் நிலை</span>Heat today</span></span>
+          <div class="kv">41°C</div><div class="kd" style="color:var(--warn)">⚠ Heatwave warning</div>
+          <svg class="spark" viewBox="0 0 88 36"><path d="M0 26 L15 22 L30 24 L45 16 L60 14 L74 10 L88 6" fill="none" stroke="#ffc53d" stroke-width="2"/></svg>
+        </button>
+        <button class="kpi" onclick="toast('🐟','Best fishing zone 18 km south-east — sea is calm')">
+          <span class="kt"><span class="kic" style="background:rgba(31,213,232,.14)">🐟</span>
+          <span class="kl"><span class="a">மீன்பிடி மண்டலம்</span>Fishing zone</span></span>
+          <div class="kv">18 km</div><div class="kd" style="color:var(--a3)">South-east · sea calm</div>
+          <svg class="spark" viewBox="0 0 88 36"><path d="M0 18 L15 22 L30 16 L45 20 L60 14 L74 18 L88 12" fill="none" stroke="#1fd5e8" stroke-width="2"/></svg>
+        </button>
+        <button class="kpi" onclick="toast('💨','Air quality moderate — fine for outdoor work')">
+          <span class="kt"><span class="kic" style="background:rgba(91,140,255,.14)">💨</span>
+          <span class="kl"><span class="a">காற்றின் தரம்</span>Air quality</span></span>
+          <div class="kv">62 <span style="font-size:14px;color:var(--mute)">AQI</span></div><div class="kd" style="color:var(--a1)">Moderate · OK outside</div>
+          <svg class="spark" viewBox="0 0 88 36"><path d="M0 14 L15 18 L30 12 L45 20 L60 16 L74 22 L88 18" fill="none" stroke="#5b8cff" stroke-width="2"/></svg>
+        </button>
+      </div>
+
+      <div class="g2">
+        <section class="card">
+          <div class="chd"><span><span class="a">நேரடி வரைபடம்</span><span class="b">Live map of your area</span></span>
+            <span class="live"><i></i>Live</span></div>
+          <div class="mapbox" style="border:none;border-radius:0" id="dMap"></div>
+          <div class="lays">
+            <button class="ly" aria-pressed="true" onclick="tog2(this)"><i style="background:#2ee6a8"></i>Crops</button>
+            <button class="ly" aria-pressed="true" onclick="tog2(this)"><i style="background:#5b8cff"></i>Flood</button>
+            <button class="ly" aria-pressed="true" onclick="tog2(this)"><i style="background:#ff6b81"></i>Fire</button>
+            <button class="ly" aria-pressed="true" onclick="tog2(this)"><i style="background:#1fd5e8"></i>Fishing</button>
+            <button class="ly" aria-pressed="false" onclick="tog2(this)"><i style="background:#ffc53d"></i>Heat</button>
+            <button class="ly" aria-pressed="false" onclick="tog2(this)"><i style="background:#a06bff"></i>Air</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="chd"><span><span class="a">சமீபத்திய எச்சரிக்கைகள்</span><span class="b">Recent alerts</span></span>
+            <span style="margin-left:auto;font-size:11px;color:var(--mute2);font-weight:650">Last 24 h</span></div>
+          <div class="feed">
+            <button class="fi"><span class="fic" style="background:rgba(255,107,129,.14)">🔥</span>
+              <span><span class="ft"><b>Forest fire</b><span class="lvl" style="background:rgba(255,107,129,.18);color:#ff6b81">Urgent</span></span>
+              <span class="fta">காட்டுத் தீ</span><p>Hotspot near Kalakad. 412 people alerted.</p><span class="tm">12 minutes ago</span></span></button>
+            <button class="fi"><span class="fic" style="background:rgba(255,197,61,.14)">🌡️</span>
+              <span><span class="ft"><b>Heatwave today</b><span class="lvl" style="background:rgba(255,197,61,.18);color:#ffc53d">Warning</span></span>
+              <span class="fta">வெயில் எச்சரிக்கை</span><p>41°C expected. Avoid going out 12–3 pm.</p><span class="tm">1 hour ago</span></span></button>
+            <button class="fi"><span class="fic" style="background:rgba(31,213,232,.14)">🐟</span>
+              <span><span class="ft"><b>Good fishing zone</b><span class="lvl" style="background:rgba(31,213,232,.18);color:#1fd5e8">Info</span></span>
+              <span class="fta">மீன் கிடைக்கும் இடம்</span><p>18 km south-east. Waves under 1 m.</p><span class="tm">4 hours ago</span></span></button>
+            <button class="fi"><span class="fic" style="background:rgba(91,140,255,.14)">🌊</span>
+              <span><span class="ft"><b>Water level rising</b><span class="lvl" style="background:rgba(91,140,255,.18);color:#5b8cff">Watch</span></span>
+              <span class="fta">நீர்மட்டம் உயர்வு</span><p>Tamirabarani up 40 cm after last night's rain.</p><span class="tm">7 hours ago</span></span></button>
+            <button class="fi"><span class="fic" style="background:rgba(46,230,168,.14)">🌾</span>
+              <span><span class="ft"><b>Your crop is healthy</b><span class="lvl" style="background:rgba(46,230,168,.18);color:#2ee6a8">Good</span></span>
+              <span class="fta">பயிர் நன்றாக உள்ளது</span><p>Leaf greenness improved 6% this week.</p><span class="tm">Yesterday</span></span></button>
+            <button class="fi"><span class="fic" style="background:rgba(160,107,255,.14)">🏗️</span>
+              <span><span class="ft"><b>New building spotted</b><span class="lvl" style="background:rgba(160,107,255,.18);color:#a06bff">Notice</span></span>
+              <span class="fta">ஆக்கிரமிப்பு</span><p>Possible encroachment near Korampallam lake.</p><span class="tm">Yesterday</span></span></button>
+          </div>
+        </section>
+      </div>
+
+      <section>
+        <div class="sechead"><span class="a">நாங்கள் கண்காணிப்பவை</span><span class="b">What we watch for you</span>
+          <span class="r">6 pillars · 151 features</span></div>
+        <div class="pills">
+          <button class="plr" onclick="toast('🌾','Opening Farm &amp; Crop')"><span class="pi" style="background:rgba(46,230,168,.14)">🌾</span>
+            <span class="pa">வேளாண்மை</span><b>Farm &amp; Crop</b><p>Leaf health, soil water and pest warning for your land.</p>
+            <span class="pbar"><i style="width:86%;background:linear-gradient(90deg,#12b981,#2ee6a8)"></i></span>
+            <span class="pf"><span>Health score</span><span>86 / 100</span></span></button>
+          <button class="plr" onclick="toast('🌊','Opening Sea &amp; Fishing')"><span class="pi" style="background:rgba(31,213,232,.14)">🌊</span>
+            <span class="pa">கடல் & மீன்பிடி</span><b>Sea &amp; Fishing</b><p>Best catch zones, wave height and sea border warning.</p>
+            <span class="pbar"><i style="width:72%;background:linear-gradient(90deg,#0e9bb0,#1fd5e8)"></i></span>
+            <span class="pf"><span>Sea safety</span><span>Safe to go</span></span></button>
+          <button class="plr" onclick="toast('🔥','Opening Fire &amp; Flood')"><span class="pi" style="background:rgba(255,107,129,.14)">🔥</span>
+            <span class="pa">தீ & வெள்ளம்</span><b>Fire &amp; Flood</b><p>Live fire hotspots and flood spread from SAR radar.</p>
+            <span class="pbar"><i style="width:38%;background:linear-gradient(90deg,#c93b4f,#ff6b81)"></i></span>
+            <span class="pf"><span>Risk level</span><span style="color:#ff6b81">1 active fire</span></span></button>
+          <button class="plr" onclick="toast('🌡️','Opening Heat &amp; Air')"><span class="pi" style="background:rgba(255,197,61,.14)">🌡️</span>
+            <span class="pa">வெப்பம் & காற்று</span><b>Heat &amp; Air</b><p>Heatwave alerts, rain forecast and air pollution level.</p>
+            <span class="pbar"><i style="width:64%;background:linear-gradient(90deg,#d99a1a,#ffc53d)"></i></span>
+            <span class="pf"><span>Comfort</span><span>Hot today</span></span></button>
+          <button class="plr" onclick="toast('🏙️','Opening Land &amp; City')"><span class="pi" style="background:rgba(160,107,255,.14)">🏙️</span>
+            <span class="pa">நிலம் & நகரம்</span><b>Land &amp; City</b><p>New construction, lake encroachment and urban growth.</p>
+            <span class="pbar"><i style="width:22%;background:linear-gradient(90deg,#7a4cd0,#a06bff)"></i></span>
+            <span class="pf"><span>Changes found</span><span>2 this week</span></span></button>
+          <button class="plr" onclick="toast('🛡️','Opening Safety &amp; Civic')"><span class="pi" style="background:rgba(91,140,255,.14)">🛡️</span>
+            <span class="pa">பாதுகாப்பு</span><b>Safety &amp; Civic</b><p>Night-safe routes, shelters and evacuation help.</p>
+            <span class="pbar"><i style="width:91%;background:linear-gradient(90deg,#3b6fd6,#5b8cff)"></i></span>
+            <span class="pf"><span>Area status</span><span>All clear</span></span></button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="chd"><span><span class="a">கடந்த 7 நாட்கள்</span><span class="b">Last 7 days</span></span>
+          <span style="margin-left:auto;display:flex;gap:15px;font-size:11.5px;color:var(--mute);font-weight:650">
+            <span style="display:flex;align-items:center;gap:6px"><i style="width:9px;height:9px;border-radius:3px;background:#2ee6a8;display:block"></i>Crop health</span>
+            <span style="display:flex;align-items:center;gap:6px"><i style="width:9px;height:9px;border-radius:3px;background:#ffc53d;display:block"></i>Temperature</span></span></div>
+        <div style="padding:20px">
+          <svg viewBox="0 0 640 190" style="width:100%;height:190px">
+            <defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2ee6a8" stop-opacity=".28"/><stop offset="100%" stop-color="#2ee6a8" stop-opacity="0"/></linearGradient></defs>
+            <g stroke="rgba(255,255,255,.07)" stroke-width="1"><path d="M42 22h584M42 62h584M42 102h584M42 142h584"/></g>
+            <g fill="#63708c" font-size="10.5" font-family="Inter,sans-serif" font-weight="600"><text x="10" y="26">100</text><text x="17" y="66">75</text><text x="17" y="106">50</text><text x="17" y="146">25</text></g>
+            <path d="M82 54 L172 47 L262 59 L352 43 L442 38 L532 32 L614 27 L614 160 L82 160 Z" fill="url(#gf)"/>
+            <polyline points="82,54 172,47 262,59 352,43 442,38 532,32 614,27" fill="none" stroke="#2ee6a8" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="82,98 172,89 262,79 352,85 442,70 532,62 614,55" fill="none" stroke="#ffc53d" stroke-width="2.8" stroke-dasharray="7 6" stroke-linecap="round"/>
+            <g fill="#2ee6a8"><circle cx="82" cy="54" r="3.6"/><circle cx="172" cy="47" r="3.6"/><circle cx="262" cy="59" r="3.6"/><circle cx="352" cy="43" r="3.6"/><circle cx="442" cy="38" r="3.6"/><circle cx="532" cy="32" r="3.6"/><circle cx="614" cy="27" r="5"/></g>
+            <g fill="#63708c" font-size="11" font-weight="600" text-anchor="middle" font-family="Inter,sans-serif">
+              <text x="82" y="178">Thu</text><text x="172" y="178">Fri</text><text x="262" y="178">Sat</text><text x="352" y="178">Sun</text><text x="442" y="178">Mon</text><text x="532" y="178">Tue</text><text x="614" y="178">Today</text></g>
+          </svg>
+        </div>
+      </section>
+
+      <section>
+        <div class="sechead"><span class="a">விரைவு செயல்கள்</span><span class="b">Quick actions</span></div>
+        <div class="acts">
+          <button class="ac" onclick="toast('✏️','Draw your land on the map to start tracking')"><span class="e">✏️</span><b>Add my land</b><span class="aa">நிலம் சேர்க்க</span></button>
+          <button class="ac" onclick="toast('📲','SMS + voice alerts turned ON')"><span class="e">📲</span><b>Get SMS alerts</b><span class="aa">குறுஞ்செய்தி</span></button>
+          <button class="ac" onclick="toast('🎙️','Listening… say “today weather” or “fish zone”')"><span class="e">🎙️</span><b>Ask by voice</b><span class="aa">குரலில் கேட்க</span></button>
+          <button class="ac" onclick="toast('📄','PDF report is being prepared…')"><span class="e">📄</span><b>Download report</b><span class="aa">அறிக்கை</span></button>
+          <button class="ac" onclick="toast('☎️','Connecting to the local disaster office…')"><span class="e">☎️</span><b>Call for help</b><span class="aa">உதவி அழைப்பு</span></button>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<nav class="mobnav">
+  <button class="mn" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11l9-7 9 7v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 20z"/></svg>Home</button>
+  <button class="mn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3z"/></svg>Map</button>
+  <button class="mn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>Alerts</button>
+  <button class="mn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 15a3.5 3.5 0 003.5-3.5v-6a3.5 3.5 0 00-7 0v6A3.5 3.5 0 0012 15z"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>Voice</button>
+  <button class="mn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>More</button>
+</nav>
+
+<div id="toast"><span class="ti" id="tIco">✓</span><span id="tTxt">—</span></div>
+<script>
+/* ═══════════ DATA ═══════════ */
+var GEO={India:{
+ "Tamil Nadu":{Thoothukudi:{Thoothukudi:["Bryant Nagar","Millerpuram","Muthiahpuram","Threspuram","Sipcot"],Tiruchendur:["Tiruchendur Town","Kayalpattinam","Alanthalai","Manapadu"],Kovilpatti:["Kovilpatti Town","Nalattinputhur","Kadalaiyur"],Srivaikuntam:["Srivaikuntam","Athur","Kurumbur"]},
+  Coimbatore:{"Coimbatore North":["Saibaba Colony","Ganapathy","Thudiyalur"],"Coimbatore South":["RS Puram","Ukkadam","Podanur"],Pollachi:["Pollachi Town","Kinathukadavu","Anaimalai"],Mettupalayam:["Mettupalayam","Karamadai","Sirumugai"]},
+  Chennai:{Egmore:["Egmore","Chetpet","Kilpauk"],Mylapore:["Mylapore","Adyar","Besant Nagar"],Ambattur:["Ambattur","Avadi","Padi"]},
+  Tirunelveli:{Tirunelveli:["Palayamkottai","Melapalayam","Town"],Ambasamudram:["Ambasamudram","Kallidaikurichi","Papanasam"],Nanguneri:["Nanguneri","Kalakad","Panagudi"]},
+  Madurai:{"Madurai North":["Anna Nagar","Thirunagar","KK Nagar"],Melur:["Melur","Kottampatti"],Usilampatti:["Usilampatti","Chellampatti"]},
+  Nagapattinam:{Nagapattinam:["Nagore","Velankanni","Akkaraipettai"],Vedaranyam:["Vedaranyam","Kodiyakarai"]},
+  Erode:{Erode:["Perundurai","Chithode"],Gobichettipalayam:["Gobi","Sathyamangalam"]}},
+ Kerala:{Ernakulam:{Kochi:["Fort Kochi","Vyttila","Kakkanad"],Aluva:["Aluva","Perumbavoor"]},Thiruvananthapuram:{Thiruvananthapuram:["Kazhakkoottam","Kovalam","Pettah"],Neyyattinkara:["Neyyattinkara","Poovar"]}},
+ Karnataka:{"Bengaluru Urban":{"Bengaluru South":["Jayanagar","BTM Layout","Electronic City"],"Bengaluru East":["Whitefield","Indiranagar","Marathahalli"]},Mysuru:{Mysuru:["Vijayanagar","Kuvempunagar"],Nanjangud:["Nanjangud","Tagadur"]}},
+ Maharashtra:{"Mumbai Suburban":{Andheri:["Andheri East","Andheri West","Jogeshwari"],Borivali:["Borivali","Kandivali","Dahisar"]},Pune:{Haveli:["Hinjewadi","Kharadi","Wagholi"],"Pune City":["Kothrud","Shivajinagar"]}},
+ "Andhra Pradesh":{Nellore:{Nellore:["Nellore Town","Kovur"],Sullurpeta:["Sullurpeta","Sriharikota"]}}},
+"United Arab Emirates":{Dubai:{Dubai:{Dubai:["Deira","Bur Dubai","Al Quoz","Jebel Ali"]}},"Abu Dhabi":{"Abu Dhabi":{"Abu Dhabi":["Musaffah","Khalifa City"]}}},
+Singapore:{Singapore:{Singapore:{Central:["Jurong","Tampines","Woodlands"]}}},
+Qatar:{Doha:{Doha:{Doha:["Al Sadd","Industrial Area","Al Wakrah"]}}},
+Malaysia:{Selangor:{Klang:{Klang:["Port Klang","Shah Alam"]}}}};
+
+var PIN={"628001":["India","Tamil Nadu","Thoothukudi","Thoothukudi","Bryant Nagar","urban"],
+"628216":["India","Tamil Nadu","Thoothukudi","Tiruchendur","Tiruchendur Town","coast"],
+"641001":["India","Tamil Nadu","Coimbatore","Coimbatore South","RS Puram","urban"],
+"642001":["India","Tamil Nadu","Coimbatore","Pollachi","Pollachi Town","farm"],
+"600001":["India","Tamil Nadu","Chennai","Egmore","Egmore","urban"],
+"627001":["India","Tamil Nadu","Tirunelveli","Tirunelveli","Palayamkottai","urban"],
+"627501":["India","Tamil Nadu","Tirunelveli","Nanguneri","Kalakad","farm"],
+"625001":["India","Tamil Nadu","Madurai","Madurai North","Anna Nagar","urban"],
+"611001":["India","Tamil Nadu","Nagapattinam","Nagapattinam","Nagore","coast"],
+"682001":["India","Kerala","Ernakulam","Kochi","Fort Kochi","coast"],
+"560001":["India","Karnataka","Bengaluru Urban","Bengaluru South","Jayanagar","urban"]};
+
+var TERRAIN={farm:["🌾","Farmland detected","Sentinel-2 sees mostly cropland around your pin. Good — this matches a farming area.","g"],
+ coast:["🌊","Coastal zone detected","Your pin is within 3 km of the shoreline. Sea and fishing layers will be switched on.","g"],
+ urban:["🏙️","Built-up area detected","Satellite sees buildings and roads. Heat-island and air-quality layers will be switched on.","g"]};
+
+var OCC={public:["Shop owner / business","Daily wage worker","Government employee","Private job","Driver","Teacher","Student","Healthcare worker","Construction worker","Retired","Homemaker","Other"],
+ farmer:["Own land farmer","Tenant / lease farmer","Farm labourer","Dairy + farming","Poultry + farming","Horticulture","Plantation worker","Agri machinery owner"],
+ fisherman:["Boat owner","Boat crew","Fish trader","Net maker","Harbour worker","Aquaculture"]};
+
+var LBL={1:["உள்நுழைவு","Login"],2:["இடம்","Location"],3:["சரிபார்ப்பு","Verify on map"],
+ 4:["பயனர் வகை","Who you are"],5:["இடம் குறித்தல்","Mark place"],6:["ஊர் & முடிப்பு","Home & finish"]};
+
+var D={step:1,roles:[],work:"",lm:"",land:0,acre:"",sea:"",gps:"",terr:"farm",ok3:0,watch:[]};
+var MAX=6;
+function $(i){return document.getElementById(i)}
+
+/* ═══════════ UI HELPERS ═══════════ */
+var tT;
+function toast(ic,msg){$('tIco').textContent=ic;$('tTxt').innerHTML=msg;
+  var t=$('toast');t.classList.add('on');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('on')},3000)}
+function theme(){var r=document.documentElement,l=r.getAttribute('data-theme')==='light';
+  r.setAttribute('data-theme',l?'dark':'light');
+  var b=$('thBtn');if(b)b.querySelector('span').textContent=l?'Dark':'Light'}
+var LANGS=['EN · த','தமிழ்','English'],li=0;
+function cycleLang(){li=(li+1)%LANGS.length;$('langTxt').textContent=LANGS[li];
+  toast('🌐','Interface language: '+LANGS[li])}
+function tog(b){var on=b.getAttribute('aria-pressed')==='true';b.setAttribute('aria-pressed',on?'false':'true')}
+function tog2(b){var on=b.getAttribute('aria-pressed')==='true';b.setAttribute('aria-pressed',on?'false':'true');
+  toast(on?'👁️':'✨',(on?'Hidden: ':'Showing: ')+b.textContent.trim()+' layer')}
+function opts(id,arr,ph){var s=$(id);s.innerHTML='<option value="">'+ph+'</option>';
+  arr.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o)});
+  s.disabled=!arr.length}
+
+/* ═══════════ STEP 1 ═══════════ */
+function v1(){
+  var p=$('f_phone').value,n=$('f_name').value.trim();
+  $('otpTo').textContent = p.length===10 ? 'sent to +91 '+p.slice(0,5)+' '+p.slice(5) : '—';
+  var h=$('h_phone');
+  if(p.length&&p.length<10){h.textContent='Enter all 10 digits.';h.className='hint bad-txt'}
+  else if(p.length===10){h.textContent='✓ Valid number';h.className='hint ok-txt'}
+  else{h.textContent='🇮🇳 +91 · Never shared with anyone.';h.className='hint'}
+  sync();return p.length===10&&n.length>1;
+}
+(function(){var r=$('otpRow');if(!r)return;
+ [].forEach.call(r.children,function(inp,i){
+  inp.classList.add('fl');
+  inp.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');
+    this.classList.toggle('fl',!!this.value);
+    if(this.value&&r.children[i+1])r.children[i+1].focus();sync()});
+  inp.addEventListener('keydown',function(e){if(e.key==='Backspace'&&!this.value&&r.children[i-1])r.children[i-1].focus()})})})();
+function otpVal(){return [].map.call($('otpRow').children,function(i){return i.value}).join('')}
+
+/* ═══════════ STEP 2 ═══════════ */
+function segTo(w){
+  document.querySelectorAll('#p2 .sgb').forEach(function(b,i){b.setAttribute('aria-selected',(i===0)===(w==='A')?'true':'false')});
+  $('sgA').classList.toggle('on',w==='A');$('sgB').classList.toggle('on',w==='B');
+}
+function casc(k){
+  var a=k.indexOf('a_')===0,p=a?'a_':'g_';
+  if(k==='state'){var c=$('g_country').value;opts('g_state',c?Object.keys(GEO[c]):[],'Select state');
+    opts('g_dist',[],'Select district');opts('g_taluk',[],'Select taluk');opts('g_vill',[],'Select village')}
+  if(k==='dist'||k==='a_dist'){var c2=a?'India':$('g_country').value,s=$(p+'state').value;
+    opts(p+'dist',s?Object.keys(GEO[c2][s]):[],'Select district');opts(p+'taluk',[],'Select taluk');opts(p+'vill',[],'Select village')}
+  if(k==='taluk'||k==='a_taluk'){var c3=a?'India':$('g_country').value,s3=$(p+'state').value,d3=$(p+'dist').value;
+    opts(p+'taluk',d3?Object.keys(GEO[c3][s3][d3]):[],'Select taluk');opts(p+'vill',[],'Select village')}
+  if(k==='vill'||k==='a_vill'){var c4=a?'India':$('g_country').value,s4=$(p+'state').value,d4=$(p+'dist').value,t4=$(p+'taluk').value;
+    opts(p+'vill',t4?GEO[c4][s4][d4][t4]:[],'Select village')}
+  if(!a)v2();
+}
+function v2(){sync();return $('g_vill').value!==''}
+function setAll(r){
+  $('g_country').value=r[0];casc('state');$('g_state').value=r[1];casc('dist');$('g_dist').value=r[2];
+  casc('taluk');$('g_taluk').value=r[3];casc('vill');$('g_vill').value=r[4];D.terr=r[5]||'farm';v2();
+}
+function pinLook(){
+  var v=$('g_pin').value,m=$('pinMsg');
+  if(v.length<6){m.innerHTML='Try <b>628001</b>, <b>641001</b>, <b>600001</b>, <b>627501</b> or <b>611001</b>.';m.className='hint';$('pinCard').style.display='none';return}
+  var r=PIN[v];
+  if(!r){m.textContent='PIN code not found — please use Option A.';m.className='hint bad-txt';$('pinCard').style.display='none';v2();return}
+  setAll(r);m.textContent='✓ Found and filled automatically';m.className='hint ok-txt';
+  $('pinCard').style.display='block';$('pinAddr').textContent=r[4]+', '+r[3]+', '+r[2]+', '+r[1]+' — '+v;
+  toast('📮','PIN '+v+' → '+r[4]+', '+r[2]);
+}
+function gpsGuess(){
+  setAll(PIN["628001"]);segTo('A');
+  toast('📡','GPS located you — 8.7642° N, 78.1348° E (±6 m)');
+}
+
+/* ═══════════ STEP 3 ═══════════ */
+function addr(){return [$('g_vill').value,$('g_taluk').value,$('g_dist').value,$('g_state').value,$('g_country').value].filter(Boolean)}
+function build3(){
+  var t=TERRAIN[D.terr]||TERRAIN.farm;
+  $('landVerd').className='verd '+t[3];
+  $('lvTitle').textContent=t[0]+'  '+t[1];$('lvBody').textContent=t[2];
+  var v=$('g_vill').value||'—';
+  $('map3').innerHTML='<svg viewBox="0 0 640 300">'+
+  '<defs><radialGradient id="pg"><stop offset="0%" stop-color="#5b8cff" stop-opacity=".5"/><stop offset="100%" stop-color="#5b8cff" stop-opacity="0"/></radialGradient></defs>'+
+  '<rect width="640" height="300" fill="#061020"/>'+
+  '<g stroke="rgba(255,255,255,.045)" stroke-width="1"><path d="M0 50h640M0 100h640M0 150h640M0 200h640M0 250h640M80 0v300M160 0v300M240 0v300M320 0v300M400 0v300M480 0v300M560 0v300"/></g>'+
+  '<path d="M0 0 L430 0 Q462 70 430 132 Q472 192 430 252 Q452 282 424 300 L0 300 Z" fill="#0f2a18"/>'+
+  '<path d="M0 0 L430 0 Q462 70 430 132 Q472 192 430 252 Q452 282 424 300 L0 300 Z" fill="none" stroke="rgba(46,230,168,.45)" stroke-width="2"/>'+
+  '<text x="540" y="156" fill="rgba(91,140,255,.65)" font-size="13" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif" letter-spacing="3">SEA</text>'+
+  '<path d="M130 92 L296 82 L318 206 L150 226 Z" fill="rgba(91,140,255,.1)" stroke="rgba(91,140,255,.55)" stroke-width="2" stroke-dasharray="7 5"/>'+
+  '<text x="224" y="74" fill="#8fb4f5" font-size="11" font-weight="650" text-anchor="middle" font-family="Inter,sans-serif">'+($('g_taluk').value||'taluk')+' boundary</text>'+
+  '<circle cx="224" cy="152" r="46" fill="url(#pg)"><animate attributeName="r" values="30;52;30" dur="2.6s" repeatCount="indefinite"/></circle>'+
+  '<circle cx="224" cy="152" r="8" fill="#fff"/><circle cx="224" cy="152" r="13" fill="none" stroke="#fff" stroke-width="2" opacity=".55"/>'+
+  '<text x="224" y="190" fill="#fff" font-size="13" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">'+v+'</text>'+
+  '</svg><div class="mapbar"><span>📍 '+addr().join(', ')+'</span><span class="gr"><i class="lv"></i>Bhuvan + Sentinel-2</span></div>';
+
+  var rows=[["நாடு","Country",$('g_country').value],["மாநிலம்","State",$('g_state').value],
+    ["மாவட்டம்","District",$('g_dist').value],["வட்டம்","Taluk",$('g_taluk').value],
+    ["கிராமம்","Village / area",$('g_vill').value],["அஞ்சல்","PIN code",$('g_pin').value]];
+  $('rev3').innerHTML=rows.map(function(r){
+    return '<div class="rw"><span class="k"><span class="a">'+r[0]+'</span>'+r[1]+'</span>'+
+    '<span class="v'+(r[2]?'':' em')+'">'+(r[2]||'not given')+'</span>'+
+    '<button class="fix" onclick="jump(2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 3.5l4 4L8 20H4v-4z"/></svg>Change</button></div>'}).join('');
+}
+function ans3(y){
+  if(y){D.ok3=1;$('yes3').setAttribute('aria-pressed','true');toast('✅','Location confirmed');sync()}
+  else{D.ok3=0;$('yes3').setAttribute('aria-pressed','false');nav(-1)}
+}
+
+/* ═══════════ STEP 4 ═══════════ */
+function roleTog(r){
+  var i=D.roles.indexOf(r);
+  if(i<0)D.roles.push(r);else D.roles.splice(i,1);
+  document.querySelectorAll('#p4 .pk[data-role]').forEach(function(b){
+    b.setAttribute('aria-pressed',D.roles.indexOf(b.dataset.role)>=0?'true':'false')});
+  var list=[];D.roles.forEach(function(x){list=list.concat(OCC[x])});
+  opts('f_occ',list,'Select your work');
+  if(D.roles.length)toast('👤',D.roles.map(function(x){return {public:'Public',farmer:'Farmer',fisherman:'Fisherman'}[x]}).join(' + ')+' selected');
+  sync();
+}
+function workTog(w){D.work=w;
+  document.querySelectorAll('#p4 .pk[data-work]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.work===w?'true':'false')});
+  toast(w==='outside'?'🧳':'🏠',w==='outside'?'We will also watch your hometown for your family':'One region to watch');sync()}
+
+/* ═══════════ STEP 5 · FARMER ═══════════ */
+var lmT;
+function lmSet(m){D.lm=m;
+  document.querySelectorAll('#mFarmer .pk[data-lm]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lm===m?'true':'false')});
+  $('landPanel').style.display='block';$('fSurvey').style.display=m==='survey'?'flex':'none';
+  $('lmBtn').textContent={walk:'Start walking',ride:'Start riding',draw:'Auto-draw demo',survey:'Fetch boundary'}[m];
+  lmReset();
+  toast({walk:'🚶',ride:'🛵',draw:'✏️',survey:'📑'}[m],
+    {walk:'Walk the full boundary and return to the start point',ride:'Ride slowly along the edge of your field',
+     draw:'Tap each corner of your field on the map',survey:'Enter your survey number, then press Fetch'}[m]);
+}
+function skipLand(){D.land=2;D.acre='Using village boundary';
+  toast('⏭️','Skipped — using your village area. You can add exact land later from the dashboard.');sync()}
+function lmReset(){clearInterval(lmT);D.land=0;$('f_acre').value='Not measured yet';drawLand(0);sync()}
+function lmRun(){clearInterval(lmT);var p=0,f=(D.lm==='draw'||D.lm==='survey');
+  lmT=setInterval(function(){p+=f?12:4;if(p>100)p=100;drawLand(p);
+    $('f_acre').value=(p/100*2.4).toFixed(2)+' acres · '+Math.round(p/100*9712)+' m²';
+    if(p>=100){clearInterval(lmT);D.land=1;D.acre='2.40 acres · 9,712 m²';
+      toast('✅','Land boundary closed and saved — 2.40 acres');sync()}},f?85:140)}
+function drawLand(p){
+  var pts=[[80,200],[230,182],[276,250],[212,296],[100,282]],n=pts.length,seg=p/100*n,d='',cur=null;
+  for(var i=0;i<n;i++){var a=pts[i],b=pts[(i+1)%n];
+    if(seg>=i+1)d+=(i===0?'M'+a[0]+' '+a[1]:'')+' L'+b[0]+' '+b[1];
+    else if(seg>i){var f=seg-i;d+=(i===0?'M'+a[0]+' '+a[1]:'')+' L'+(a[0]+(b[0]-a[0])*f)+' '+(a[1]+(b[1]-a[1])*f);
+      cur=[a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];break}}
+  var lbl=p===0?'Not started':p<100?({walk:'🚶 Walking… ',ride:'🛵 Riding… ',draw:'✏️ Drawing… ',survey:'📑 Fetching… '}[D.lm]||'')+p+'%':'✅ Boundary closed · saved';
+  $('mapLand').innerHTML='<svg viewBox="0 0 360 360">'+
+  '<rect width="360" height="360" fill="#08170a"/>'+
+  '<g stroke="rgba(255,255,255,.035)" stroke-width="1"><path d="M0 45h360M0 90h360M0 135h360M0 180h360M0 225h360M0 270h360M0 315h360M45 0v360M90 0v360M135 0v360M180 0v360M225 0v360M270 0v360M315 0v360"/></g>'+
+  '<path d="M0 332 Q90 320 180 332 T360 328" stroke="#2d5c8f" stroke-width="7" fill="none" opacity=".7"/>'+
+  '<text x="8" y="352" fill="#6d9ccb" font-size="10" font-family="Inter,sans-serif">canal</text>'+
+  (p>=100?'<path d="M80 200 L230 182 L276 250 L212 296 L100 282 Z" fill="rgba(46,230,168,.22)"/>':'')+
+  '<path d="'+d+'" fill="none" stroke="#2ee6a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>'+
+  (cur?'<circle cx="'+cur[0]+'" cy="'+cur[1]+'" r="17" fill="#2ee6a8" opacity=".22"/><circle cx="'+cur[0]+'" cy="'+cur[1]+'" r="6" fill="#fff"/>':'')+
+  (p>=100?'<text x="190" y="248" fill="#c9ffe6" font-size="13" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">2.40 acres</text>':'')+
+  '<circle cx="80" cy="200" r="5" fill="#ffc53d"/><text x="80" y="190" fill="#ffdf8a" font-size="9.5" text-anchor="middle" font-family="Inter,sans-serif">START</text>'+
+  '</svg><div class="mapbar"><span>'+lbl+'</span><span class="gr"><i class="lv"></i>GPS ±3 m</span></div>';
+}
+
+/* ═══════════ STEP 5 · SEA ═══════════ */
+function seaSet(z){D.sea=z;
+  document.querySelectorAll('#mFisher .pk[data-sea]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.sea===z?'true':'false')});
+  drawSea(z);toast({near:'🟢',mid:'🟡',deep:'🟠',border:'🔴'}[z],
+    {near:'Zone 1 near shore selected',mid:'Zone 2 middle sea selected',deep:'Zone 3 deep sea selected',border:'Zone 4 selected — loud border alarm ON'}[z]);sync()}
+function drawSea(z){
+  function c(k,col){return z===k?col:'#132a44'} function o(k){return z===k?'.5':'.16'}
+  var bx={near:135,mid:240,deep:392,border:552}[z];
+  $('mapSea').innerHTML='<svg viewBox="0 0 640 300"><rect width="640" height="300" fill="#040d1a"/>'+
+  '<rect x="0" y="0" width="95" height="300" fill="#0f2a18"/><path d="M95 0V300" stroke="rgba(46,230,168,.45)" stroke-width="2.5"/>'+
+  '<text x="47" y="156" fill="rgba(46,230,168,.7)" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif" letter-spacing="2">LAND</text>'+
+  '<rect x="95"  y="0" width="80"  height="300" fill="'+c('near','#2ee6a8')+'" opacity="'+o('near')+'"/>'+
+  '<rect x="175" y="0" width="130" height="300" fill="'+c('mid','#ffc53d')+'" opacity="'+o('mid')+'"/>'+
+  '<rect x="305" y="0" width="175" height="300" fill="'+c('deep','#ff9040')+'" opacity="'+o('deep')+'"/>'+
+  '<rect x="480" y="0" width="160" height="300" fill="'+c('border','#ff6b81')+'" opacity="'+o('border')+'"/>'+
+  '<g stroke="rgba(255,255,255,.13)" stroke-width="1" stroke-dasharray="4 5"><path d="M175 0v300M305 0v300M480 0v300"/></g>'+
+  '<g font-family="Inter,sans-serif" text-anchor="middle" font-weight="700">'+
+  '<text x="135" y="32" fill="#cfe6f8" font-size="11">ZONE 1</text><text x="135" y="48" fill="#8ba6c4" font-size="10">0–12 nm</text>'+
+  '<text x="240" y="32" fill="#cfe6f8" font-size="11">ZONE 2</text><text x="240" y="48" fill="#8ba6c4" font-size="10">12–50 nm</text>'+
+  '<text x="392" y="32" fill="#cfe6f8" font-size="11">ZONE 3</text><text x="392" y="48" fill="#8ba6c4" font-size="10">50–200 nm</text>'+
+  '<text x="552" y="32" fill="#cfe6f8" font-size="11">ZONE 4</text><text x="552" y="48" fill="#8ba6c4" font-size="10">near IMBL</text></g>'+
+  '<path d="M620 0V300" stroke="#ff6b81" stroke-width="3.5" stroke-dasharray="11 8"/>'+
+  '<text x="614" y="290" fill="#ffb3bf" font-size="10.5" font-weight="800" text-anchor="end" font-family="Inter,sans-serif">IMBL — DO NOT CROSS</text>'+
+  '<circle cx="96" cy="150" r="6" fill="#fff"/><text x="106" y="145" fill="#fff" font-size="10.5" font-weight="650" font-family="Inter,sans-serif">⚓ harbour</text>'+
+  (z?'<circle cx="'+bx+'" cy="188" r="24" fill="#fff" opacity=".12"><animate attributeName="r" values="18;30;18" dur="2.4s" repeatCount="indefinite"/></circle><text x="'+bx+'" y="197" font-size="24" text-anchor="middle">🚤</text>':'')+
+  '</svg><div class="mapbar"><span>'+(z?'Selected · '+{near:'Zone 1 · Near shore',mid:'Zone 2 · Middle sea',deep:'Zone 3 · Deep sea',border:'Zone 4 · Near IMBL'}[z]:'No zone selected yet')+'</span><span class="gr">tap a card below</span></div>';
+}
+
+/* ═══════════ STEP 5 · PUBLIC ═══════════ */
+function pubGps(){D.gps='8.7642° N, 78.1348° E';drawPub(1);toast('📡','GPS locked · accuracy ±4 m');sync()}
+function drawPub(l){
+  $('mapPub').innerHTML='<svg viewBox="0 0 640 300"><rect width="640" height="300" fill="#080f1c"/>'+
+  '<g stroke="#141f33" stroke-width="11"><path d="M0 98h640M0 212h640M158 0v300M424 0v300"/></g>'+
+  '<g stroke="#1a2740" stroke-width="4"><path d="M0 155h640M288 0v300M552 0v300"/></g>'+
+  '<g fill="#111c2e"><rect x="30" y="28" width="95" height="50" rx="4"/><rect x="190" y="24" width="72" height="54" rx="4"/>'+
+  '<rect x="318" y="28" width="84" height="50" rx="4"/><rect x="456" y="26" width="74" height="52" rx="4"/>'+
+  '<rect x="34" y="118" width="98" height="26" rx="4"/><rect x="318" y="116" width="88" height="28" rx="4"/>'+
+  '<rect x="190" y="232" width="74" height="46" rx="4"/><rect x="462" y="232" width="84" height="46" rx="4"/></g>'+
+  '<rect x="34" y="174" width="98" height="26" rx="4" fill="#122b1a"/><text x="83" y="191" fill="#5fae7e" font-size="10" text-anchor="middle" font-family="Inter,sans-serif">park</text>'+
+  (l?'<circle cx="320" cy="182" r="38" fill="#5b8cff" opacity=".18"><animate attributeName="r" values="26;48;26" dur="2.3s" repeatCount="indefinite"/></circle><circle cx="320" cy="182" r="9" fill="#fff" stroke="#5b8cff" stroke-width="3.5"/><text x="320" y="152" fill="#fff" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">📍 You are here</text>'
+   :'<circle cx="320" cy="182" r="9" fill="#fff" opacity=".45"/>')+
+  '</svg><div class="mapbar"><span>'+(l?'✅ '+D.gps:'Pin not set yet')+'</span><span class="gr">'+(l?'accuracy ±4 m':'press Use my GPS')+'</span></div>';
+}
+
+/* ═══════════ STEP 6 ═══════════ */
+function seedWatch(){
+  D.watch=[{i:'🏠',c:'#5b8cff',t:'Where I live now',s:addr().slice(0,4).join(', '),tag:'Main'}];
+  if(D.work==='outside')D.watch.push({i:'🏡',c:'#ffc53d',t:'Hometown — my family lives here',s:'Add it below so your family is protected',need:1});
+  if(D.roles.indexOf('farmer')>=0&&D.land)D.watch.push({i:'🌾',c:'#2ee6a8',t:'My farm land',s:D.acre+' · '+$('f_crop').value});
+  if(D.roles.indexOf('fisherman')>=0&&D.sea)D.watch.push({i:'🐟',c:'#1fd5e8',t:'My sea zone',s:{near:'Zone 1 · 0–12 nm',mid:'Zone 2 · 12–50 nm',deep:'Zone 3 · 50–200 nm',border:'Zone 4 · near IMBL'}[D.sea]+' · '+$('f_harb').value});
+  $('sb6').innerHTML = D.work==='outside'
+    ? 'You work outside your area, so please add your <b>hometown</b> — if a flood, fire or heatwave hits your village, you get the alert even from far away.'
+    : 'Add your parents\' house, children\'s school, or any place you care about. Then read the summary below once.';
+  paintWatch();
+}
+function paintWatch(){
+  $('wCount').textContent=D.watch.length+' place'+(D.watch.length>1?'s':'');
+  $('wl').innerHTML=D.watch.map(function(w,n){
+    return '<div class="wi"><span class="wic" style="background:'+w.c+'22">'+w.i+'</span>'+
+    '<span class="wtx"><b>'+w.t+'</b><small>'+w.s+'</small></span>'+
+    (w.tag?'<span class="tagp b">'+w.tag+'</span>':w.need?'<span class="tagp y">Needed</span>'
+      :'<button class="del" onclick="delW('+n+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>')+'</div>'}).join('');
+}
+function addWatch(){
+  if(!$('a_vill').value){toast('⚠️','Please choose the village first');return}
+  var sel=$('a_why').selectedOptions[0],why=sel.textContent.split(' · ')[0],ic=sel.dataset.i;
+  var s=[$('a_vill').value,$('a_taluk').value,$('a_dist').value,$('a_state').value].filter(Boolean).join(', ');
+  D.watch=D.watch.filter(function(w){return !(w.need&&why.indexOf('Hometown')>=0)});
+  D.watch.push({i:ic,c:'#a06bff',t:why,s:s});
+  paintWatch();buildRev();toast('✅','Added '+$('a_vill').value+' to your watch list');
+  ['a_state','a_dist','a_taluk','a_vill'].forEach(function(x){$(x).value=''});
+  opts('a_dist',[],'Select district');opts('a_taluk',[],'Select taluk');opts('a_vill',[],'Select village');
+}
+function delW(n){toast('🗑️','Removed '+D.watch[n].s);D.watch.splice(n,1);paintWatch();buildRev()}
+function buildRev(){
+  var rn={public:'Public',farmer:'Farmer',fisherman:'Fisherman'};
+  var r=[["பெயர்","Name",$('f_name').value,1],["கைபேசி","Mobile",'+91 '+$('f_phone').value,1],
+    ["மொழி","Language",$('f_lang').value,1],
+    ["பயனர் வகை","I am a",D.roles.map(function(x){return rn[x]}).join(' + '),4],
+    ["தொழில்","My work",$('f_occ').value,4],
+    ["பணியிடம்","Work location",D.work==='outside'?'Outside my area':'Inside my area',4],
+    ["இடம்","Full address",addr().join(', '),2],
+    ["அஞ்சல்","PIN code",$('g_pin').value,2],
+    ["நிலப்பரப்பு","Terrain check",(TERRAIN[D.terr]||TERRAIN.farm)[1]+' ✓',3]];
+  if(D.roles.indexOf('farmer')>=0)r.push(["நிலம்","Land",D.land===2?'Skipped — using village':(D.acre||'not marked')+' · '+$('f_crop').value,5]);
+  if(D.roles.indexOf('fisherman')>=0)r.push(["கடல் மண்டலம்","Sea zone",(D.sea?{near:'Zone 1 · 0–12 nm',mid:'Zone 2 · 12–50 nm',deep:'Zone 3 · 50–200 nm',border:'Zone 4 · near IMBL'}[D.sea]:'')+' · '+$('f_harb').value,5]);
+  if(D.roles.indexOf('public')>=0)r.push(["ஜிபிஎஸ்","GPS point",D.gps,5],["தெரு","Street",$('f_addr').value,5]);
+  r.push(["கண்காணிப்பு","Places watched",D.watch.length+' place'+(D.watch.length>1?'s':''),6]);
+  $('revAll').innerHTML=r.map(function(x){
+    return '<div class="rw"><span class="k"><span class="a">'+x[0]+'</span>'+x[1]+'</span>'+
+    '<span class="v'+(x[2]&&x[2].trim()&&x[2].trim()!=='·'?'':' em')+'">'+((x[2]&&x[2].trim()&&x[2].trim()!=='·')?x[2]:'not given')+'</span>'+
+    '<button class="fix" onclick="jump('+x[3]+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 3.5l4 4L8 20H4v-4z"/></svg>Change</button></div>'}).join('');
+}
+
+/* ═══════════ NAV ═══════════ */
+function valid(){
+  if(D.step===1)return /^\d{10}$/.test($('f_phone').value)&&$('f_name').value.trim().length>1&&otpVal().length===4;
+  if(D.step===2)return $('g_vill').value!=='';
+  if(D.step===3)return !!D.ok3;
+  if(D.step===4)return D.roles.length>0&&D.work!=='';
+  if(D.step===5){
+    var ok=true;
+    if(D.roles.indexOf('farmer')>=0)ok=ok&&!!D.land;
+    if(D.roles.indexOf('fisherman')>=0)ok=ok&&D.sea!=='';
+    if(D.roles.indexOf('public')>=0)ok=ok&&D.gps!=='';
+    return ok}
+  return true;
+}
+function sync(){$('btnNext').disabled=!valid()}
+function jump(n){D.step=n;paint();toast('✏️','Back to step '+n+' · '+LBL[n][1])}
+function nav(dir){
+  if(dir>0&&D.step===MAX){finish();return}
+  if(dir>0&&!valid()){toast('⚠️','Please complete this step first · இந்தப் படியை முடிக்கவும்');return}
+  D.step=Math.min(MAX,Math.max(1,D.step+dir));paint();$('stgBody').scrollTop=0;
+}
+function paint(){
+  document.querySelectorAll('.pane').forEach(function(p,i){p.classList.toggle('on',i+1===D.step)});
+  $('vstep').innerHTML='';
+  for(var i=1;i<=MAX;i++){
+    var cl=i===D.step?'on':i<D.step?'ok':'';
+    $('vstep').innerHTML+='<div class="vs '+cl+'"><span class="line"></span><span class="ring">'+
+      (i<D.step?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="width:13px;height:13px"><path d="M20 6L9 17l-5-5"/></svg>':i)+
+      '</span><span class="vtx"><span class="vta">'+LBL[i][0]+'</span><span class="ven">'+LBL[i][1]+'</span></span></div>';
+  }
+  var pc=Math.round(D.step/MAX*100);
+  $('dockBar').style.width=pc+'%';$('mbar').style.width=pc+'%';$('mnum').textContent=D.step+'/'+MAX;
+  $('dockLbl').textContent='Step '+D.step+' of '+MAX+' · படி '+D.step+' / '+MAX;
+  $('btnBack').style.visibility=D.step===1?'hidden':'visible';
+  $('nextTxt').textContent=D.step===MAX?'Finish & open dashboard':'Continue';
+
+  if(D.step===3)build3();
+  if(D.step===5){
+    var fa=D.roles.indexOf('farmer')>=0,fi=D.roles.indexOf('fisherman')>=0,pu=D.roles.indexOf('public')>=0;
+    $('mFarmer').style.display=fa?'flex':'none';$('mFisher').style.display=fi?'flex':'none';$('mPublic').style.display=pu?'flex':'none';
+    $('ta5').textContent=fa?'உங்கள் நிலத்தைக் குறிக்கவும்':fi?'கடல் மண்டலம் தேர்வு':'சரியான இடம்';
+    $('en5').innerHTML=fa?'Mark your <span class="gtx">farm land</span>':fi?'Choose your <span class="gtx">sea zone</span>':'Confirm your <span class="gtx">exact spot</span>';
+    $('sb5').innerHTML=fa?'Do this <b>once only</b> — after today your land is saved forever. Four ways to do it, plus you can skip and add it later.'
+      :fi?'The sea is split into <b>4 zones by distance from shore</b>. Pick the one you usually fish in.'
+      :'We need a <b>street-level point</b> so heat, air and flood alerts are accurate for you.';
+    if(pu&&!D.gps)drawPub(0);
+    if(fi&&!D.sea)drawSea('');
+  }
+  if(D.step===6){seedWatch();buildRev()}
+  sync();
+}
+function finish(){
+  var nm=$('f_name').value.trim()||'Friend',f=nm.split(/\s+/)[0];
+  $('ob').classList.add('done');$('dash').classList.add('on');
+  document.body.style.overflow='auto';
+  var h=new Date().getHours();
+  $('dHi').textContent=(h<12?'Good morning, ':h<17?'Good afternoon, ':'Good evening, ')+f+' 👋';
+  $('dSub').innerHTML='Watching <b style="color:var(--text)">'+D.watch.length+' place'+(D.watch.length>1?'s':'')+
+    '</b> for you — '+addr().slice(0,2).join(', ')+' · updated just now.';
+  $('dAv').textContent=nm.split(/\s+/).map(function(w){return w[0]}).join('').slice(0,2).toUpperCase();
+  $('dLoc').querySelector('span').textContent=$('g_vill').value||$('g_dist').value;
+  drawDash();
+  toast('🎉','All set! Welcome to VaanEye, '+f);
+}
+function drawDash(){
+  $('dMap').innerHTML='<svg viewBox="0 0 640 340">'+
+  '<defs><radialGradient id="fg"><stop offset="0%" stop-color="#ff6b81" stop-opacity=".8"/><stop offset="100%" stop-color="#ff6b81" stop-opacity="0"/></radialGradient>'+
+  '<radialGradient id="cg"><stop offset="0%" stop-color="#1fd5e8" stop-opacity=".65"/><stop offset="100%" stop-color="#1fd5e8" stop-opacity="0"/></radialGradient></defs>'+
+  '<rect width="640" height="340" fill="#061020"/>'+
+  '<g stroke="rgba(255,255,255,.04)" stroke-width="1"><path d="M0 56h640M0 112h640M0 168h640M0 224h640M0 280h640M85 0v340M170 0v340M255 0v340M340 0v340M425 0v340M510 0v340M595 0v340"/></g>'+
+  '<path d="M0 0 L352 0 Q380 54 352 100 Q392 144 358 194 Q396 242 352 290 Q376 322 342 340 L0 340 Z" fill="#0f2a18"/>'+
+  '<path d="M0 0 L352 0 Q380 54 352 100 Q392 144 358 194 Q396 242 352 290 Q376 322 342 340 L0 340 Z" fill="none" stroke="rgba(46,230,168,.4)" stroke-width="2"/>'+
+  '<rect x="74" y="196" width="102" height="66" rx="7" fill="rgba(46,230,168,.2)" stroke="#2ee6a8" stroke-width="2"/>'+
+  '<text x="125" y="234" fill="#c9ffe6" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">Your farm</text>'+
+  '<ellipse cx="212" cy="86" rx="80" ry="44" fill="rgba(91,140,255,.18)" stroke="#5b8cff" stroke-width="2" stroke-dasharray="7 5"/>'+
+  '<text x="212" y="92" fill="#bed4ff" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">Flood risk</text>'+
+  '<circle cx="290" cy="300" r="54" fill="url(#fg)"/><circle cx="290" cy="300" r="10" fill="#ff6b81"><animate attributeName="r" values="8;14;8" dur="1.6s" repeatCount="indefinite"/></circle>'+
+  '<text x="290" y="266" fill="#ffc4cd" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">🔥 Fire</text>'+
+  '<circle cx="510" cy="152" r="64" fill="url(#cg)"/><circle cx="510" cy="152" r="8" fill="#1fd5e8"/>'+
+  '<text x="510" y="128" fill="#b3f0f8" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">🐟 Best catch</text>'+
+  '<path d="M598 0V340" stroke="#ffc53d" stroke-width="3" stroke-dasharray="11 8"/>'+
+  '<text x="592" y="26" fill="#ffe09a" font-size="10.5" font-weight="700" text-anchor="end" font-family="Inter,sans-serif">Sea border — do not cross</text>'+
+  '<circle cx="125" cy="228" r="20" fill="none" stroke="#fff" stroke-width="2" opacity=".45"><animate attributeName="r" values="14;28;14" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;0;.6" dur="2.4s" repeatCount="indefinite"/></circle>'+
+  '<circle cx="125" cy="228" r="6.5" fill="#fff"/></svg>';
+}
+
+/* ═══════════ NAV HIGHLIGHT ═══════════ */
+document.querySelectorAll('.nv,.mn').forEach(function(b){
+  b.addEventListener('click',function(){
+    var s=b.classList.contains('nv')?'.nv':'.mn';
+    document.querySelectorAll(s).forEach(function(x){x.removeAttribute('aria-current')});
+    b.setAttribute('aria-current','page');toast('📂','Opening '+b.textContent.replace(/\d+/g,'').trim())})});
+
+/* ═══════════ BOOT ═══════════ */
+(function(){
+  opts('g_country',Object.keys(GEO),'Select country');$('g_country').value='India';casc('state');
+  opts('a_state',Object.keys(GEO.India),'Select state');
+  document.body.style.overflow='hidden';
+  v1();paint();
+})();
+</script>
+</body>
+</html>

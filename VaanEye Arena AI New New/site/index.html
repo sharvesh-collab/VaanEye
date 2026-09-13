@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" data-t="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VaanEye · வான்கண் — Unified Space Intelligence</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#050914">
+</head>
+<body>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="nav" id="nav">
+  <a href="#home" class="logo">
+    <span class="mk"><img src="img/logo.png" alt="VaanEye" class="mkimg"></span>
+    <span class="tw"><span class="n1">VaanEye</span><span class="n2" data-bi data-en="The Eye in the Sky" data-ta="வான்கண் · வானத்தில் ஒரு கண்">The Eye in the Sky</span></span>
+  </a>
+
+  <div class="nlinks" id="nlinks">
+    <a href="#home"     class="nl on" data-s="home">Home<span class="s ta">முகப்பு</span></a>
+    <a href="#about"    class="nl" data-s="about">About Us<span class="s ta">எங்களைப் பற்றி</span></a>
+    <a href="#features" class="nl" data-s="features">Features<span class="s ta">அம்சங்கள்</span></a>
+    <a href="#sats"     class="nl" data-s="sats">Satellites<span class="s ta">செயற்கைக்கோள்கள்</span></a>
+    <a href="#how"      class="nl" data-s="how">How It Works<span class="s ta">எப்படி</span></a>
+    <a href="#impact"   class="nl" data-s="impact">Impact<span class="s ta">தாக்கம்</span></a>
+  </div>
+
+  <span class="nsp"></span>
+
+  <div class="langsel" role="group" aria-label="Language">
+    <button id="lgEn" class="on" onclick="setLang(0)">EN</button>
+    <button id="lgTa" class="ta" onclick="setLang(1)">தமிழ்</button>
+  </div>
+  <button class="nbtn" onclick="tgTheme()" id="thB">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+  </button>
+  <button class="nbtn earthb" id="earthB" onclick="return backToEarth()" title="Back to the Earth view">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg>
+    <span data-bi data-en="Earth view" data-ta="பூமி காட்சி">Earth view</span></button>
+  <a href="#" class="nbtn pri" onclick="return goApp()" data-bi data-en="Launch App" data-ta="செயலியைத் திற">Launch App</a>
+  <button class="burg" onclick="document.getElementById('nlinks').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+</nav>
+
+<!-- ══════════ HERO + LIVE GLOBE ══════════ -->
+<section class="hero" id="home">
+  <canvas id="glc"></canvas>
+  <div id="tip"></div>
+
+  <div class="loadr" id="loadr">
+    <div>
+      <div class="lring"></div>
+      <p>Loading real NASA Earth imagery…</p>
+      <p class="t ta">உண்மையான செயற்கைக்கோள் தரவு ஏற்றப்படுகிறது…</p>
+    </div>
+  </div>
+
+  <!-- cinematic: shown only before the user enters the site -->
+  <div class="cine-brand">
+    <h2>VaanEye</h2>
+    <div class="cb-ta">வான்கண் — வானத்தில் ஒரு கண்</div>
+    <div class="cb-en">The Eye in the Sky</div>
+  </div>
+
+  <div class="cine-cue">
+    <div>
+      <div class="ct">Live satellites orbiting now</div>
+      <div class="cta2">நேரடி செயற்கைக்கோள்கள்</div>
+    </div>
+    <button class="cine-btn" onclick="enterSite()">
+      Enter VaanEye
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="hud">
+    <div class="hcard">
+      <h5>Constellations <span class="t">விண்மீன் கூட்டங்கள்</span></h5>
+      <div class="fl" id="filters"></div>
+    </div>
+    <div class="hcard">
+      <h5>Time warp <span class="t">நேர வேகம்</span></h5>
+      <div class="spd">
+        <button class="sb on" onclick="spd(this,1)">1×</button>
+        <button class="sb" onclick="spd(this,60)">60×</button>
+        <button class="sb" onclick="spd(this,600)">600×</button>
+        <button class="sb" onclick="spd(this,3000)">3000×</button>
+      </div>
+      <div id="gStat" style="margin-top:9px">—</div>
+    </div>
+  </div>
+
+  <div class="hbox">
+    <div class="hcopy">
+      <span class="hbadge"><i></i> Live orbital data · CelesTrak</span>
+      <div class="hta" data-bi data-en="The Eye in the Sky · Unified space intelligence" data-ta="வான்கண் — வானத்தில் ஒரு கண்">The Eye in the Sky · Unified space intelligence</div>
+      <h1 data-bih data-en="One eye on Earth.<br><span class='g'>Every satellite.</span><br>Every citizen." data-ta="பூமியின் மீது ஒரு கண்.<br><span class='g'>ஒவ்வொரு செயற்கைக்கோளும்.</span><br>ஒவ்வொரு குடிமகனும்.">One eye on Earth.<br><span class="g">Every satellite.</span><br>Every citizen.</h1>
+      <p class="hsub" data-bih data-en="VaanEye turns <b>free ISRO, NASA and ESA satellite data</b> into simple alerts for farmers, fishermen and families — in their own language, even on a 2G phone." data-ta="வான்கண் <b>இலவச ISRO, NASA, ESA செயற்கைக்கோள் தரவை</b> விவசாயிகள், மீனவர்கள், குடும்பங்களுக்கான எளிய எச்சரிக்கைகளாக மாற்றுகிறது — அவர்களின் சொந்த மொழியில், 2G ஃபோனிலும் கூட.">VaanEye turns <b>free ISRO, NASA and ESA satellite data</b> into simple alerts for farmers, fishermen and families — in their own language, even on a 2G phone.</p>
+      <div class="hcta">
+        <a href="#" class="btn pri" onclick="return goApp()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <span data-bi data-en="Launch Platform" data-ta="தளத்தைத் திற">Launch Platform</span></a>
+        <a href="#sats" class="btn gho">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg>
+          <span data-bi data-en="Explore Satellites" data-ta="செயற்கைக்கோள்களைப் பார்">Explore Satellites</span></a>
+      </div>
+    </div>
+
+    <div class="hstats">
+      <div class="hs"><div class="v g" id="stTot">—</div><div class="l">Live satellites<span class="t ta">நேரடி செயற்கைக்கோள்கள்</span></div></div>
+      <div class="hs"><div class="v" id="stTrk">—</div><div class="l">Tracked in 3D<span class="t ta">3D இல் கண்காணிப்பு</span></div></div>
+      <div class="hs"><div class="v">151</div><div class="l">Platform features<span class="t ta">அம்சங்கள்</span></div></div>
+      <div class="hs"><div class="v gd">₹0</div><div class="l">Data cost<span class="t ta">தரவு செலவு</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section class="sec" id="about">
+  <div class="shead">
+    <span class="skick">About Us</span>
+    <div class="sta">எங்களைப் பற்றி</div>
+    <h2>Space data belongs to <span class="g">everyone</span></h2>
+    <p>Billions of rupees of satellite infrastructure already orbit above India. The data is free. The problem is nobody can read it.</p>
+  </div>
+
+  <div class="ab">
+    <div class="abl">
+      <p><b>The problem.</b> A farmer opens one app for weather, another for crop advice. A fisherman uses a third for fishing zones and still crosses the maritime border by accident. Raw NDVI rasters and SAR scenes mean nothing to them.</p>
+      <p><b>Our answer.</b> VaanEye is a single window over Land, Water, Sky and Human Safety. We ingest open data from <b>ISRO Bhuvan, NASA Landsat and ESA Copernicus</b>, run the geospatial maths on our servers, and deliver one plain sentence: <i>"Fire 12 km from your village — move north."</i></p>
+      <p><b>Nobody left behind.</b> Smartphone users get an interactive map. Everyone else gets an <b>SMS or an automated voice call in Tamil</b>. That hybrid GSM fallback is why VaanEye works in villages where other apps simply do not load.</p>
+      <div class="chips">
+        <span class="chip"><span class="e">🛰️</span> 100% open satellite data</span>
+        <span class="chip"><span class="e">📶</span> Works on 2G feature phones</span>
+        <span class="chip"><span class="e">🗣️</span> Native language alerts</span>
+        <span class="chip"><span class="e">⚖️</span> National Geospatial Policy compliant</span>
+      </div>
+    </div>
+
+    <div class="fbox">
+      <div class="fr"><span class="i" style="background:rgba(46,230,168,.14)">🎯</span>
+        <span><b>Mission</b><span class="ta">நோக்கம்</span>
+        <p>Convert raw orbital telemetry into a decision any citizen can act on in under ten seconds.</p></span></div>
+      <div class="fr"><span class="i" style="background:rgba(79,140,255,.14)">🔭</span>
+        <span><b>Vision</b><span class="ta">தொலைநோக்கு</span>
+        <p>One national platform where every Indian can see what the sky sees about their own land.</p></span></div>
+      <div class="fr"><span class="i" style="background:rgba(255,197,61,.14)">🤝</span>
+        <span><b>Who we serve</b><span class="ta">யாருக்காக</span>
+        <p>Farmers, fishermen, families, panchayats, disaster cells and municipal planners.</p></span></div>
+      <div class="fr"><span class="i" style="background:rgba(160,107,255,.14)">🏛️</span>
+        <span><b>Built for</b><span class="ta">உருவாக்கம்</span>
+        <p>Smart India Hackathon 2026 · Problem Statement 26209 · AICTE Student Innovation.</p></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FEATURES ══════════ -->
+<section class="sec" id="features">
+  <div class="shead">
+    <span class="skick">Features</span>
+    <div class="sta">அம்சங்கள்</div>
+    <h2>Six pillars. <span class="g">151 features.</span> One app.</h2>
+    <p>Every pillar runs on the same free satellite feeds — no new hardware, no launch cost, no subscription for the core map.</p>
+  </div>
+
+  <div class="grid g3">
+    <div class="card"><div class="ic" style="background:rgba(255,107,129,.14)">🔥</div>
+      <div class="cta">பேரிடர் மேலாண்மை</div><h3>Disaster Management</h3>
+      <p>SAR radar pierces monsoon cloud to map flood water in real time. Thermal SWIR bands detect wildfire hotspots and ping the exact GPS grid to the nearest station.</p>
+      <div class="tags"><span class="tg">Sentinel-1 SAR</span><span class="tg">MODIS thermal</span><span class="tg">INSAT-3D</span></div></div>
+
+    <div class="card"><div class="ic" style="background:rgba(46,230,168,.14)">🌾</div>
+      <div class="cta">வேளாண்மை</div><h3>Agriculture &amp; Crop Health</h3>
+      <p>NDVI spectral index scores every field weekly. Soil moisture from SAR backscatter predicts irrigation need, and stress patterns flag pest outbreaks before they spread.</p>
+      <div class="tags"><span class="tg">NDVI / NDWI</span><span class="tg">Sentinel-2</span><span class="tg">Soil moisture</span></div></div>
+
+    <div class="card"><div class="ic" style="background:rgba(34,211,238,.14)">🐟</div>
+      <div class="cta">கடல் & மீன்வளம்</div><h3>Marine &amp; Fisheries</h3>
+      <p>Sea Surface Temperature and chlorophyll converge to locate Potential Fishing Zones. Offline geofencing screams before a boat drifts across the IMBL.</p>
+      <div class="tags"><span class="tg">PFZ</span><span class="tg">IMBL alarm</span><span class="tg">Wave height</span></div></div>
+
+    <div class="card"><div class="ic" style="background:rgba(255,197,61,.14)">🌡️</div>
+      <div class="cta">காலநிலை & பாதுகாப்பு</div><h3>Climate &amp; Public Safety</h3>
+      <p>Land Surface Temperature drives Veyil heatwave warnings down to the street. Hyper-local rain nowcasts and AQI keep outdoor workers safe.</p>
+      <div class="tags"><span class="tg">LST</span><span class="tg">Heat island</span><span class="tg">AQI</span></div></div>
+
+    <div class="card"><div class="ic" style="background:rgba(160,107,255,.14)">🏙️</div>
+      <div class="cta">உள்கட்டமைப்பு</div><h3>Infrastructure Monitoring</h3>
+      <p>Temporal change detection diffs yesterday's pixels against today to expose illegal construction, lake encroachment and unplanned urban sprawl.</p>
+      <div class="tags"><span class="tg">Change detection</span><span class="tg">Encroachment</span><span class="tg">Urban growth</span></div></div>
+
+    <div class="card"><div class="ic" style="background:rgba(79,140,255,.14)">🌍</div>
+      <div class="cta">சுற்றுச்சூழல்</div><h3>Environmental Health</h3>
+      <p>Continuous watch on air quality, maritime oil spills, industrial effluent plumes and deforestation — with automatic escalation to the right authority.</p>
+      <div class="tags"><span class="tg">Oil spill</span><span class="tg">Deforestation</span><span class="tg">Effluent</span></div></div>
+  </div>
+</section>
+
+<!-- ══════════ SATELLITES ══════════ -->
+<section class="sec" id="sats">
+  <div class="shead">
+    <span class="skick">Satellites We Use</span>
+    <div class="sta">நாங்கள் பயன்படுத்தும் செயற்கைக்கோள்கள்</div>
+    <h2>Every object above you, <span class="g">live</span></h2>
+    <p>Real Two-Line Element sets from CelesTrak, propagated with the SGP4 model in your browser. Click any row to fly the camera to it — or click a dot on the globe above.</p>
+  </div>
+
+  <div class="tbl">
+    <div class="tbar">
+      <label class="srch">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="q" placeholder="Search by name or NORAD ID — try CARTOSAT, SENTINEL, ISS…" oninput="renderTbl()">
+      </label>
+      <select id="cf" onchange="renderTbl()" style="background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:11px;padding:10px 14px;font-size:13px;outline:none">
+        <option value="">All categories · அனைத்தும்</option>
+        <option value="isro">ISRO · இஸ்ரோ</option>
+        <option value="eo">Earth Observation · பூமி கண்காணிப்பு</option>
+        <option value="nav">Navigation · வழிசெலுத்தல்</option>
+        <option value="geo">Geostationary · புவிநிலை</option>
+        <option value="comm">Communication · தொடர்பு</option>
+        <option value="station">Space Station · விண்வெளி நிலையம்</option>
+        <option value="sci">Science · அறிவியல்</option>
+        <option value="starlink">Starlink</option>
+        <option value="oneweb">OneWeb</option>
+      </select>
+      <span style="font-size:12px;color:var(--mu2);font-weight:650" id="tCount">—</span>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th>Satellite<span class="t">செயற்கைக்கோள்</span></th>
+          <th>Category<span class="t">வகை</span></th>
+          <th>NORAD</th>
+          <th>Altitude<span class="t">உயரம்</span></th>
+          <th>Speed<span class="t">வேகம்</span></th>
+          <th>Inclination<span class="t">சாய்வு</span></th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="sec" id="how">
+  <div class="shead">
+    <span class="skick">How It Works</span>
+    <div class="sta">எப்படி வேலை செய்கிறது</div>
+    <h2>From orbit to your pocket in <span class="g">four steps</span></h2>
+  </div>
+  <div class="steps">
+    <div class="stp"><div class="n">1</div><div class="ta">தரவு சேகரிப்பு</div><h4>Ingest</h4>
+      <p>Python workers pull fresh .TIFF bands from ISRO Bhuvan, Copernicus and USGS the moment a satellite passes overhead, then strip cloud noise.</p></div>
+    <div class="stp"><div class="n">2</div><div class="ta">பகுப்பாய்வு</div><h4>Analyse</h4>
+      <p>GDAL and NumPy convert pixels into NDVI, NDWI and LST matrices. PyTorch CNNs scan SWIR bands for thermal anomalies and diff yesterday's scene.</p></div>
+    <div class="stp"><div class="n">3</div><div class="ta">பொருத்துதல்</div><h4>Match</h4>
+      <p>PostGIS R-Tree indexes intersect every result against your saved land polygon, sea zone or home pin in milliseconds.</p></div>
+    <div class="stp"><div class="n">4</div><div class="ta">அறிவிப்பு</div><h4>Alert</h4>
+      <p>Smartphones get a realtime push. Feature phones get an SMS and an automated IVR voice call in Tamil through a GSM gateway.</p></div>
+  </div>
+</section>
+
+<!-- ══════════ IMPACT ══════════ -->
+<section class="sec" id="impact">
+  <div class="shead">
+    <span class="skick">Impact</span>
+    <div class="sta">தாக்கம்</div>
+    <h2>Who this <span class="g">actually helps</span></h2>
+  </div>
+  <div class="grid g4">
+    <div class="card"><div class="ic" style="background:rgba(46,230,168,.14)">🌾</div>
+      <div class="cta">விவசாயிகள்</div><h3>Farmers</h3>
+      <p>Weekly crop health score, irrigation timing and pest warning — mark your land once by walking its boundary, then never again.</p></div>
+    <div class="card"><div class="ic" style="background:rgba(34,211,238,.14)">🐟</div>
+      <div class="cta">மீனவர்கள்</div><h3>Fishermen</h3>
+      <p>Fish zone bearings before setting out and an offline border alarm that works with no signal, far out at sea.</p></div>
+    <div class="card"><div class="ic" style="background:rgba(255,197,61,.14)">👨‍👩‍👧</div>
+      <div class="cta">குடும்பங்கள்</div><h3>Families</h3>
+      <p>Heatwave, air quality and flood warnings for your street — plus your hometown, if you work in another city.</p></div>
+    <div class="card"><div class="ic" style="background:rgba(160,107,255,.14)">🏛️</div>
+      <div class="cta">அரசு அமைப்புகள்</div><h3>Authorities</h3>
+      <p>Automated fire coordinates, encroachment reports and urban sprawl timelines for disaster cells and municipalities.</p></div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="fgrid">
+    <div>
+      <div class="logo" style="margin-bottom:14px">
+        <span class="mk"><svg viewBox="0 0 64 64" width="38" height="38">
+          <circle cx="32" cy="32" r="30" fill="none" stroke="url(#lg)" stroke-width="2.4" opacity=".55"/>
+          <ellipse cx="32" cy="32" rx="30" ry="11.5" fill="none" stroke="url(#lg)" stroke-width="1.8" opacity=".85" transform="rotate(-28 32 32)"/>
+          <path d="M10 32c7.6-9.4 14.9-14 22-14s14.4 4.6 22 14c-7.6 9.4-14.9 14-22 14s-14.4-4.6-22-14z" fill="rgba(10,20,44,.92)" stroke="url(#lg)" stroke-width="2"/>
+          <circle cx="32" cy="32" r="8.4" fill="url(#li)"/><circle cx="32" cy="32" r="3.4" fill="#061024"/>
+        </svg></span>
+        <span class="tw"><span class="n1">VaanEye</span><span class="n2" data-bi data-en="The Eye in the Sky" data-ta="வான்கண்">The Eye in the Sky</span></span>
+      </div>
+      <p style="font-size:13px;color:var(--mu);max-width:34ch;line-height:1.7">Unified multi-domain geo-intelligence for every Indian citizen. Built on free and open satellite data.</p>
+    </div>
+    <div><h6>Platform</h6>
+      <a href="#features">Features</a><a href="#sats">Satellite Catalog</a><a href="#how">How It Works</a><a href="#" onclick="return goApp()" data-bi data-en="Launch App" data-ta="செயலியைத் திற">Launch App</a></div>
+    <div><h6>Data Sources</h6>
+      <a href="https://bhuvan.nrsc.gov.in" target="_blank" rel="noopener">ISRO Bhuvan</a>
+      <a href="https://dataspace.copernicus.eu" target="_blank" rel="noopener">ESA Copernicus</a>
+      <a href="https://earthdata.nasa.gov" target="_blank" rel="noopener">NASA Earthdata</a>
+      <a href="https://celestrak.org" target="_blank" rel="noopener">CelesTrak TLE</a></div>
+    <div><h6>Support</h6>
+      <a href="tel:1800826639">1800-VAAN-EYE</a><a href="#about">About Us</a><a href="#impact">Impact</a>
+      <span style="font-size:12px;color:var(--mu2);display:block;padding-top:6px">Tamil &amp; English · 24×7</span></div>
+  </div>
+  <div class="fbot">
+    <span>© 2026 VaanEye · Smart India Hackathon 2026 · PS 26209 · AICTE</span>
+    <span class="ta">100% திறந்த மூல செயற்கைக்கோள் தரவு</span>
+  </div>
+</footer>
+
+<!-- ══════════ SATELLITE DRAWER ══════════ -->
+<div class="drw" id="drw">
+  <div class="dhd">
+    <div style="flex:1;min-width:0">
+      <h3 id="dName">—</h3>
+      <div class="ta" id="dCat">—</div>
+    </div>
+    <button class="dcl" onclick="closeDrw()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="dbd">
+    <div class="note" id="dHist"></div>
+    <div>
+      <h6 style="font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--mu2);font-weight:700;margin-bottom:8px">
+        Live telemetry · நேரடி தரவு</h6>
+      <div class="kv" id="dKv"></div>
+    </div>
+    <div>
+      <h6 style="font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--mu2);font-weight:700;margin-bottom:8px">
+        Two-Line Element set</h6>
+      <div class="tle" id="dTle">—</div>
+    </div>
+    <div class="frzbar" id="frzBar">
+        <span class="fdot"></span>
+        <span data-bi data-en="Everything is paused while this satellite is selected" data-ta="இந்த செயற்கைக்கோள் தேர்ந்தெடுக்கப்பட்டுள்ளது — அனைத்தும் நிறுத்தப்பட்டுள்ளது">Everything is paused while this satellite is selected</span>
+      </div>
+      <div class="dact">
+      <button class="btn pri" onclick="viewOnEarth()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18 15 15 0 010-18"/></svg>
+        <span data-bi data-en="View on Earth" data-ta="பூமியில் பார்க்க">View on Earth</span></button>
+      <button class="btn gho" onclick="flyTo()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg>
+        <span data-bi data-en="Focus camera" data-ta="கேமரா குவி">Focus camera</span></button>
+    </div>
+    <div class="dgeo" id="dGeo"></div>
+  </div>
+</div>
+
+<script src="vendor/satellite.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
