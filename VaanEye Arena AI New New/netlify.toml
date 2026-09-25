@@ -1,5 +1,4 @@
 [build]
-  base = "VaanEye Arena AI New New"
   publish = "site"
   command = ""
 
