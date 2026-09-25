@@ -20,12 +20,13 @@ jobs:
           python-version: '3.11'
 
       - name: Fetch latest TLEs from CelesTrak
+        working-directory: VaanEye
         run: python3 scripts/refresh_tle.py
 
       - name: Commit if changed
         run: |
           git config user.name  "vaaneye-bot"
           git config user.email "actions@github.com"
-          git add site/sats.json site/satmeta.json
+          git add VaanEye/site/sats.json VaanEye/site/satmeta.json
           git diff --staged --quiet || git commit -m "chore: refresh TLEs $(date -u +%Y-%m-%d)"
           git push
