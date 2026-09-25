@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.Python
+
+# env & secrets  —  NEVER commit these
+.env
+.env.local
+.env.*.local
+*.key
+serviceAccountKey.json
+firebase-adminsdk*.json
+
+# build output
+dist/
+build/
+.next/
+out/
+.vercel
+.netlify
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# local scratch
+/tmp/
+*.log
+uploads/

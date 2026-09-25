@@ -1,0 +1,49 @@
+VaanEye — LOCAL LA EPPADI RUN PANRADHU
+======================================
+
+MUKKIYAM: index.html-a direct-a double-click panni open panna
+VELAI SEYYAADHU. Globe load aagave aagaadhu, loading-la nikkum.
+
+YAEN?
+  Browser security rule. file:// la open panna, JavaScript modules
+  and sats.json fetch rendum block aagum. Idhu bug illa — ellaa
+  browser-lum ippadi thaan. Chrome, Firefox, Edge ellame.
+  Adhaan unga screen-la loading spinner mattum sutthikittu irundhuchu.
+
+SARI PANRA VAZHI — chinna local server venum. 10 second velai.
+
+──────────────────────────────────────
+WINDOWS
+──────────────────────────────────────
+  START_WINDOWS.bat  -a DOUBLE-CLICK pannunga.
+  Browser thaana open aagum. Mudinjadhu.
+
+  Python illainaa: python.org/downloads la install pannunga.
+  Install panra podhu "Add Python to PATH" tick pannunga.
+
+──────────────────────────────────────
+MAC / LINUX
+──────────────────────────────────────
+  START_MAC_LINUX.command -a DOUBLE-CLICK pannunga.
+
+  "cannot be opened" nu vandhaa, Terminal-la:
+      cd <indha folder>
+      python3 -m http.server 8080
+  appuram browser-la http://localhost:8080
+
+──────────────────────────────────────
+VS CODE USE PANREENGA-NA (romba easy)
+──────────────────────────────────────
+  "Live Server" extension install pannunga.
+  index.html mela right-click -> "Open with Live Server".
+
+──────────────────────────────────────
+NIRUTHRADHU
+──────────────────────────────────────
+  Andha black window-a close pannunga, illa Ctrl+C.
+
+──────────────────────────────────────
+ONLINE LA POTTA IDHU THEVAI ILLA
+──────────────────────────────────────
+  Netlify la deploy panna appuram idhellam vendaam.
+  Link-a yaarum direct-a open pannalaam.
