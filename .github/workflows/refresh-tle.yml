@@ -19,19 +19,29 @@ jobs:
         with:
           python-version: '3.11'
 
+      # The deployed app and refresh script are in this directory. The old
+      # workflow used VaanEye/scripts and VaanEye/site, which do not exist.
       - name: Verify TLE refresh files
+        shell: bash
         run: |
-          test -f VaanEye/scripts/refresh_tle.py
-          test -d VaanEye/site
+          set -euxo pipefail
+          APP_DIR='VaanEye Arena AI New New'
+          test -f "$APP_DIR/scripts/refresh_tle.py"
+          test -d "$APP_DIR/site"
 
       - name: Fetch latest TLEs from CelesTrak
-        run: python3 VaanEye/scripts/refresh_tle.py
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python -u 'VaanEye Arena AI New New/scripts/refresh_tle.py'
 
       - name: Commit if changed
+        shell: bash
         run: |
+          set -euxo pipefail
           git config user.name "vaaneye-bot"
           git config user.email "actions@github.com"
-          git add VaanEye/site/sats.json VaanEye/site/satmeta.json
+          git add -- 'VaanEye Arena AI New New/site/sats.json' 'VaanEye Arena AI New New/site/satmeta.json'
           if git diff --staged --quiet; then
             echo "No TLE changes detected"
           else
