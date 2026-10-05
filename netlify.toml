@@ -1,7 +1,13 @@
 [build]
-  base = "VaanEye Arena AI New New"
-  publish = "site"
-  command = ""
+  base = "VaanEye"
+  publish = "legacy_site"
+  functions = "backend"
+  command = "cd backend && npm install"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server/api/:splat"
+  status = 200
 
 [[headers]]
   for = "/*"

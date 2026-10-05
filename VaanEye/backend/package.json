@@ -13,10 +13,16 @@
   "type": "commonjs",
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
+    "@turf/bbox": "^7.4.0",
     "axios": "^1.20.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.3",
     "express": "^5.2.1",
-    "firebase-admin": "^14.5.0"
+    "firebase-admin": "^14.5.0",
+    "form-data": "^4.0.6",
+    "geotiff": "^3.0.5",
+    "jimp": "^1.6.1",
+    "serverless-http": "^4.0.0",
+    "twilio": "^6.1.1"
   }
 }

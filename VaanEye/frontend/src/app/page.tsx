@@ -205,7 +205,7 @@ export default function Home() {
       </div>
 
       <Script src="/vendor/satellite.min.js" strategy="beforeInteractive" />
-      <Script src="/app.js" strategy="lazyOnload" />
+      <Script src="/app.js" type="module" strategy="lazyOnload" />
     </>
   );
 }

@@ -2392,5 +2392,100 @@ document.querySelectorAll('.nv,.mn').forEach(function(b){
   v1();paint();
 })();
 </script>
+<div id="vaaneye-sat-panel" style="position:fixed; bottom:20px; right:20px; width:350px; background:rgba(8,12,24,0.85); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.15); border-radius:15px; padding:20px; z-index:9999; box-shadow:0 10px 40px rgba(0,0,0,0.8); color:#f3f6fc; font-family:sans-serif;">
+  <h3 style="margin:0 0 10px 0; font-size:16px; color:#5b8cff; display:flex; align-items:center; gap:8px;">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+    Satellite Analysis
+  </h3>
+  <p style="font-size:12px; color:#8b98b4; margin-bottom:15px; line-height:1.4;">
+    Evaluates AOI clouds in Sentinel-2. Falls back to Sentinel-1 SAR if obscured.
+  </p>
+  <button id="sat-run-btn" onclick="runSatelliteAnalysis()" style="width:100%; padding:12px; background:linear-gradient(120deg,#5b8cff,#a06bff); border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer; font-size:13px; transition:0.3s;">
+    Run Pipeline over AOI
+  </button>
+  <div id="sat-result" style="margin-top:15px; font-size:12.5px; line-height:1.5;"></div>
+</div>
+
+<script>
+function runSatelliteAnalysis() {
+    const btn = document.getElementById('sat-run-btn');
+    btn.innerText = "Analyzing AOI...";
+    btn.disabled = true;
+    const resultDiv = document.getElementById('sat-result');
+    resultDiv.innerHTML = "<span style='color:#ffc53d'>Querying Copernicus Data Space Ecosystem...</span>";
+
+    // Standard demo farm polygon
+    const aoi = {
+        type: "Polygon",
+        coordinates: [
+            [[10.1, 45.1], [10.12, 45.1], [10.12, 45.12], [10.1, 45.12], [10.1, 45.1]]
+        ]
+    };
+    const dateFrom = "2024-01-01";
+    const dateTo = "2024-01-31";
+
+    fetch('http://localhost:5000/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ aoi, dateFrom, dateTo })
+    })
+    .then(r => r.json())
+    .then(data => {
+        btn.innerText = "Run Pipeline over AOI";
+        btn.disabled = false;
+        
+        if(data.status === 'success') {
+            let html = `
+                <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="color:${data.fallback_used ? '#2ee6a8' : '#1fd5e8'}; font-weight:bold; font-size:14px; margin-bottom:5px;">
+                      ${data.satellite} (${data.sensor_type})
+                    </div>
+                    <div style="color:#8b98b4; font-size:11px; margin-bottom:10px;">${data.date}</div>
+            `;
+            if (data.fallback_used) {
+                html += `<div style="background:rgba(255,107,129,0.15); color:#ff6b81; padding:6px; border-radius:5px; margin-bottom:10px; font-size:11px; font-weight:600;">
+                  ⚠️ ${data.fallback_reason}
+                </div>`;
+                if(data.analysis?.stats) {
+                    html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px; margin-bottom:5px;">
+                        <span>SAR VV</span><span>${data.analysis.stats.VV_mean?.toFixed(4)}</span>
+                    </div>`;
+                    html += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <span>SAR VH</span><span>${data.analysis.stats.VH_mean?.toFixed(4)}</span>
+                    </div>`;
+                }
+            } else {
+                html += `<div style="background:rgba(46,230,168,0.15); color:#2ee6a8; padding:6px; border-radius:5px; margin-bottom:10px; font-size:11px; font-weight:600;">
+                  ✅ Clear sky over AOI (Cloud: ${data.cloud_cover_aoi_percent.toFixed(1)}%)
+                </div>`;
+                if(data.analysis?.stats) {
+                    html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px; margin-bottom:5px;">
+                        <span>NDVI</span><span style="color:#a06bff; font-weight:bold;">${data.analysis.stats.NDVI_mean?.toFixed(4)}</span>
+                    </div>`;
+                    html += `<div style="display:flex; justify-content:space-between; font-size:10.5px; color:#8b98b4; margin-bottom:10px;">
+                        <span>B04 (Red): ${data.analysis.stats.B04_mean?.toFixed(3)}</span>
+                        <span>B08 (NIR): ${data.analysis.stats.B08_mean?.toFixed(3)}</span>
+                    </div>`;
+                }
+            }
+            if(data.analysis?.visual_preview) {
+                html += `<div style="margin-top:8px; text-align:center;">
+                    <img src="data:image/png;base64,${data.analysis.visual_preview}" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);" />
+                    <div style="font-size:10px; color:#63708c; margin-top:4px;">Map-ready output (BBox: ${data.analysis.bbox.map(n=>n.toFixed(2)).join(',')})</div>
+                </div>`;
+            }
+            html += `</div>`;
+            resultDiv.innerHTML = html;
+        } else {
+            resultDiv.innerHTML = `<span style="color:#ff6b81">Error: ${data.error || 'Processing Failed'}</span>`;
+        }
+    })
+    .catch(e => {
+        btn.innerText = "Run Pipeline over AOI";
+        btn.disabled = false;
+        resultDiv.innerHTML = `<span style="color:#ff6b81">API Connection Error: Backend server might be offline.</span>`;
+    });
+}
+</script>
 </body>
 </html>
